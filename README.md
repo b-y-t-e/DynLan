@@ -2,8 +2,8 @@
 ## Dynamic Scripting Language in C#
 
 ## Features
- + evaluate code in C# at runtime:
-   + simple expressions 
+ + evaluate code in C# at runtime (see examples below):
+   + expressions
    + complex scripts (with objects and classes)
  + interoperability:
  + entirely written in plain C# (without DLR / Reflection.Emit)
