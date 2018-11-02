@@ -1,4 +1,4 @@
-# DynLan 
+# ~DynLan~
 ## Dynamic Scripting Language in C#
 
 ## Features
