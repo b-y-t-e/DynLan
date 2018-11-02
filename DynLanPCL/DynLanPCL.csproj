@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3A322AC0-9083-495F-8A9A-6A0CB3F9BA96}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DynLanPCL</RootNamespace>
+    <AssemblyName>DynLanPCL</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile328</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;PCL</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;PCL</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\DynLan\Classes\CodeLine.cs">
+      <Link>Classes\CodeLine.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Classes\CodeLines.cs">
+      <Link>Classes\CodeLines.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Classes\DictionaryCloneShallow.cs">
+      <Link>Classes\DictionaryCloneShallow.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Classes\DynLanClass.cs">
+      <Link>Classes\DynLanClass.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Classes\DynLanClasses.cs">
+      <Link>Classes\DynLanClasses.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Classes\DynLanCodeLine.cs">
+      <Link>Classes\DynLanCodeLine.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Classes\DynLanCodeLines.cs">
+      <Link>Classes\DynLanCodeLines.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Classes\DynLanContext.cs">
+      <Link>Classes\DynLanContext.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Classes\DynLanMethod.cs">
+      <Link>Classes\DynLanMethod.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Classes\DynLanMethods.cs">
+      <Link>Classes\DynLanMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Classes\DynLanObject.cs">
+      <Link>Classes\DynLanObject.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Classes\DynLanProgram.cs">
+      <Link>Classes\DynLanProgram.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Classes\DynLanState.cs">
+      <Link>Classes\DynLanState.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Classes\DynLanStates.cs">
+      <Link>Classes\DynLanStates.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Classes\EmptyObject.cs">
+      <Link>Classes\EmptyObject.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Classes\Undefined.cs">
+      <Link>Classes\Undefined.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Compiler.cs">
+      <Link>Compiler.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Engine.cs">
+      <Link>Engine.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Evaluator\ContextEvaluator.cs">
+      <Link>Evaluator\ContextEvaluator.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Evaluator\ExpressionEvaluator.cs">
+      <Link>Evaluator\ExpressionEvaluator.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Evaluator\ExpressionEvaluatorOnp.cs">
+      <Link>Evaluator\ExpressionEvaluatorOnp.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Evaluator\ExpressionEvaluatorQueue.cs">
+      <Link>Evaluator\ExpressionEvaluatorQueue.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\EventArgs\DynLanErrorEventArgs.cs">
+      <Link>EventArgs\DynLanErrorEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\EventArgs\DynLanProgramChangedEventArgs.cs">
+      <Link>EventArgs\DynLanProgramChangedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\EventArgs\DynLanProgramErrorEventArgs.cs">
+      <Link>EventArgs\DynLanProgramErrorEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Exceptions\Exceptions.cs">
+      <Link>Exceptions\Exceptions.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Extenders\DynLanCodeLinesExtender.cs">
+      <Link>Extenders\DynLanCodeLinesExtender.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Helpers\MyAssemblyHelper.cs">
+      <Link>Helpers\MyAssemblyHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Helpers\MyCollectionsExtenders.cs">
+      <Link>Helpers\MyCollectionsExtenders.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Helpers\MyReflectionHelper.cs">
+      <Link>Helpers\MyReflectionHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Helpers\MyTypeHelper.cs">
+      <Link>Helpers\MyTypeHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Helpers\RefSensitiveHelper.cs">
+      <Link>Helpers\RefSensitiveHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Helpers\RefUnsensitiveHelper.cs">
+      <Link>Helpers\RefUnsensitiveHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Helpers\SerializationHelper.cs">
+      <Link>Helpers\SerializationHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Helpers\UniConvert.cs">
+      <Link>Helpers\UniConvert.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\InternalExtenders\ExtenderCollectionGetter.cs">
+      <Link>OnpEngine\InternalExtenders\ExtenderCollectionGetter.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\InternalExtenders\ExtenderCollectionSetter.cs">
+      <Link>OnpEngine\InternalExtenders\ExtenderCollectionSetter.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\InternalExtenders\ExtenderSetValue.cs">
+      <Link>OnpEngine\InternalExtenders\ExtenderSetValue.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\InternalMethods\MethodSetValue.cs">
+      <Link>OnpEngine\InternalMethods\MethodSetValue.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Internal\BuildinExtenders.cs">
+      <Link>OnpEngine\Internal\BuildinExtenders.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Internal\BuildinMethods.cs">
+      <Link>OnpEngine\Internal\BuildinMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Logic\EvaluatorForMethods.cs">
+      <Link>OnpEngine\Logic\EvaluatorForMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Logic\IdGenerator.cs">
+      <Link>OnpEngine\Logic\IdGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Logic\InternalDateTime.cs">
+      <Link>OnpEngine\Logic\InternalDateTime.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Logic\InternalTypeConverter.cs">
+      <Link>OnpEngine\Logic\InternalTypeConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Logic\MethodParser.cs">
+      <Link>OnpEngine\Logic\MethodParser.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Logic\ObjectValueGetter.cs">
+      <Link>OnpEngine\Logic\ObjectValueGetter.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Logic\OperationHelper.cs">
+      <Link>OnpEngine\Logic\OperationHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Logic\StringFindResult.cs">
+      <Link>OnpEngine\Logic\StringFindResult.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Logic\StringHelper.cs">
+      <Link>OnpEngine\Logic\StringHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Logic\TokenGetter.cs">
+      <Link>OnpEngine\Logic\TokenGetter.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Logic\TokenHelper.cs">
+      <Link>OnpEngine\Logic\TokenHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Logic\Tokenizer.cs">
+      <Link>OnpEngine\Logic\Tokenizer.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Logic\TokenizerQueue.cs">
+      <Link>OnpEngine\Logic\TokenizerQueue.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Logic\TokenSingleGetter.cs">
+      <Link>OnpEngine\Logic\TokenSingleGetter.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Logic\TokenType.cs">
+      <Link>OnpEngine\Logic\TokenType.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Models\Expression.cs">
+      <Link>OnpEngine\Models\Expression.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Models\ExpressionContext.cs">
+      <Link>OnpEngine\Models\ExpressionContext.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Models\ExpressionExtender.cs">
+      <Link>OnpEngine\Models\ExpressionExtender.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Models\ExpressionGroup.cs">
+      <Link>OnpEngine\Models\ExpressionGroup.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Models\ExpressionMethod.cs">
+      <Link>OnpEngine\Models\ExpressionMethod.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Models\ExpressionState.cs">
+      <Link>OnpEngine\Models\ExpressionState.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Models\ExpressionToken.cs">
+      <Link>OnpEngine\Models\ExpressionToken.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Models\ExpressionTokens.cs">
+      <Link>OnpEngine\Models\ExpressionTokens.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Models\ExpressionValue.cs">
+      <Link>OnpEngine\Models\ExpressionValue.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Models\ParserSettings.cs">
+      <Link>OnpEngine\Models\ParserSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Symbols\DynLanLanguageSymbols.cs">
+      <Link>OnpEngine\Symbols\DynLanLanguageSymbols.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\OnpEngine\Symbols\OperatorType.cs">
+      <Link>OnpEngine\Symbols\OperatorType.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Extenders\ObjectExtender.cs">
+      <Link>Extenders\ObjectExtender.cs</Link>
+    </Compile>
+    <Compile Include="Helpers\RefHelperBasePCL.cs" />
+    <Compile Include="NotPCL\LinqExtenders.cs" />
+    <Compile Include="NotPCL\ObservableCollection.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
