@@ -1,23 +1,22 @@
-# DYNLAN 1.0
-## Dynamic Scripting Language in C#
+# DYNLAN | Dynamic Scripting Language in C#
 
 ## Examples
 
  + Basic usage:
 ```
-new PainCompiler().Compile(" return 1 + 3 ").Eval();
+Object result = new PainCompiler().Compile(" return 1 + 3 ").Eval();
 
 # result is 4
 ```
  + Usage of global functions:
 ```
-new Compiler().Compile(" return substring( round(33.3333, 2) + 'ABC', 0, 6) ").Eval();
+Object result = new Compiler().Compile(" return substring( round(33.3333, 2) + 'ABC', 0, 6) ").Eval();
 
 # result is '33.33A'
 ```
  + Conditional statements:
 ```
-new Compiler().Compile(@"
+Object result = new Compiler().Compile(@"
 
 if 100 < 10:
   return 'Not true..'
@@ -34,7 +33,7 @@ else:
 ```
  + While statement:
 ```
-new Compiler().Compile(@"
+Object result = new Compiler().Compile(@"
 
 i = 0
 while i < 100:
@@ -47,7 +46,7 @@ return i
 ```
  + Function definition:
 ```
-new Compiler().Compile(@"
+Object result = new Compiler().Compile(@"
 
 def increment(a): 
   b = a + 1 
@@ -60,7 +59,7 @@ return increment(10)
 ```
  + Try / catch:
 ```
-new Compiler().Compile(@"
+Object result = new Compiler().Compile(@"
 
 error = null
 try:
@@ -75,7 +74,7 @@ return error.Message
 ```
  + Classes:
 ```
-new Compiler().Compile(@"
+Object result = new Compiler().Compile(@"
 
 class TestClass():
   a = 1
@@ -94,7 +93,7 @@ return obj.Sum(3)+obj.a
 Dictionary<String,Object> variables = new Dictionary<String,Object>();
 variables["A"] = "Test string";
 
-new Compiler().Compile(@"
+Object result = new Compiler().Compile(@"
 
 return A.Length + ' ' + A.Substring(5,6) 
 
