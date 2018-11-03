@@ -1,4 +1,4 @@
-# DYNLAN 1.0
+# [DYNLAN](https://dynlan.com)
 ## Dynamic Scripting Language in C#
 
 ## Features
