@@ -28,7 +28,9 @@
 
  + Basic usage:
 ```
-Object result = new PainCompiler().Compile(" return 1 + 3 ").Eval();
+Object result = new Compiler().
+  Compile(" return 1 + 3 ").
+  Eval();
 
 # result is 4
 ```
