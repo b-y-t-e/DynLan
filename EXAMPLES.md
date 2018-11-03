@@ -4,19 +4,23 @@
 
  + Basic usage:
 ```
-Object result = new PainCompiler().Compile(" return 1 + 3 ").Eval();
-
-# result is 4
+// result = 4
+Object result = new Compiler().
+  Compile(" return 1 + 3 ").
+  Eval();
 ```
  + Usage of global functions:
 ```
-Object result = new Compiler().Compile(" return substring( round(33.3333, 2) + 'ABC', 0, 6) ").Eval();
-
-# result is '33.33A'
+// result = '33.33A'
+Object result = new Compiler().
+  Compile(" return substring( round(33.3333, 2) + 'ABC', 0, 6) ").
+  Eval();
 ```
  + Conditional statements:
 ```
-Object result = new Compiler().Compile(@"
+// result = 'This is true..'
+Object result = new Compiler().
+  Compile(@"
 
 if 100 < 10:
   return 'Not true..'
@@ -28,12 +32,12 @@ else:
   return '..' 
   
 ").Eval();
-
-# result is 'This is true..'
 ```
  + While statement:
 ```
-Object result = new Compiler().Compile(@"
+// result = 100
+Object result = new Compiler().
+  Compile(@"
 
 i = 0
 while i < 100:
@@ -41,12 +45,12 @@ while i < 100:
 return i
 
 ").Eval();
-
-# result is 100
 ```
  + Function definition:
 ```
-Object result = new Compiler().Compile(@"
+// result = 11
+Object result = new Compiler().
+  Compile(@"
 
 def increment(a): 
   b = a + 1 
@@ -54,12 +58,12 @@ def increment(a):
 return increment(10)
 
 ").Eval();
-
-# result is 11
 ```
  + Try / catch:
 ```
-Object result = new Compiler().Compile(@"
+// result = 'Error!'
+Object result = new Compiler().
+  Compile(@"
 
 error = null
 try:
@@ -69,12 +73,12 @@ catch (ex):
 return error.Message
 
 ").Eval();
-
-# result is 'Error!'
 ```
  + Classes:
 ```
-Object result = new Compiler().Compile(@"
+// result = 7
+Object result = new Compiler().
+  Compile(@"
 
 class TestClass():
   a = 1
@@ -85,25 +89,25 @@ obj = TestClass()
 return obj.Sum(3)+obj.a
 
 ").Eval();
-
-# result is 7
 ```
  + .NET interoperability example (using c# variable from PainLang):
 ```
+// result = '11 string'
 Dictionary<String,Object> variables = new Dictionary<String,Object>();
 variables["A"] = "Test string";
 
-Object result = new Compiler().Compile(@"
+Object result = new Compiler().
+  Compile(@"
 
 return A.Length + ' ' + A.Substring(5,6) 
 
 ").Eval(variables);
-
-# result is '11 string'
 ```
  + .NET interoperability example (using PainLang method in C#):
 ```
-DynLanContext context = new Compiler().Compile(@"
+// result = 'Result2'
+DynLanContext context = new Compiler().
+  Compile(@"
 
 def method1(a,b,c):
   if a:
@@ -112,7 +116,7 @@ def method1(a,b,c):
     return c
 
 ").CreateContext();
-Object result = context.InvokeMethod("method1", new object [] { 0, "Result1", "Result2" });
 
-# result is 'Result2'
+Object result = context.
+  InvokeMethod("method1", new object [] { 0, "Result1", "Result2" });
 ```
