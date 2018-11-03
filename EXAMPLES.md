@@ -90,7 +90,7 @@ return obj.Sum(3)+obj.a
 
 ").Eval();
 ```
- + .NET interoperability example (using c# variable from PainLang):
+ + .NET interoperability example (using c# variable from DynLan):
 ```
 // result = '11 string'
 Dictionary<String,Object> variables = new Dictionary<String,Object>();
@@ -103,7 +103,7 @@ return A.Length + ' ' + A.Substring(5,6)
 
 ").Eval(variables);
 ```
- + .NET interoperability example (using PainLang method in C#):
+ + .NET interoperability example (using DynLan method in C#):
 ```
 // result = 'Result2'
 DynLanContext context = new Compiler().
