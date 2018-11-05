@@ -1,5 +1,4 @@
-# [DYNLAN](https://dynlan.com)
-## Dynamic Scripting Language in C#
+# [DYNLAN](https://dynlan.com) | Dynamic Scripting Language in C#
 
 ## Features
  + evaluate code in C# at runtime (see examples below):
