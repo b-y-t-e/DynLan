@@ -1,4 +1,4 @@
-# DYNLAN | Dynamic Scripting Language in C#
+# [DYNLAN](https://dynlan.com) | Dynamic Scripting Language in C#
 
 ## Examples
 
