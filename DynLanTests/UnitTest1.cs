@@ -34,6 +34,20 @@ namespace DynLanTests
             Test_ONP_Language();
             Test_ONP_Zero();
         }
+        
+        [TestMethod]
+        public void test1()
+        {
+            {
+                var r = new Compiler().Compile(@"
+str = 'return 556'
+return eval(str)
+");
+                var v = r.Eval();
+                if (!(556M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+            }
+
+        }
 
         static void Test_ONP_Language()
         {
@@ -52,7 +66,7 @@ while s < 2:
                 }*/
 
                 {
-                    
+
                     var r = new Compiler().Compile(@"
 return eval('return 556')
 ");
@@ -506,6 +520,26 @@ RETURN i
 
                 {
                     var r = new Compiler().Compile(@"
+return j + 1
+");
+                    var dict = new Dictionary<String, Object>();
+                    dict["j"] = 10;
+                    var v = r.Eval(dict);
+                    if (!(11M).Equals(v)) throw new Exception("Nieprawidłowa wartość (" + dict["J"] + ")!");
+                }
+
+                /*{
+                    var r = new Compiler().Compile(@"
+return j + 1
+");
+                    var dict = new Dictionary<String, Object>();
+                    dict["j"] = 10;
+                    var v = r.Eval(dict);
+                    if (!(11M).Equals(v)) throw new Exception("Nieprawidłowa wartość (" + v + "/" + dict["j"] + ")!");
+                }*/
+
+                {
+                    var r = new Compiler().Compile(@"
 j = 0
 i = 0
 while j < 2
@@ -516,9 +550,9 @@ while j < 2
     i = 0
 ");
                     var dict = new Dictionary<String, Object>();
-                    dict["J"] = 0;
+                    dict["j"] = 0;
                     var v = r.Eval(dict);
-                    if (!(2M).Equals(dict["J"])) throw new Exception("Nieprawidłowa wartość (" + dict["J"] + ")!");
+                    if (!(2M).Equals(dict["j"])) throw new Exception("Nieprawidłowa wartość (" + dict["j"] + ")!");
                 }
 
                 {
@@ -651,13 +685,14 @@ return i
                     if (!(2M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
                 }
                 {
+                    var values = new Dictionary<string, object>();
                     var r = new Compiler().Compile(@"
 i = 0
 while i < 3:
   i = i + 1
 ");
-                    var c = r.Exec();
-                    if (!(3M).Equals(c["I"])) throw new Exception("Nieprawidłowa wartość!");
+                    var c = r.Eval(values);
+                    if (!(3M).Equals(values["i"])) throw new Exception("Nieprawidłowa wartość!");
                 }
                 {
                     var r = new Compiler().Compile(@"
@@ -792,7 +827,9 @@ return obj.oo3()
                         // ok
                     }
                 }
-                {
+                /*{
+
+                    var values = new Dictionary<string, object>();
                     var r = new Compiler().Compile(@"
 class testowa():
   a = 2
@@ -807,7 +844,7 @@ class testowa():
 obj = testowa()
 ");
                     var context = r.CreateContext();
-                    context.Exec();
+                    context.Eval(values);
                     //DynLanObject result = context.Exec();
                     DynLanObject obj = context["obj"] as DynLanObject;
 
@@ -829,7 +866,7 @@ obj = testowa()
                     if (!(123M).Equals(tmpValues2["A"]["B"])) throw new Exception("Nieprawidłowa wartość #2!");
 
                     tmpValues = tmpValues;
-                }
+                }*/
                 {
                     var r = new Compiler().Compile(@"
 class testowa():
@@ -1054,7 +1091,7 @@ def AA():
   G = 3
   H = 7
   return this
-return AA().DynamicValues['A']()
+return AA().DynamicValues['a']()
 ");
                     var v = r.Eval();
                     if (!(77M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
@@ -1067,7 +1104,7 @@ def AA():
   G = 3
   H = 7
   return this
-return AA().DynamicValues['A']()
+return AA().DynamicValues['a']()
 ");
                     var v = r.Eval();
                     if (!(77M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
@@ -1596,7 +1633,7 @@ return f1(1)
                     throw new Exception("Nieprawidłowa wartość!");
             }
             {
-                var complied = new Compiler().Compile("return (0-(1-2+2)+((COALESCE@(null,4-1))))");
+                var complied = new Compiler().Compile("return (0-(1-2+2)+((coalesce@(null,4-1))))");
                 var r1 = (decimal)Engine.Eval(complied, VARIABLES);
                 if (!2.0M.Equals(r1))
                     throw new Exception("Nieprawidłowa wartość!");
@@ -1638,13 +1675,13 @@ return f1(1)
                     throw new Exception("Nieprawidłowa wartość!");
             }
             {
-                var complied = new Compiler().Compile("return (0-(1-2+2)+((COALESCE@(null,4-1))))");
+                var complied = new Compiler().Compile("return (0-(1-2+2)+((coalesce@(null,4-1))))");
                 var r1 = (Object)Engine.Eval(complied, VARIABLES);
                 if (!2.0M.Equals(r1))
                     throw new Exception("Nieprawidłowa wartość!");
             }
             {
-                var complied = new Compiler().Compile("return (0-(1-2+2)+((COALESCE(null,4-1))))");
+                var complied = new Compiler().Compile("return (0-(1-2+2)+((coalesce(null,4-1))))");
                 var r1 = (Object)Engine.Eval(complied, VARIABLES);
                 if (!2.0M.Equals(r1))
                     throw new Exception("Nieprawidłowa wartość!");
@@ -1668,7 +1705,7 @@ return f1(1)
                     throw new Exception("Nieprawidłowa wartość!");
             }
             {
-                var complied = new Compiler().Compile("return 3+COALESCE(null,(4.5-1),(5))+7");
+                var complied = new Compiler().Compile("return 3+coalesce(null,(4.5-1),(5))+7");
                 var r1 = (Decimal)Engine.Eval(complied, VARIABLES);
                 if (r1 != 13.5M)
                     throw new Exception("Nieprawidłowa wartość!");
@@ -1686,7 +1723,7 @@ return f1(1)
                     throw new Exception("Nieprawidłowa wartość!");
             }
             {
-                var complied = new Compiler().Compile("return  DICT[ ( 0- (1-2+1) + ((COALESCE(null,4-1))) ) ] = 33 ");
+                var complied = new Compiler().Compile("return  DICT[ ( 0- (1-2+1) + ((coalesce(null,4-1))) ) ] = 33 ");
                 var r1 = (Decimal)Engine.Eval(complied, VARIABLES);
                 if (r1 != 33.0M || !(33M).Equals(DICT["3"]))
                     throw new Exception("Nieprawidłowa wartość!");
@@ -1786,7 +1823,7 @@ return f1(1)
 
 
             {
-                var r1 = (String)new Compiler().Compile(" return  getdatetime().Ticks.ToString().SubString(0,6) ").Eval(VARIABLES);
+                var r1 = (String)new Compiler().Compile(" return  getdatetime().Ticks.ToString().Substring(0,6) ").Eval(VARIABLES);
                 var r2 = DateTime.Now.Ticks.ToString().Substring(0, 6);
                 if (r1 != r2)
                     throw new Exception("Nieprawidłowa wartość!");

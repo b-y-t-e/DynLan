@@ -2,6 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Dynamic Scripting Language in C#</Description>
+    <Copyright>andrzejbol</Copyright>
+    <PackageProjectUrl>https://dynlan.com</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/b-y-t-e/DynLan</RepositoryUrl>
+    <PackageTags>dynlan python dynamic language expressions</PackageTags>
+    <Authors>andrzejbol</Authors>
+    <PackageId>DynLan.NetCore</PackageId>
+    <Product>DynLan.NetCore</Product>
   </PropertyGroup>
 
   <ItemGroup>

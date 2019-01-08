@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>DynLan.NetStandard</PackageId>
+    <Authors>andrzejbol</Authors>
+    <Product>DynLan.NetStandard</Product>
+    <Description>Dynamic Scripting Language in C#</Description>
+    <Copyright>andrzejbol</Copyright>
+    <PackageProjectUrl>https://dynlan.com</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/b-y-t-e/DynLan</RepositoryUrl>
+    <PackageTags>dynlan python dynamic language expressions</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
