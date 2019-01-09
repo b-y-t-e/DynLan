@@ -34,7 +34,7 @@ namespace DynLanTests
             Test_ONP_Language();
             Test_ONP_Zero();
         }
-        
+
         [TestMethod]
         public void test1()
         {
@@ -45,6 +45,60 @@ return eval(str)
 ");
                 var v = r.Eval();
                 if (!(556M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+            }
+
+        }
+
+        [TestMethod]
+        public void test2()
+        {
+            {
+                var r = new Compiler().Compile(@"
+STR = '123'
+str = '321'
+return str + STR
+");
+                var v = r.Eval();
+                if (!("321123").Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+            }
+
+        }
+
+        /*[TestMethod]
+        public void test4()
+        {
+            {
+                var r = new Compiler().Compile(@"
+true = 1
+return true
+");
+                var v = r.Eval();
+                if (!("321123").Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+            }
+
+        }*/
+
+
+        [TestMethod]
+        public void test3()
+        {
+            {
+                var r = new Compiler().Compile(@"
+
+return str1 + STR1
+");
+                Exception ex = null;
+                try
+                {
+                    var v = r.Eval();
+                }
+                catch (Exception ex2)
+                {
+                    ex = ex2;
+                }
+
+                if (ex == null)
+                    throw new Exception("!");
             }
 
         }
@@ -376,7 +430,9 @@ return testowa()
                 }
 
                 {
-                    var r = new Compiler().Compile(@"
+                    try
+                    {
+                        var r = new Compiler().Compile(@"
 def bb():
   def cc():
     return coalesce(a,0)
@@ -389,8 +445,33 @@ def aa():
 return aa()
 
 ");
+                        var v = r.Eval();
+                        throw new Exception("Nieprawidłowa wartość!");
+                    }
+                    catch (DynLanExecuteException)
+                    {
+
+                    }
+
+                    //if (!(0M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+                }
+
+                {
+                    var r = new Compiler().Compile(@"
+def bb(a):
+  def cc():
+    return coalesce(a,0)+1
+  return cc()
+
+def aa():
+  b = 1
+  return bb(b)
+
+return aa()
+
+");
                     var v = r.Eval();
-                    if (!(0M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+                    if (!(2M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
                 }
 
                 {
@@ -424,8 +505,16 @@ def aa(b):
 return aa()
 
 ");
-                    var v = r.Eval();
-                    if (!(0M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+                    try
+                    {
+                        var v = r.Eval();
+                        throw new Exception("Zmienna 'a' nie moze byc widoczna w metodzie cc -> moga byc widoczne tylko zmienne lokalne / klasy lub globalne");
+                    }
+                    catch (DynLanExecuteException)
+                    {
+
+                    }
+                    //if (!(0M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
                 }
 
                 {
@@ -498,7 +587,7 @@ if not(cip.CMDON())
                         var v = r.Eval();
                         throw new Exception("Skrypt nie powinien się wykonać!");
                     }
-                    catch (Exception ex)
+                    catch (DynLanExecuteException ex)
                     {
 
                     }
@@ -822,6 +911,10 @@ return obj.oo3()
                         var v = r.Eval();
                         throw new Exception("method oo3 nie powinna być dostępna!");
                     }
+                    catch (DynLanExecuteException ex)
+                    {
+                        // ok
+                    }
                     catch (DynLanMethodNotFoundException ex)
                     {
                         // ok
@@ -1138,6 +1231,9 @@ return c
                 }
                 {
                     var r = new Compiler().Compile(@"
+
+v = null
+
 def m1(v):
   v = v + 'c'
   return v
@@ -1434,10 +1530,29 @@ def f2(v2):
   return v1
 return f1(100, 200)
 ");
+                    try
+                    {
+                        var v = r.Eval();
+                        throw new Exception("Nieprawidłowa wartość!");
+                    }
+                    catch (DynLanExecuteException)
+                    {
+
+                    }
+                }
+
+                {
+                    var r = new Compiler().Compile(@"
+v1 = null
+def f1(v1,v2):
+  return f2(100)
+def f2(v2):
+  return v1
+return f1(100, 200)
+");
                     var v = r.Eval();
                     if (v != null) throw new Exception("Nieprawidłowa wartość!");
                 }
-
 
                 {
                     var r = new Compiler().Compile(@"
@@ -1552,16 +1667,29 @@ return f1(1)
                     throw new Exception("Nieprawidłowa wartość!");
             }
             {
-                var complied = new Compiler().Compile("return trueee");
-                var r1 = (Object)Engine.Eval(complied, VARIABLES);
-                if (r1 != null)
+                try
+                {
+                    var complied = new Compiler().Compile("return trueee");
+                    var r1 = (Object)Engine.Eval(complied, VARIABLES);
                     throw new Exception("Nieprawidłowa wartość!");
+                }
+                catch (DynLanExecuteException)
+                {
+
+                }
             }
             {
-                var complied = new Compiler().Compile("return ffalse");
-                var r1 = (Object)Engine.Eval(complied, VARIABLES);
-                if (r1 != null)
+               
+                try
+                {
+                    var complied = new Compiler().Compile("return ffalse");
+                    var r1 = (Object)Engine.Eval(complied, VARIABLES);
                     throw new Exception("Nieprawidłowa wartość!");
+                }
+                catch (DynLanExecuteException)
+                {
+
+                }
             }
             {
                 var complied = new Compiler().Compile("trueee = 33" + Environment.NewLine + "return trueee");

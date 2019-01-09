@@ -213,7 +213,8 @@ namespace DynLan.Evaluator
             // wykonanie kalkulacji
             if (currentLine.ContainsAnyExpressions() &&
                 currentLine.OperatorType != EOperatorType.ELSE &&
-                currentLine.OperatorType != EOperatorType.PASS)
+                currentLine.OperatorType != EOperatorType.PASS &&
+                currentLine.OperatorType != EOperatorType.CATCH)
             {
                 if (DynLanContext.CurrentState.ExpressionContext == null)
                     DynLanContext.CurrentState.ExpressionContext = new ExpressionContext(currentLine.ExpressionGroup);

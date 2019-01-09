@@ -44,7 +44,7 @@ namespace DynLan.OnpEngine.Logic
             {
                 IDictionaryWithGetter dict = Obj as IDictionaryWithGetter;
                 Boolean contains = dict.Contains(PropertyPath);
-                
+
                 if ((contains || !ExtenderExists) && dict.CanGetValueFromDictionary(PropertyPath))
                 {
                     FoundValue = true;
@@ -101,12 +101,19 @@ namespace DynLan.OnpEngine.Logic
         {
             Boolean seekInObject = (Obj != null && !(Obj is EmptyObject));
 
+            Boolean wasValueFoundFromContext = false;
+            Boolean wasValueFoundInObject = false;
+            Boolean wasValueFoundInExpressions = false;
+
             ExpressionValue expressionValue = DynLanContext.GetValue(
                 DynLanContext,
                 FieldOrMethodName,
                 seekInObject,
                 !seekInObject,
                 !seekInObject);
+
+            if (expressionValue != null)
+                wasValueFoundFromContext = true;
 
             if (seekInObject)
             {
@@ -121,6 +128,8 @@ namespace DynLan.OnpEngine.Logic
 
                 if (foundValue)
                 {
+                    wasValueFoundInObject = true;
+
                     if (value is MethodInfo)
                     {
                         OnpMethodInfo methodInfo = new OnpMethodInfo();
@@ -150,11 +159,21 @@ namespace DynLan.OnpEngine.Logic
                 value = InternalTypeConverter.ToInner(
                     value);
 
+                if (!wasValueFoundFromContext && !wasValueFoundInObject)
+                {
+                    if (seekInObject)
+                        throw new DynLanVariableNotFoundException("Variable " + FieldOrMethodName + " not found in object " + Obj + "!") { Variable = FieldOrMethodName };
+
+                    throw new DynLanVariableNotFoundException("Variable " + FieldOrMethodName + " not found!") { Variable = FieldOrMethodName };
+                }
+
                 DynLanContext.CurrentExpressionState.PushValue(value);
                 return false;
             }
             else
             {
+                wasValueFoundInExpressions = true;
+
                 ExpressionState newExpressionState = new ExpressionState();
                 newExpressionState.Expression = expression;
 
@@ -163,6 +182,24 @@ namespace DynLan.OnpEngine.Logic
             }
         }
 
+    }
+
+
+#if !PCL
+    [Serializable]
+#endif
+    public class DynLanVariableNotFoundException : Exception
+    {
+        public String Variable { get; set; }
+        public DynLanVariableNotFoundException() { }
+        public DynLanVariableNotFoundException(string message) : base(message) { }
+        public DynLanVariableNotFoundException(string message, Exception inner) : base(message, inner) { }
+
+#if !PCL
+        protected DynLanVariableNotFoundException(
+          System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+#endif
     }
 
     public interface IDictionaryWithGetter : IDictionary
