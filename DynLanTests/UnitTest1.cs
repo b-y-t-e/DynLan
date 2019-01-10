@@ -64,6 +64,23 @@ return str + STR
 
         }
 
+        [TestMethod]
+        public void one_line_statement()
+        {
+            {
+                var r = new Compiler().Compile(@"return param1
+");
+
+                var d = new Dictionary<string, object>();
+                d["param1"] = 123;
+
+                var v = r.Eval(d);
+                if (!(123).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+            }
+
+        }
+
+
         /*[TestMethod]
         public void test4()
         {
@@ -92,7 +109,7 @@ return str1 + STR1
                 {
                     var v = r.Eval();
                 }
-                catch (Exception ex2)
+                catch (DynLanExecuteException ex2)
                 {
                     ex = ex2;
                 }

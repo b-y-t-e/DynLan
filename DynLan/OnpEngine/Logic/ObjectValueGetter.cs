@@ -64,7 +64,9 @@ namespace DynLan.OnpEngine.Logic
 
             else if (Obj is DynLanObject)
             {
-                PropertyPath = PropertyPath/*.ToUpper()*/;
+#if CASE_INSENSITIVE
+                PropertyPath = PropertyPath.ToUpper();
+#endif
                 DynLanObject DynLanObj = Obj as DynLanObject;
                 if (DynLanObj.Contains(PropertyPath))
                 {
@@ -159,6 +161,7 @@ namespace DynLan.OnpEngine.Logic
                 value = InternalTypeConverter.ToInner(
                     value);
 
+#if !IGNORE_NOT_DECLARED_VARIABLES
                 if (!wasValueFoundFromContext && !wasValueFoundInObject)
                 {
                     if (seekInObject)
@@ -166,6 +169,7 @@ namespace DynLan.OnpEngine.Logic
 
                     throw new DynLanVariableNotFoundException("Variable " + FieldOrMethodName + " not found!") { Variable = FieldOrMethodName };
                 }
+#endif
 
                 DynLanContext.CurrentExpressionState.PushValue(value);
                 return false;

@@ -46,8 +46,12 @@ namespace DynLan.OnpEngine.Internal
                         methodsByNames = new Dictionary<String, ExpressionExtender>();
                         foreach (ExpressionExtender operation in BuildExtenders())
                         {
-                            foreach (String name in operation.OperationNames)                            
-                                methodsByNames[name/*.ToUpper()*/] = operation;                            
+                            foreach (String name in operation.OperationNames)
+#if CASE_INSENSITIVE
+                                methodsByNames[name.ToUpper()] = operation;                            
+#else
+                                methodsByNames[name] = operation;
+#endif
                             methodsByIds[operation.ID] = operation;
                         }
                     }

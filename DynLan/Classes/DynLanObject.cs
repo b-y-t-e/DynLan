@@ -26,13 +26,23 @@ namespace DynLan.Classes
             get
             {
                 Object val = null;
-                // PropertyName = PropertyName.ToUpper();
 
+#if CASE_INSENSITIVE
+                PropertyName = PropertyName.ToUpper();
+
+                if (DynamicValues.TryGetValue(PropertyName, out val))
+                    return val;
+
+                if (PropertyName == "THIS")
+                    return ParentObject ?? this;
+
+#else
                 if (DynamicValues.TryGetValue(PropertyName, out val))
                     return val;
 
                 if (PropertyName == "this")
                     return ParentObject ?? this;
+#endif
 
                 return null;
             }
@@ -85,11 +95,16 @@ namespace DynLan.Classes
 
         public Boolean Contains(String PropertyName)
         {
-            PropertyName = PropertyName/*.ToUpper()*/;
+#if CASE_INSENSITIVE
+            PropertyName = PropertyName.ToUpper();
 
+            if (PropertyName == "THIS")
+                return true;
+#else
             if (PropertyName == "this")
                 return true;
-            
+#endif
+
             return DynamicValues.ContainsKey(PropertyName);
         }
     }

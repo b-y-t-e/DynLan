@@ -142,7 +142,7 @@ namespace DynLan.Classes
         {
             if (Values != null)
             {
-                foreach( var key in Values.Keys)
+                foreach (var key in Values.Keys)
                 {
                     CurrentState.Object.DynamicValues[key] = Values[key];
                 }
@@ -330,7 +330,9 @@ namespace DynLan.Classes
             Boolean SeekForMethods,
             Boolean SeekInContexts)
         {
-            Name = Name/*.ToUpper()*/;
+#if CASE_INSENSITIVE
+            Name = Name.ToUpper();
+#endif
 
             DynLanContext DynLanContext = EvalContext as DynLanContext;
             if (DynLanContext == null)
@@ -439,7 +441,9 @@ namespace DynLan.Classes
 
         public virtual Boolean SetValue(DynLanContext EvalContext, String Name, Object Value)
         {
-            Name = Name/*.ToUpper()*/;
+#if CASE_INSENSITIVE
+            Name = Name.ToUpper();
+#endif
 
             DynLanContext DynLanContext = EvalContext as DynLanContext;
             if (DynLanContext == null)

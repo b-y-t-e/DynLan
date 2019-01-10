@@ -162,7 +162,11 @@ namespace DynLan
                 {
                     if (methodParameter.Part == EOnpMethodPart.METHOD_NAME)
                     {
-                        method.Name = methodParameter.Code/*.ToUpper()*/;
+#if CASE_INSENSITIVE
+                        method.Name = methodParameter.Code.ToUpper();
+#else
+                        method.Name = methodParameter.Code;
+#endif
                     }
                     else if (methodParameter.Part == EOnpMethodPart.PARAMETER)
                     {
@@ -194,7 +198,11 @@ namespace DynLan
                 {
                     if (methodParameter.Part == EOnpMethodPart.METHOD_NAME)
                     {
-                        classDefinition.Name = methodParameter.Code/*.ToUpper()*/;
+#if CASE_INSENSITIVE
+                        classDefinition.Name = methodParameter.Code.ToUpper();
+#else
+                        classDefinition.Name = methodParameter.Code;
+#endif
                     }
                     else if (methodParameter.Part == EOnpMethodPart.PARAMETER)
                     {
