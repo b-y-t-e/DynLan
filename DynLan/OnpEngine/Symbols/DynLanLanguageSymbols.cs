@@ -9,8 +9,14 @@ namespace DynLan.OnpEngine.Symbols
 {
     public class DynLanuageSymbols
     {
-        public static readonly char[][] CommentStartSymbol = new char[][] { 
+        public static readonly char[][] Comment1StartSymbol = new char[][] { 
             "#".ToCharArray(), }.OrderByDescending(i => i.Length).ToArray();
+
+        public static readonly char[][] Comment2StartSymbol = new char[][] {
+            "/*".ToCharArray(), }.OrderByDescending(i => i.Length).ToArray();
+
+        public static readonly char[][] Comment2EndSymbol = new char[][] {
+            "*/".ToCharArray(), }.OrderByDescending(i => i.Length).ToArray();
 
         public static readonly char[][] EqualOperator = new char[][] { 
             "=".ToCharArray(), }.OrderByDescending(i => i.Length).ToArray();

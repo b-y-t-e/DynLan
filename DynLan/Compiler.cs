@@ -473,7 +473,7 @@ namespace DynLan
                 {
                     OnpOnpStringFindResult commentStartNext = StringHelper.FirstNextIndex(
                         Chars, i,
-                        new[] { DynLanuageSymbols.CommentStartSymbol },
+                        new[] { DynLanuageSymbols.Comment1StartSymbol },
                         false);
 
                     if (commentStartNext == null || commentStartNext.Index < 0)
@@ -500,11 +500,9 @@ namespace DynLan
                 {
                     if (DynLanuageSymbols.NewLineChars.Contains(firstNext.Chars))
                     {
-
-
                         OnpOnpStringFindResult commentStartNext = StringHelper.FirstNextIndex(
                             Chars, i, firstNext.Index,
-                            new[] { DynLanuageSymbols.CommentStartSymbol },
+                            new[] { DynLanuageSymbols.Comment1StartSymbol },
                             false);
 
                         if (commentStartNext == null || commentStartNext.Index < 0)
