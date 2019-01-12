@@ -11,7 +11,7 @@
     <Authors>andrzejbol</Authors>
     <PackageId>DynLan.NetCore</PackageId>
     <Product>DynLan.NetCore</Product>
-    <Version>1.1.1</Version>
+    <Version>1.2.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

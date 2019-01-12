@@ -405,7 +405,7 @@ namespace DynLan.OnpEngine.Internal
             };
             yield return new ExpressionMethod()
             {
-                OperationNames = new[] { "array" },
+                OperationNames = new[] { "list" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
                 {
                     return new ExpressionMethodResult(new List<Object>());
@@ -413,7 +413,7 @@ namespace DynLan.OnpEngine.Internal
             };
             yield return new ExpressionMethod()
             {
-                OperationNames = new[] { "dict" },
+                OperationNames = new[] { "dictionary" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
                 {
                     return new ExpressionMethodResult(new Dictionary<String, Object>());

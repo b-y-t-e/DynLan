@@ -68,6 +68,22 @@ str = 'return 556'; return eval(str)
         }
 
         [TestMethod]
+        public void test_class()
+        {
+            {
+                var r = new Compiler().Compile(@"
+class testowa()
+{
+  a = 1
+}
+return testowa().a
+");
+                var v = r.Eval();
+                if (!(1M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+            }
+        }
+
+        [TestMethod]
         public void test_try_catch()
         {
             {
@@ -1397,14 +1413,14 @@ return a
                 {
                     var r = new Compiler().Compile(@"
 
-list = array()
+list = list()
 
-a = dict()
+a = dictionary()
 a.Created = getdate()
 a.Name = 'A'
 list.Add(a)
 
-a = dict()
+a = dictionary()
 a.Created = getdate()
 a.Name = 'B'
 list.Add(a)
@@ -1426,14 +1442,14 @@ return list
 
                     var r = new Compiler().Compile(@"
 
-list = array()
+list = list()
 
-a = dict()
+a = dictionary()
 a.Created = getdate()
 a.Name = 'A'
 list.Add(a)
 
-a = dict()
+a = dictionary()
 a.Created = getdate()
 a.Name = 'B'
 list.Add(a)

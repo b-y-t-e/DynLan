@@ -1,4 +1,7 @@
-﻿ + ok + obliczanie zmiennych w wyrazeniach na zadanie (tak aby jesli nie trzeba wywolywac danego wyrazenia to aby go nie obliczal)
+﻿
+ + komentarze /*  */
+
+ + ok + obliczanie zmiennych w wyrazeniach na zadanie (tak aby jesli nie trzeba wywolywac danego wyrazenia to aby go nie obliczal)
  + ok + delegat dla metod
  + ok + delegat dla zmiennych
  + ok + delegat dla rozszezen obiektow
