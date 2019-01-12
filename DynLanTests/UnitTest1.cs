@@ -36,6 +36,115 @@ namespace DynLanTests
         }
 
         [TestMethod]
+        public void test_new_code_line()
+        {
+            {
+                var r = new Compiler().Compile(@"
+str = 'return 556'; return eval(str)
+");
+                var v = r.Eval();
+                if (!(556M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+            }
+        }
+
+        [TestMethod]
+        public void test_many_methods_and_result_in_one_line()
+        {
+            {
+                var r = new Compiler().Compile(@"def aa() { return 1 } def bb(){ return 2} return aa() + bb() ");
+                var v = r.Eval();
+                if (!(3M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+            }
+        }
+
+        [TestMethod]
+        public void test_many_methods_and_result_in_one_line_with_brackets()
+        {
+            {
+                var r = new Compiler().Compile(@"def aa() {a = 1;   return a + 0}  def bb() { return 2;}    return aa() + bb() ");
+                var v = r.Eval();
+                if (!(3M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+            }
+        }
+
+        [TestMethod]
+        public void test_try_catch()
+        {
+            {
+                var r = new Compiler().Compile(@"
+
+def hhhh(a) {
+  try {
+    a = 1 + h.getdate()
+  }
+  catch ex {
+    throw ex.Message+'!'
+  }
+}
+j = ''
+try {
+  hhhh(j)
+}
+catch (ex) 
+{
+  j = ex.Message
+}
+return j
+");
+                var v = r.Eval();
+                if (!(v is String) || !((String)v).EndsWith("!")) throw new Exception("Nieprawidłowa wartość!");
+            }
+        }
+
+        [TestMethod]
+        public void test_if_scenario_2()
+        {
+            {
+                var r = new Compiler().Compile(@"
+if 1 == 2 {
+  return 1
+}
+return 2
+");
+                var v = r.Eval();
+                if (!(2M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+            }
+        }
+
+
+      /*  [TestMethod]
+        public void test_invalid_if()
+        {
+            {
+                var r = new Compiler().Compile(@"
+if : {
+  return 1
+}
+return 2
+");
+                var v = r.Eval();
+                if (!(1M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+            }
+        }*/
+
+        [TestMethod]
+        public void test_if_scenario_1()
+        {
+            {
+                var r = new Compiler().Compile(@"
+if 1 == 1
+{
+  return 1
+}
+return 2
+");
+                var v = r.Eval();
+                if (!(1M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+            }
+
+        }
+
+        [TestMethod]
         public void test1()
         {
             {
@@ -68,8 +177,7 @@ return str + STR
         public void one_line_statement()
         {
             {
-                var r = new Compiler().Compile(@"return param1
-");
+                var r = new Compiler().Compile(@"return param1");
 
                 var d = new Dictionary<string, object>();
                 d["param1"] = 123;
@@ -221,7 +329,9 @@ return str(1)
                 {
                     var r = new Compiler().Compile(@"
 def method1(s)
+{
   return s+1
+}
 return method1(1)
 ");
                     var v = r.Eval();
@@ -230,7 +340,9 @@ return method1(1)
                 {
                     var r = new Compiler().Compile(@"
 def method1(str)
+{
   return str+1
+}
 return method1(1)
 ");
                     var v = r.Eval();
@@ -239,7 +351,9 @@ return method1(1)
                 {
                     var r = new Compiler().Compile(@"
 def method1(str)
+{
   return str+1
+}
 return method1(1)+str(2)
 ");
                     var v = r.Eval();
@@ -249,7 +363,9 @@ return method1(1)+str(2)
                 {
                     var r = new Compiler().Compile(@"
 def str(v)
+{
   return v+1
+}
 return str(1)
 ");
                     var v = r.Eval();
@@ -259,7 +375,9 @@ return str(1)
                 {
                     var r = new Compiler().Compile(@"
 def test2(txt)
+{
   return txt
+}
 return test2('111')
 ");
                     var v = r.Eval();
@@ -269,7 +387,9 @@ return test2('111')
                 {
                     var r = new Compiler().Compile(@"
 def test2(txt)
+{
   return txt
+}
 return test2('11(
 )11')
 ");
@@ -331,11 +451,15 @@ return i
                 }
                 {
                     var r = new Compiler().Compile(@"
-class testowa():
+class testowa()
+{
   a = 1
   c = 3
-  def oo(this):
+  def oo(this)
+  {
     return this
+  } 
+}
 return testowa().oo(null)
 ");
                     var v = r.Eval();
@@ -343,11 +467,15 @@ return testowa().oo(null)
                 }
                 {
                     var r = new Compiler().Compile(@"
-class testowa():
+class testowa()
+{
   a = 1
   c = 3
-  def oo():
+  def oo()
+  {
     return this.a
+  }
+}
 return testowa().oo(null)
 ");
                     var v = r.Eval();
@@ -376,11 +504,15 @@ return this
 
                 {
                     var r = new Compiler().Compile(@"
-def testowa(a,b,c):
-  if a != undefined: 
+def testowa(a,b,c)
+{
+  if a != undefined {
     return 0
-  else
+  }
+  else {
     return 1
+   }
+}
 return testowa(null)
  
 ");
@@ -390,11 +522,16 @@ return testowa(null)
 
                 {
                     var r = new Compiler().Compile(@"
-def testowa(a,b,c):
-  if a == undefined: 
+def testowa(a,b,c){
+  if a == undefined
+  {
     return 0
+  }
   else
+  {
     return 1
+  }
+}
 return testowa(null)
  
 ");
@@ -405,11 +542,13 @@ return testowa(null)
                 {
                     var r = new Compiler().Compile(@"
 d = null
-def testowa(a,b,c):
-  if a == undefined: 
-    return 0
-  else
+def testowa(a,b,c){
+  if a == undefined {
+    return 0 }
+  else {
     return 1
+  }
+}
 return testowa(d)
  
 ");
@@ -420,11 +559,17 @@ return testowa(d)
                 {
                     var r = new Compiler().Compile(@"
 d = undefined
-def testowa(a,b,c):
-  if a == undefined: 
+def testowa(a,b,c)
+{
+  if a == undefined
+{
     return 0
+}
   else
+   {
     return 1
+}
+}
 return testowa(d)
  
 ");
@@ -434,11 +579,16 @@ return testowa(d)
 
                 {
                     var r = new Compiler().Compile(@"
-def testowa(a,b,c):
-  if a != undefined: 
+def testowa(a,b,c)
+{
+  if a != undefined {
     return 0
+}
   else
+{
     return 1
+}
+}
 return testowa()
  
 ");
@@ -450,14 +600,19 @@ return testowa()
                     try
                     {
                         var r = new Compiler().Compile(@"
-def bb():
-  def cc():
+def bb(){
+  def cc()
+  {
     return coalesce(a,0)
+  }
   return cc()
+}
 
-def aa():
+def aa()
+{
   a = 1
   return bb()
+}
 
 return aa()
 
@@ -475,15 +630,18 @@ return aa()
 
                 {
                     var r = new Compiler().Compile(@"
-def bb(a):
-  def cc():
+def bb(a){
+  def cc() {
     return coalesce(a,0)+1
+  }
   return cc()
+}
 
-def aa():
+def aa()
+{
   b = 1
   return bb(b)
-
+}
 return aa()
 
 ");
@@ -493,15 +651,20 @@ return aa()
 
                 {
                     var r = new Compiler().Compile(@"
-def bb():
-  def cc():
+def bb()
+{
+  def cc()
+  {
     return coalesce(a,0)
+  }
   return cc()
-
+}
 a = 1
 
-def aa():
+def aa()
+{
   return bb()
+}
 
 return aa()
 
@@ -513,12 +676,18 @@ return aa()
                 {
                     var r = new Compiler().Compile(@"
 def cc():
+{
   return coalesce(a,0)
-def aa(b):
+}
+def aa(b)
+{
   a = 1
-  def bb():
+  def bb()
+  {
     return cc()
+  }
   return bb()
+}
 return aa()
 
 ");
@@ -536,13 +705,16 @@ return aa()
 
                 {
                     var r = new Compiler().Compile(@"
-def aa(b):
+def aa(b){
   a = 1
-  def bb():
-    def cc():
+  def bb(){
+    def cc(){
       return coalesce(a,0)
+    } 
     return cc()
+  }
   return bb()
+}
 return aa()
 ");
                     var v = r.Eval();
@@ -552,8 +724,9 @@ return aa()
                 {
                     var r = new Compiler().Compile(@"
 d = 100
-def METHOD_A():
+def METHOD_A() {
  d = 1
+}
 METHOD_A()
 RETURN d
 ");
@@ -565,12 +738,14 @@ RETURN d
                     var r = new Compiler().Compile(@"
 d = 100
 a = 1
-def METHOD_A(d):
+def METHOD_A(d){
  b = 1
- def METHOD_B(): 
+ def METHOD_B() { 
   c = 1
   return a + coalesce(b,0) + c + coalesce(d,0)
+ }
  return METHOD_B()
+}
 i = METHOD_A(1)
 RETURN i
 ");
@@ -581,10 +756,12 @@ RETURN i
                 {
                     var r = new Compiler().Compile(@"
 c = 10
-def aA():
- def bB(): 
+def aA(){
+ def bB(){ 
   return 1 + c + d
+ }
  return bB() + 2
+}
 d = 20
 i = aA()
 RETURN i
@@ -597,7 +774,9 @@ RETURN i
                     var r = new Compiler().Compile(@"
 
 if not(cip.CMDON())
+{
   return 1
+}
 ");
                     try
                     {
@@ -649,11 +828,14 @@ return j + 1
 j = 0
 i = 0
 while j < 2
+{
   i = i + 1
   j = j + 1
   pass j = j + 1
-  if i > 1000000:
+  if i > 1000000 {
     i = 0
+  }
+}
 ");
                     var dict = new Dictionary<String, Object>();
                     dict["j"] = 0;
@@ -663,15 +845,21 @@ while j < 2
 
                 {
                     var r = new Compiler().Compile(@"
-DEF SET_OBJECT_VALUE(obj, field, value):
+DEF SET_OBJECT_VALUE(obj, field, value)
+{
   obj['INTERNAL_'+field](value)
-clASS testowa():
+}
+clASS testowa()
+{
   a = 1
   b = 10
-  def INTERNAL_A(vv):
+  def INTERNAL_A(vv){
     this.a = vv + this.b
-  def setA(v):
+  }
+  def setA(v) {
     SET_OBJECT_VALUE(this, 'A', v)
+  }
+}
 obj = testowa()
 obj.setA(22)
 RETURN obj.a
@@ -681,14 +869,19 @@ RETURN obj.a
                 }
                 {
                     var r = new Compiler().Compile(@"
-def SET_OBJECT_VALUE(obj, field, value):
+def SET_OBJECT_VALUE(obj, field, value){
   obj['INTERNAL_'+field](value)
-class testowa():
+}
+class testowa()
+{
   a = 1
-  def INTERNAL_A(vv):
+  def INTERNAL_A(vv) {
     this.a = vv
-  def setA(v):
+  }
+  def setA(v) {
     SET_OBJECT_VALUE(this, 'A', v)
+  }
+}
 obj = testowa()
 obj.setA(22)
 return obj.a
@@ -699,8 +892,9 @@ return obj.a
 
                 {
                     var r = new Compiler().Compile(@"
-class testowa(a,b,c):
+class testowa(a,b,c) {
   return coalesce(a,0) + coalesce(b,0) + coalesce(c,1)
+}
 return testowa()
  
 ");
@@ -710,8 +904,9 @@ return testowa()
 
                 {
                     var r = new Compiler().Compile(@"
-class testowa(a,b,c):
+class testowa(a,b,c) {
   return a + b + c
+}
 return testowa()
  
 ");
@@ -721,11 +916,14 @@ return testowa()
 
                 {
                     var r = new Compiler().Compile(@"
-class testowa(a,b,c):
-  if a != undefined: 
+class testowa(a,b,c) {
+  if a != undefined {
     return 0
-  else
+  }
+  else {
     return 1
+  }
+}
 return testowa()
  
 ");
@@ -735,13 +933,16 @@ return testowa()
 
                 {
                     var r = new Compiler().Compile(@"
-class testowa():
+class testowa() {
   a = 1
   c = 3
-  def oo(v):
-    if v == undefined
+  def oo(v) {
+    if v == undefined {
       return this.a
+    }
     return this.c
+  }
+}
 obj = testowa()
 return obj['oo']() + obj['oo'](1)
 ");
@@ -750,13 +951,18 @@ return obj['oo']() + obj['oo'](1)
                 }
                 {
                     var r = new Compiler().Compile(@"
-class testowa():
+class testowa()
+{
   a = 1
   c = 3
-  def oo(v):
-    if v == undefined
+  def oo(v)
+  {
+    if v == undefined {
       return this.a
+    }
     return this.c
+  } 
+}
 obj = testowa()
 return obj.oo() + obj.oo(1)
 ");
@@ -794,8 +1000,9 @@ return i
                     var values = new Dictionary<string, object>();
                     var r = new Compiler().Compile(@"
 i = 0
-while i < 3:
+while i < 3{
   i = i + 1
+}
 ");
                     var c = r.Eval(values);
                     if (!(3M).Equals(values["i"])) throw new Exception("Nieprawidłowa wartość!");
@@ -804,8 +1011,9 @@ while i < 3:
                     var r = new Compiler().Compile(@"
 
 a = 0
-try:
+try{
   a = 1 + h.getdate()
+}
 a = a + 1
 return a
 ");
@@ -823,16 +1031,22 @@ return a
                 {
                     var r = new Compiler().Compile(@"
 
-def hhhh(a):
-  try:
+def hhhh(a) {
+  try {
     a = 1 + h.getdate()
-  catch ex:
+  }
+  catch ex {
     throw ex.Message+'!'
+  }
+}
 j = ''
-try:
+try {
   hhhh(j)
-catch (ex):
+}
+catch (ex) 
+{
   j = ex.Message
+}
 return j
 ");
                     var v = r.Eval();
@@ -841,10 +1055,12 @@ return j
                 {
                     var r = new Compiler().Compile(@"
 j = 1
-try:
+try {
   j = h.dd dd()
-catch (ex):
+}
+catch (ex) {
   j = 2
+}
 return j
 ");
                     var v = r.Eval();
@@ -853,10 +1069,12 @@ return j
                 {
                     var r = new Compiler().Compile(@"
 j = 1
-try:
+try {
   j = j + 1
-catch (ex):
+}
+catch (ex) {
   j = j + 1
+}
 j = j + 1
 return j
 ");
@@ -866,16 +1084,19 @@ return j
                 {
                     var r = new Compiler().Compile(@"
 
-def hhhh(a):
+def hhhh(a)
+{
   a = 1 + h.getdate()
   return a
-
+}
 j = 1
-try:
+try {
   j = j + 1
   hhhh(j)
-catch (ex):
+}
+catch (ex) {
   j = ex
+}
 return j
 ");
                     var v = r.Eval();
@@ -884,11 +1105,15 @@ return j
                 {
                     var r = new Compiler().Compile(@"
 a = 4
-try:
+try
+{
   g = a + 5 + 7 - h.getdate() + 1
   a = 10
-catch ex:
+}
+catch ex
+{
   a = a + 1
+}
 return a
 ");
                     var v = r.Eval();
@@ -897,14 +1122,20 @@ return a
                 {
                     var r = new Compiler().Compile(@"
 a = 4
-try:
-  try:
+try
+{
+  try {
     g = h.getdate() + 1
     a = 5
-  catch:  
+  }
+  catch {
     a = 10
-catch:
+  }
+}
+catch
+{
   a = 6
+}
 return a
 ");
                     var v = r.Eval();
@@ -912,13 +1143,18 @@ return a
                 }
                 {
                     var r = new Compiler().Compile(@"
-def oo3():
+def oo3()
+{
   return this.a + 3
-class testowa():
+}
+class testowa()
+{
   a = 2
   c = 1
-  def oo2():
+  def oo2() {
     return this.a + 3
+  }
+}
 obj = testowa()
 return obj.oo3()
 ");
@@ -979,13 +1215,16 @@ obj = testowa()
                 }*/
                 {
                     var r = new Compiler().Compile(@"
-class testowa():
+class testowa(){
   a = 2
   c = 1
-  def oo1():
+  def oo1() {
     return this.a + 1
-  def oo2():
+  }
+  def oo2() {
     return this.a + 2
+  }
+}
 obj = testowa()
 return obj.oo2()
 ");
@@ -994,13 +1233,16 @@ return obj.oo2()
                 }
                 {
                     var r = new Compiler().Compile(@"
-class testowa():
+class testowa() {
   a = 2
   c = 1
-  def oo(v):
-    if v == undefined
+  def oo(v) {
+    if v == undefined {
       return 1
+     }
     return 3
+  }
+}
 obj = testowa()
 return obj.oo() + obj.oo(1)
 ");
@@ -1009,15 +1251,16 @@ return obj.oo() + obj.oo(1)
                 }
                 {
                     var r = new Compiler().Compile(@"
-class testowa():
+class testowa() {
   a = 2
   c = 1
-  def oo1():
+  def oo1() {
     return this.a + 1
-
-  def oo3():
+  }
+  def oo3() {
     return this.a + 3
-
+  }
+}
 obj = testowa()
 return obj.oo3()
 ");
@@ -1026,13 +1269,16 @@ return obj.oo3()
                 }
                 {
                     var r = new Compiler().Compile(@"
-class testowa():
+class testowa() {
   a = 2
   c = 1
-  def oo():
+  def oo() {
     return this.a + this.c * 10
-    def oo2():
+    def oo2() {
       return 33
+    }
+   }
+}
 obj = testowa()
 return obj.oo()
 ");
@@ -1041,10 +1287,12 @@ return obj.oo()
                 }
                 {
                     var r = new Compiler().Compile(@"
-def f1(v1):
+def f1(v1) {
   return f2(v1 + 1)
-def f2(v2):
+}
+def f2(v2) {
   return v2 * 100
+}
 return f1(100)
 ");
                     var v = r.Eval();
@@ -1052,13 +1300,15 @@ return f1(100)
                 }
                 {
                     var r = new Compiler().Compile(@"
-def m1(v):
-  if v == 1:
+def m1(v) {
+  if v == 1 {
     return 'jeden'
-  if v == 2:
-    return 'dwa'
+  }
+  if v == 2 {
+    return 'dwa' 
+  }
   return 'nic'
-
+}
 return m1(2)
 ");
                     var v = r.Eval();
@@ -1067,13 +1317,14 @@ return m1(2)
                 {
                     var r = new Compiler().Compile(@"
 
-class klasa1():
-  def m1():
+class klasa1() {
+  def m1() {
     this.b = 66
     return this.a + 1
+   }
   this.a = 1
   this.b = 2
-
+}
 o1 = klasa1()
 return str(o1.a) + ' ' + str(o1.m1())+ ' ' + str(o1.b)
 ");
@@ -1083,13 +1334,15 @@ return str(o1.a) + ' ' + str(o1.m1())+ ' ' + str(o1.b)
                 {
                     var r = new Compiler().Compile(@"
 
-class klasa1():
-  def m1():
+class klasa1() 
+{
+  def m1() {
     this.b = 88
     return this.a + 1
+  }
   a = 1
   b = 2
-
+}
 o1 = klasa1()
 return str(o1.a) + ' ' + str(o1.m1())+ ' ' + str(o1.b)
 ");
@@ -1099,11 +1352,11 @@ return str(o1.a) + ' ' + str(o1.m1())+ ' ' + str(o1.b)
                 {
                     var r = new Compiler().Compile(@"
 
-def klasa1():
+def klasa1() {
   a = 1
   b = 2
   return this
-
+}
 o1 = klasa1()
 return o1.a
 ");
@@ -1114,21 +1367,26 @@ return o1.a
                     var r = new Compiler().Compile(@"
 a = 4444
 
-def hh():
+def hh() {
   return 999
+}
 
 i=3
-while i>=0:
+while i>=0 {
   i = i -2
   i = i + 1 
+}
 
 gg = hh
-if gg() == eval('return 998+1'):
+if gg() == eval('return 998+1') {
   a = 1
-elif gg == 6:
+}
+elif gg == 6 {
   a = 3
-else:
+}
+else {
   a = 2
+}
 return a
 ");
                     var v = r.Eval();
@@ -1195,12 +1453,14 @@ return list2
 
                 {
                     var r = new Compiler().Compile(@"
-def AA():
-  def a():
+def AA() {
+  def a() {
     return 77
+  }
   G = 3
   H = 7
   return this
+}
 return AA().DynamicValues['a']()
 ");
                     var v = r.Eval();
@@ -1208,12 +1468,14 @@ return AA().DynamicValues['a']()
                 }
                 {
                     var r = new Compiler().Compile(@"
-def AA():
-  def a():
+def AA() {
+  def a() {
     return 77
+  }
   G = 3
   H = 7
   return this
+}
 return AA().DynamicValues['a']()
 ");
                     var v = r.Eval();
@@ -1221,10 +1483,11 @@ return AA().DynamicValues['a']()
                 }
                 {
                     var r = new Compiler().Compile(@"
-def AA():
+def AA() {
   G = 3
   H = 7
   return this
+}
 return AA().DynamicValues['G']
 ");
                     var v = r.Eval();
@@ -1235,12 +1498,14 @@ return AA().DynamicValues['G']
 a = 0
 b = 0
 c = 0
-while a < 4:
+while a < 4
+{
   a = a + 1
   b = 0
-  while b < 2:
+  while b < 2 {
     b = b + 1
     c = c + 1
+}}
 return c
 ");
                     var v = r.Eval();
@@ -1251,9 +1516,10 @@ return c
 
 v = null
 
-def m1(v):
+def m1(v) {
   v = v + 'c'
   return v
+}
 
 return '!'+coalesce(m1(v),'kkk')+'@'
 ");
@@ -1262,9 +1528,9 @@ return '!'+coalesce(m1(v),'kkk')+'@'
                 }
                 {
                     var r = new Compiler().Compile(@"
-def m1(v):
+def m1(v) {
   v = v + 'c'
-
+}
 v = 'abc'
 return '!'+m1(v)+'@'
 ");
@@ -1273,10 +1539,10 @@ return '!'+m1(v)+'@'
                 }
                 {
                     var r = new Compiler().Compile(@"
-def m1(v):
+def m1(v) {
   v = v + 'c'
   return v
-
+}
 v = 'abc'
 return m1(v)
 ");
@@ -1285,13 +1551,15 @@ return m1(v)
                 }
                 {
                     var r = new Compiler().Compile(@"
-def m1(v):
-  if v == 1:
+def m1(v) {
+  if v == 1 {
     return 'jeden'
-  if v == 2:
+  }
+  if v == 2 {
     return 'dwa'
+  }
   return 'nIc'
-
+}
 return m1(4324234)
 ");
                     var v = r.Eval();
@@ -1301,12 +1569,15 @@ return m1(4324234)
                     var r = new Compiler().Compile(@"
 a = 4444
 gg = 3
-if gg == 5:
+if gg == 5 {
   a = 1
-elif gg == 6:
+}
+elif gg == 6 {
   a = 3
-else:
+}
+else {
   a = 2
+}
 return a
 
 ");
@@ -1333,14 +1604,14 @@ return a
                 }
                 {
                     var r = new Compiler().Compile(@"
-def m1(v):
-  if v == 1:
-    return 'jeden'
-  elif v == 2:
-    return 'dwa'
-  else
-    return 'nic'
-
+def m1(v){
+  if v == 1{
+    return 'jeden'}
+  elif v == 2{
+    return 'dwa'}
+  else {
+    return 'nic'}
+}
 return m1(3)
 ");
                     var v = r.Eval();
@@ -1350,20 +1621,22 @@ return m1(3)
                     var r = new Compiler().Compile(@"
 a = 7
 gg = 6
-if gg == 5:
-  a = 1
-elif gg == 6:
-  if 4==8/2:
-    if 4==8/22:
-      a = 2
-    elif 4==8/2:
-      a = 33
-  elif 4==8/4:
-    a = 3
-elif 4==8/4:
-  a = 3
-else:
-  a = 8
+if gg == 5{
+  a = 1}
+elif gg == 6{
+  if 4==8/2{
+    if 4==8/22{
+      a = 2}
+    elif 4==8/2{
+      a = 33}
+   }
+  elif 4==8/4{
+    a = 3}
+}
+elif 4==8/4{
+  a = 3}
+else{
+  a = 8}
 return a
 ");
                     var v = r.Eval();
@@ -1373,20 +1646,33 @@ return a
                     var r = new Compiler().Compile(@"
 a = 7
 gg = 6
-if gg == 5:
-  a = 1
-elif gg == 6:
-  if 4==8/2:
-    if 4==8/2:
+if gg == 5{
+  a = 1}
+elif gg == 6 {
+  if 4==8/2
+  {
+    if 4==8/2
+    {
       a = 22
-    elif 4==8/4:
+    }
+    elif 4==8/4
+    {
       a = 3
-  elif 4==8/4:
+    }
+  }
+  elif 4==8/4
+  {
     a = 3
-elif 4==8/4:
+  }
+}
+elif 4==8/4
+{
   a = 3
-else:
+}
+else
+{
   a = 8
+}
 return a
 ");
                     var v = r.Eval();
@@ -1396,17 +1682,27 @@ return a
                     var r = new Compiler().Compile(@"
 a = 7
 gg = 3
-if gg == 5:
+if gg == 5 {
   a = 1
-elif gg == 6:
-  if 4==8/4:
+}
+elif gg == 6
+{
+  if 4==8/4
+   {
     a = 2
-  elif 4==8/4:
+  }
+  elif 4==8/4 {
     a = 3
-elif 4==8/4:
+   }
+}
+elif 4==8/4
+{
   a = 3
-else:
+}
+else
+{
   a = 8
+}
 return a
 ");
                     var v = r.Eval();
@@ -1416,17 +1712,29 @@ return a
                     var r = new Compiler().Compile(@"
 a = 7
 gg = 6
-if gg == 5:
+if gg == 5
+{
   a = 1
-elif gg == 6:
-  if 4==8/4:
+}
+elif gg == 6
+{
+  if 4==8/4
+  {
     a = 2
-  elif 4==8/4:
+  }
+  elif 4==8/4
+  {
     a = 3
-elif 4==8/4:
+  }
+}
+elif 4==8/4
+{
   a = 3
-else:
+}
+else
+{
   a = 8
+}
 return a
 ");
                     var v = r.Eval();
@@ -1436,16 +1744,26 @@ return a
                     var r = new Compiler().Compile(@"
 a = 0
 gg = 6
-if gg == 5:
+if gg == 5 {
   a = 1
-elif gg == 6:
-  if 4==8/2:
+}
+elif gg == 6
+{
+  if 4==8/2
+  {
     a = 2
-  elif 4==8/3:
+  }
+  elif 4==8/3
+  {
     a = 3
-else:
-  if 7==7/1:
+  }
+}
+else
+{
+  if 7==7/1 {
     a = 4
+  }
+}
 return a
 ");
                     var v = r.Eval();
@@ -1455,12 +1773,16 @@ return a
                     var r = new Compiler().Compile(@"
 a = 0
 gg = 5
-if gg == 5:
+if gg == 5{
   a = 1
-elif gg == 6:
+}
+elif gg == 6
+{
   a = 3
-else:
+}
+else {}
 a = 66
+
 return a
 ");
                     var v = r.Eval();
@@ -1470,12 +1792,18 @@ return a
                     var r = new Compiler().Compile(@"
 a = 0
 gg = 3
-if gg == 5:
+if gg == 5
+{
   a = 1
-elif gg == 6:
+}
+elif gg == 6
+{
   a = 3
-else:
+}
+else
+{
   a = 2
+}
 return a
 
 ");
@@ -1486,12 +1814,18 @@ return a
                     var r = new Compiler().Compile(@"
 a = 0
 gg = 6
-if gg == 5:
+if gg == 5
+{
   a = 1
-elif gg == 6:
+}
+elif gg == 6
+{
   a = 3
-else:
+}
+else
+{
   a = 2
+}
 return a
 
 ");
@@ -1502,10 +1836,13 @@ return a
                     var r = new Compiler().Compile(@"
 a = 0
 gg = 5
-if gg == 5:
+if gg == 5{
   a = 1
-else:
+}
+else
+{
   a = 2
+}
 return a
 
 ");
@@ -1516,10 +1853,14 @@ return a
                     var r = new Compiler().Compile(@"
 a = 0
 gg = 5
-if gg == 4:
+if gg == 4
+{
   a = 1
-else:
+}
+else
+{
   a = 2
+}
 return a
 
 ");
@@ -1529,9 +1870,11 @@ return a
                 {
                     var r = new Compiler().Compile(@"
 gg = 100
-def   AAA(v1,    v2):
+def   AAA(v1,    v2)
+{
   v2 = v2 + 1
   return (v1* 1000 + v2) / gg
+}
 FF = AAA(2,3) 
 return FF
 ");
@@ -1541,10 +1884,11 @@ return FF
 
                 {
                     var r = new Compiler().Compile(@"
-def f1(v1,v2):
+def f1(v1,v2){
   return f2(100)
-def f2(v2):
-  return v1
+}
+def f2(v2){
+  return v1}
 return f1(100, 200)
 ");
                     try
@@ -1561,10 +1905,13 @@ return f1(100, 200)
                 {
                     var r = new Compiler().Compile(@"
 v1 = null
-def f1(v1,v2):
+def f1(v1,v2){
   return f2(100)
-def f2(v2):
+}
+def f2(v2)
+{
   return v1
+}
 return f1(100, 200)
 ");
                     var v = r.Eval();
@@ -1573,13 +1920,15 @@ return f1(100, 200)
 
                 {
                     var r = new Compiler().Compile(@"
-def f1(b):
+def f1(b) {
   a = 100
   b = f2(b + 1)
   return a + b
-def f2(b):
+}
+def f2(b) {
   a = 1000
   return b * 100
+}
 return f1(1)
 ");
                     var v = r.Eval();
@@ -1696,7 +2045,7 @@ return f1(1)
                 }
             }
             {
-               
+
                 try
                 {
                     var complied = new Compiler().Compile("return ffalse");

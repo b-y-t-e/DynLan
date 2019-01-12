@@ -15,7 +15,7 @@ namespace DynLan.OnpEngine.Logic
         public static ExpressionToken GetNextToken(IList<Char> Chars, Int32 StartIndex, ExpressionToken PrevToken)
         {
             // szukanie operatórw porównania
-            Char[] foundCompareOperator = StringHelper.StrEquals(Chars, DynLanuageSymbols.CompareOperators, StartIndex, false);
+            Char[] foundCompareOperator = StringHelper.StartsWith(Chars, DynLanuageSymbols.CompareOperators, StartIndex, false);
             if (foundCompareOperator != null)
             {
                 return new ExpressionToken(foundCompareOperator, TokenType.OPERATOR)
@@ -26,7 +26,7 @@ namespace DynLan.OnpEngine.Logic
             }
 
             // szukanie nawiasu START
-            Char[] foundBracketBegin = StringHelper.StrEquals(Chars, DynLanuageSymbols.BracketBegin, StartIndex, false);
+            Char[] foundBracketBegin = StringHelper.StartsWith(Chars, DynLanuageSymbols.BracketBegin, StartIndex, false);
             if (foundBracketBegin != null)
             {
                 return new ExpressionToken(foundBracketBegin, TokenType.BRACKET_BEGIN)
@@ -37,7 +37,7 @@ namespace DynLan.OnpEngine.Logic
             }
 
             // szukanie nawiasu END
-            Char[] foundBracketEnd = StringHelper.StrEquals(Chars, DynLanuageSymbols.BracketEnd, StartIndex, false);
+            Char[] foundBracketEnd = StringHelper.StartsWith(Chars, DynLanuageSymbols.BracketEnd, StartIndex, false);
             if (foundBracketEnd != null)
             {
                 return new ExpressionToken(foundBracketEnd, TokenType.BRACKET_END)
@@ -48,7 +48,7 @@ namespace DynLan.OnpEngine.Logic
             }
 
             // szukanie indexera START
-            Char[] foundIndexerBegin = StringHelper.StrEquals(Chars, DynLanuageSymbols.IndexerBegin, StartIndex, false);
+            Char[] foundIndexerBegin = StringHelper.StartsWith(Chars, DynLanuageSymbols.IndexerBegin, StartIndex, false);
             if (foundIndexerBegin != null)
             {
                 return new ExpressionToken(foundIndexerBegin, TokenType.INDEXER_BEGIN)
@@ -59,7 +59,7 @@ namespace DynLan.OnpEngine.Logic
             }
 
             // szukanie indexera END
-            Char[] foundIndexerEnd = StringHelper.StrEquals(Chars, DynLanuageSymbols.IndexerEnd, StartIndex, false);
+            Char[] foundIndexerEnd = StringHelper.StartsWith(Chars, DynLanuageSymbols.IndexerEnd, StartIndex, false);
             if (foundIndexerEnd != null)
             {
                 return new ExpressionToken(foundIndexerEnd, TokenType.INDEXER_END)
@@ -70,7 +70,7 @@ namespace DynLan.OnpEngine.Logic
             }
 
             // szukanie operatora równości
-            Char[] foundEqualOperator = StringHelper.StrEquals(Chars, DynLanuageSymbols.EqualOperator, StartIndex, false);
+            Char[] foundEqualOperator = StringHelper.StartsWith(Chars, DynLanuageSymbols.EqualOperator, StartIndex, false);
             if (foundEqualOperator != null)
             {
                 return new ExpressionToken(foundEqualOperator, TokenType.EQUAL_OPERATOR)
@@ -81,7 +81,7 @@ namespace DynLan.OnpEngine.Logic
             }
 
             // szukanie operatora
-            Char[] foundOperator = StringHelper.StrEquals(Chars, DynLanuageSymbols.Operators, StartIndex, false);
+            Char[] foundOperator = StringHelper.StartsWith(Chars, DynLanuageSymbols.Operators, StartIndex, false);
             if (foundOperator != null)
             {
                 return new ExpressionToken(foundOperator, TokenType.OPERATOR)
@@ -92,7 +92,7 @@ namespace DynLan.OnpEngine.Logic
             }
 
             // szukanie operatorów logicznych
-            Char[] foundLogicalOperator = StringHelper.StrEquals(Chars, DynLanuageSymbols.LogicalOperators, StartIndex, true);
+            Char[] foundLogicalOperator = StringHelper.StartsWith(Chars, DynLanuageSymbols.LogicalOperators, StartIndex, true);
             if (foundLogicalOperator != null)
             {
                 Char? prevChar = StartIndex > 0 ? (Char?)Chars[StartIndex - 1] : null;
@@ -115,7 +115,7 @@ namespace DynLan.OnpEngine.Logic
             }
 
             // szukanie białych znaków
-            Char[] foundWhitespaces = StringHelper.StrEquals(Chars, DynLanuageSymbols.Whitespaces, StartIndex, false);
+            Char[] foundWhitespaces = StringHelper.StartsWith(Chars, DynLanuageSymbols.Whitespaces, StartIndex, false);
             if (foundWhitespaces != null)
             {
                 return new ExpressionToken(foundWhitespaces, TokenType.WHITESPACE)
@@ -126,7 +126,7 @@ namespace DynLan.OnpEngine.Logic
             }
 
             // szukanie przecinka                                    
-            Char[] foundSeparator = StringHelper.StrEquals(Chars, DynLanuageSymbols.Separators, StartIndex, false);
+            Char[] foundSeparator = StringHelper.StartsWith(Chars, DynLanuageSymbols.Separators, StartIndex, false);
             if (foundSeparator != null)
             {
                 return new ExpressionToken(foundSeparator, TokenType.SEPARATOR)

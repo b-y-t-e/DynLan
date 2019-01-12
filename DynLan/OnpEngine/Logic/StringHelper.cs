@@ -15,10 +15,13 @@ namespace DynLan.OnpEngine.Logic
 {
     public static class StringHelper
     {
+
         public static Boolean SequenceEqualInsensitive(
             IList<Char> Items1,
             IList<Char[]> ListOfItems2)
         {
+            if (Items1 == null)
+                return false;
             foreach (Char[] items2 in ListOfItems2)
                 if (SequenceEqualInsensitive(Items1, items2))
                     return true;
@@ -78,6 +81,39 @@ namespace DynLan.OnpEngine.Logic
             if (Text.StartsWith("(")) Text = Text.Substring(1);
             if (Text.EndsWith(")")) Text = Text.Substring(0, Text.Length - 1);
             return Text;
+        }
+
+        public static bool IsWordBreakChar(Char ch)
+        {
+            if (Char.IsLetterOrDigit(ch))
+                return false;
+            return true;
+
+            /*1if (Char.IsWhiteSpace(ch))
+                return true;
+
+            switch(ch)
+            {
+                case (':'):
+                case (';'):
+                case ('{'):
+                case ('}'):
+                case ('('):
+                case (')'):
+                case ('-'):
+                case ('+'):
+                case ('='):
+                case ('*'):
+                case ('/'):
+                case ('&'):
+                case ('^'):
+                case ('%'):
+                case ('$'):
+                case (':'):
+                    return true;
+            }
+
+            return false;*/
         }
 
         public static ExpressionValue GetValueFromText(IList<Char> chars)
@@ -459,42 +495,79 @@ namespace DynLan.OnpEngine.Logic
             }
         }
 
-        public static Char[] StrEquals(
+        public static Char[] StartsWith(
             IList<Char> Source,
             IList<Char[]> ItemsToFind,
-            Boolean Insensitive)
+            Boolean Insensitive,
+            Boolean WholeWord = false)
         {
             foreach (Char[] item in ItemsToFind)
-                if (StrEquals(Source, item, Insensitive))
+                if (StartsWith(Source, item, Insensitive, WholeWord))
                     return item;
             return null;
         }
 
-        public static Char[] StrEquals(
+        public static Char[] StartsWith(
             IList<Char> Source,
             IList<Char[]> ItemsToFind,
             Int32 StartIndex,
-            Boolean Insensitive)
+            Boolean Insensitive,
+            Boolean WholeWord = false)
         {
             foreach (Char[] item in ItemsToFind)
-                if (StrEquals(Source, item, StartIndex, Insensitive))
+                if (StartsWith(Source, item, StartIndex, Insensitive, WholeWord))
                     return item;
             return null;
         }
 
-        public static Boolean StrEquals(
+        public static Boolean AreEqual(
+            IList<Char> Items1,
+            IList<Char> Items2,
+            Boolean Insensitive)
+        {
+            if ((Items1 == null && Items2 != null) ||
+                (Items1 != null && Items2 == null))
+                return false;
+
+            if (Items1 == null && Items2 == null)
+                return true;
+
+            if (Items1.Count != Items2.Count)
+                return false;
+
+            for (var i = 0; i < Items1.Count; i++)
+            {
+                if (Insensitive)
+                {
+                    if (Char.ToLowerInvariant(Items1[i]) != Char.ToLowerInvariant(Items2[i]))
+                        return false;
+                }
+                else
+                {
+                    if (Items1[i] != Items2[i])
+                        return false;
+                }
+            }
+
+
+            return true;
+        }
+
+        public static Boolean StartsWith(
             IList<Char> Source,
             IList<Char> ItemToFind,
-            Boolean Insensitive)
+            Boolean Insensitive,
+            Boolean WholeWord = false)
         {
             if (Source == null || ItemToFind == null)
                 return false;
 
-            Int32 length = ItemToFind.Count;
-            if (length > Source.Count)
+            if (ItemToFind.Count > Source.Count)
                 return false;
 
-            for (int i = 0; i < length; i++)
+            Int32 length = ItemToFind.Count;
+            int i = 0;
+            for (i = 0; i < length; i++)
                 if (Insensitive)
                 {
                     if (Char.ToLowerInvariant(Source[i]) != Char.ToLowerInvariant(ItemToFind[i]))
@@ -506,14 +579,25 @@ namespace DynLan.OnpEngine.Logic
                         return false;
                 }
 
+            if (WholeWord)
+            {
+                if (i == Source.Count)
+                    return true;
+
+                var ch = Source[i];
+                if (!IsWordBreakChar(ch))
+                    return false;
+            }
+
             return true;
         }
 
-        public static Boolean StrEquals(
+        public static Boolean StartsWith(
             IList<Char> Source,
             IList<Char> ItemToFind,
             Int32 StartIndex,
-            Boolean Insensitive)
+            Boolean Insensitive,
+            Boolean WholeWord = false)
         {
             if (Source == null || ItemToFind == null)
                 return false;
@@ -525,7 +609,8 @@ namespace DynLan.OnpEngine.Logic
             {
                 Int32 length = StartIndex + ItemToFind.Count;
                 Int32 j = 0;
-                for (int i = StartIndex; i < length; i++)
+                Int32 i = 0;
+                for (i = StartIndex; i < length; i++)
                 {
                     if (Insensitive)
                     {
@@ -539,6 +624,17 @@ namespace DynLan.OnpEngine.Logic
                     }
                     j++;
                 }
+
+                if (WholeWord)
+                {
+                    if (i >= Source.Count)
+                        return false;
+
+                    var ch = Source[i];
+                    if (!IsWordBreakChar(ch))
+                        return false;
+                }
+                
                 return true;
             }
         }
@@ -567,6 +663,9 @@ namespace DynLan.OnpEngine.Logic
             OnpOnpStringFindResult minResult = null;
             foreach (Char[][] items in ItemsToFind)
             {
+                if (items.Length == 0)
+                    continue;
+
                 OnpOnpStringFindResult findResult = NextIndex(Source, items, StringChar, StartIndex, EndIndex, Insensitive);
                 if (findResult != null)
                 {
@@ -622,9 +721,9 @@ namespace DynLan.OnpEngine.Logic
                     char[] foundToken = null;
 
                     if (i == 0)
-                        foundToken = StringHelper.StrEquals(Source, ItemsToFind, Insensitive);
+                        foundToken = StringHelper.StartsWith(Source, ItemsToFind, Insensitive);
                     else
-                        foundToken = StringHelper.StrEquals(Source, ItemsToFind, i, Insensitive);
+                        foundToken = StringHelper.StartsWith(Source, ItemsToFind, i, Insensitive);
 
                     if (foundToken != null)
                     {

@@ -14,7 +14,7 @@ namespace DynLan.OnpEngine.Logic
             return Token != null &&
                    Token.TokenType == TokenType.OPERATOR &&
                    Token.TokenChars.Count == OperatorTypeHelper.op_property.Length &&
-                   StringHelper.StrEquals(Token.TokenChars, OperatorTypeHelper.op_property, false);
+                   StringHelper.StartsWith(Token.TokenChars, OperatorTypeHelper.op_property, false);
         }
 
         public static bool IsFunctionOperatorToken(ExpressionToken Token)
@@ -22,7 +22,7 @@ namespace DynLan.OnpEngine.Logic
             return Token != null &&
                    Token.TokenType == TokenType.OPERATOR &&
                    Token.TokenChars.Count == OperatorTypeHelper.op_methodcall.Length &&
-                   StringHelper.StrEquals(Token.TokenChars, OperatorTypeHelper.op_methodcall, false);
+                   StringHelper.StartsWith(Token.TokenChars, OperatorTypeHelper.op_methodcall, false);
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////
@@ -38,7 +38,7 @@ namespace DynLan.OnpEngine.Logic
                 TokenType == TokenType.BRACKET_BEGIN ||
                 TokenType == TokenType.BRACKET_END)
             {
-                if (StringHelper.StrEquals(TokenChars, OperatorTypeHelper.op_bracket_begin, false))
+                if (StringHelper.StartsWith(TokenChars, OperatorTypeHelper.op_bracket_begin, false))
                 {
                     return -10;
                 }
@@ -47,35 +47,35 @@ namespace DynLan.OnpEngine.Logic
                 {
                     return -2;
                 }
-                else if (StringHelper.StrEquals(TokenChars, OperatorTypeHelper.op_greater, false) ||
-                    StringHelper.StrEquals(TokenChars, OperatorTypeHelper.op_smaller, false) ||
-                    StringHelper.StrEquals(TokenChars, OperatorTypeHelper.op_greater_equal, false) ||
-                    StringHelper.StrEquals(TokenChars, OperatorTypeHelper.op_smaller_equal, false) ||
-                    StringHelper.StrEquals(TokenChars, OperatorTypeHelper.op_equal, false) ||
-                    StringHelper.StrEquals(TokenChars, OperatorTypeHelper.op_not_equal, false))
+                else if (StringHelper.StartsWith(TokenChars, OperatorTypeHelper.op_greater, false) ||
+                    StringHelper.StartsWith(TokenChars, OperatorTypeHelper.op_smaller, false) ||
+                    StringHelper.StartsWith(TokenChars, OperatorTypeHelper.op_greater_equal, false) ||
+                    StringHelper.StartsWith(TokenChars, OperatorTypeHelper.op_smaller_equal, false) ||
+                    StringHelper.StartsWith(TokenChars, OperatorTypeHelper.op_equal, false) ||
+                    StringHelper.StartsWith(TokenChars, OperatorTypeHelper.op_not_equal, false))
                 {
                     return -1;
                 }
                 else if (
-                    StringHelper.StrEquals(TokenChars, OperatorTypeHelper.op_plus, false) ||
-                    StringHelper.StrEquals(TokenChars, OperatorTypeHelper.op_minus, false) ||
-                    StringHelper.StrEquals(TokenChars, OperatorTypeHelper.op_bracket_end, false))
+                    StringHelper.StartsWith(TokenChars, OperatorTypeHelper.op_plus, false) ||
+                    StringHelper.StartsWith(TokenChars, OperatorTypeHelper.op_minus, false) ||
+                    StringHelper.StartsWith(TokenChars, OperatorTypeHelper.op_bracket_end, false))
                 {
                     return 1;
                 }
                 else if (
-                    StringHelper.StrEquals(TokenChars, OperatorTypeHelper.op_multiply, false) ||
-                    StringHelper.StrEquals(TokenChars, OperatorTypeHelper.op_divide, false))
+                    StringHelper.StartsWith(TokenChars, OperatorTypeHelper.op_multiply, false) ||
+                    StringHelper.StartsWith(TokenChars, OperatorTypeHelper.op_divide, false))
                 {
                     return 2;
                 }
                 else if (
-                    StringHelper.StrEquals(TokenChars, OperatorTypeHelper.op_property, false))
+                    StringHelper.StartsWith(TokenChars, OperatorTypeHelper.op_property, false))
                 {
                     return 100;
                 }
                 else if (
-                    StringHelper.StrEquals(TokenChars, OperatorTypeHelper.op_methodcall, false  ))
+                    StringHelper.StartsWith(TokenChars, OperatorTypeHelper.op_methodcall, false  ))
                 {
                     return 200;
                 }

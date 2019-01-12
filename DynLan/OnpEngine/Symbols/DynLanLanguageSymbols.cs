@@ -1,14 +1,29 @@
-﻿using System;
+﻿
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-
 
 namespace DynLan.OnpEngine.Symbols
 {
     public class DynLanuageSymbols
     {
+#if !SPACES_FOR_DEPTH
+
+        public static readonly char[][] DepthBegin = new char[][] {
+            "{".ToCharArray() }.OrderByDescending(i => i.Length).ToArray();
+
+        public static readonly char[][] DepthEnd = new char[][] {
+            "}".ToCharArray() }.OrderByDescending(i => i.Length).ToArray();
+#else
+        
+        public static readonly char[][] DepthBegin = new char[][] { }.OrderByDescending(i => i.Length).ToArray();
+
+        public static readonly char[][] DepthEnd = new char[][] { }.OrderByDescending(i => i.Length).ToArray();
+
+#endif
+
         public static readonly char[][] Comment1StartSymbol = new char[][] { 
             "#".ToCharArray(), }.OrderByDescending(i => i.Length).ToArray();
 
@@ -30,8 +45,10 @@ namespace DynLan.OnpEngine.Symbols
         public static readonly char[][] NewLineChars = new char[][] { 
             Environment.NewLine.ToCharArray(), 
             ";".ToCharArray(),
+            // ":".ToCharArray(),
             ((Char)10).ToString().ToCharArray(),
-            ((Char)13).ToString().ToCharArray(), }.OrderByDescending(i => i.Length).ToArray();
+            ((Char)13).ToString().ToCharArray(),
+        }.OrderByDescending(i => i.Length).ToArray();
 
         public static readonly char[] WhitespaceChars = new char[] { 
             ' ',

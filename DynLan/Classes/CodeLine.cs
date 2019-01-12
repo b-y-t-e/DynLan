@@ -7,6 +7,8 @@ namespace DynLan.Classes
 {
     public class CodeLine : List<Char>
     {
+        public Int32 LineIndex;
+
         public CodeLine()
         {
 

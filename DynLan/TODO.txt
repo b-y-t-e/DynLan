@@ -1,0 +1,67 @@
+﻿ + ok + obliczanie zmiennych w wyrazeniach na zadanie (tak aby jesli nie trzeba wywolywac danego wyrazenia to aby go nie obliczal)
+ + ok + delegat dla metod
+ + ok + delegat dla zmiennych
+ + ok + delegat dla rozszezen obiektow
+ + ok + eval (prosty)
+ + ok + przy wołaniu metody sprawdzac typy parametorw
+ + ok + DateTime.Now.Ticks!!!
+ + ok + cos() vs cos () - powinno byc tak samo parsowane
+ + ok + \' - TRZEBA JESCZE SPRAWDZIC
+ + ok + collection getter
+ + ok + collection setter
+ + ok + uproszczenie struktury #1 2014-10-18
+ + ok + uproszczenie struktury #2 2014-10-30
+ + ok + przypisywanie zmiennych
+ + ok + równości jako operacje
+
+ + ok + definiowanie metod
+ + ?? + jesli null to i tak ma cale wyrazenie przeliczyc!!!!
+ + ?? + uzywanie delegatow 
+ + thread safe!!!! - expressiongroup powinien byc thread safe!!!
+ + ok - eval z przekazywaniem kontekstu
+ + ?? + dopinanie sie do eventow
+
+ + ok - metody
+ + ok - zamiana [ i ] na funkcje przez tokeny, anie przez przeszukiwanie tekstu
+ + ok - 'return' w metodach
+ + optymalizacja szybkosci kompilacji i uruchomienia:
+    ok - + public bool SetValue<DataType>(Object Item, String PropertyName, DataType Value)
+	ok - + GetMethod
+ + ok - IF
+ + ok - eval - równiez bedzie generoal nowe konteksty
+ + ok - edytor tak aby można było testować łatwo kod (wpf)
+ + ok - WHILE
+ + ok - obsługa metod statycznych
+ + ok - wołanie property obiekty bez użycia VALUES
+ + ok - definicja metody w metodzie
+ + ok - poprawić bug'a dla while'
+ + ok - OBIEKTY
+ + ok + wywoływanie metody z c#
+ + ok + dostep do obiektu z c#
+ + ok + edytor: możliwość zmiany linii
+ + ok + edytor: gdy zmieniamy linie w edytorze to resetujemy konteksty
+ + ok + edytor: podgląd zmiennych
+ + ok + test serializacji / deserializacji
+ + edytor: edycja zmiennych
+ + edytor: podgląd wyniku
+ + poprawic temat z nextstep - tak aby faktycznie wykonywał jedna linie na raz - aby zminimalizowac problemy z serializacja
+ + czysczenie stosów i wyników gdy juz nie sa potrzebne
+ + nie trzymanie 'Code' w XML - wyliczanie na podstawie expression (+obsługa komentarzy)
+ + obsługa komentarzy
+ + kopiowanie obiektów z kontekstu do kontekstu
+   + możliwość oznaczenia zeby
+ + odpalanie metod obiektu bez dostepu do kontekstu
+ + ponowna optymalizacja
+ + prosta obsługa błędów
+ + FOR
+ + FOREACH
+ + umożliwić uruchomienie wyrażenia np: return m2(i=m3())
+
+ serializacja:
+  + ok + generalnie działa :)
+  + ok + serializacja expressionmethod i expressionextender
+  + nie widzę idealnego rozwiązania
+  + obiekty na stosie wyrażenia będą serializowane gdy: 
+    + będzie zawołane eval()
+	+ będzie zawołana metoda DynLanMethod() lub metoda DynLanMethod() z obiektu DynLanObject()
+

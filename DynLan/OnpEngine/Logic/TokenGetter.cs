@@ -24,7 +24,7 @@ namespace DynLan.OnpEngine.Logic
             ConvertIndexersToFunctions(tokens);
             AddFunctionCallOperator(tokens);
             ConvertMinusOperatorToMinusOne(tokens);
-            RemoveOperatorsOnEnd(tokens);
+            // RemoveOperatorsOnEnd(tokens);
 
             if (ParserSettings.Optimize)
                 OptimizeTokens(tokens);
@@ -88,30 +88,13 @@ namespace DynLan.OnpEngine.Logic
                 ExpressionToken nextToken = null;
                 ExpressionToken prevToken = null;
 
-                // nie potrzebne poniewaz usuwane sa biale znaki
-                /*
-                for (var j = i + 1; j < Tokens.Count; j++)
-                    if (Tokens[j].TokenType != TokenType.WHITESPACE)
-                    {
-                        nextToken = Tokens[j];
-                        break;
-                    }
-
-                for (var j = i - 1; j >= 0; j--)
-                    if (Tokens[j].TokenType != TokenType.WHITESPACE)
-                    {
-                        prevToken = Tokens[j];
-                        break;
-                    }
-                */
-
                 nextToken = (i + 1 < Tokens.Count ? Tokens[i + 1] : null);
                 prevToken = (i - 1 >= 0 ? Tokens[i - 1] : null);
 
                 // zamiana minusa na -1
                 if (token.TokenType == TokenType.OPERATOR)
                 {
-                    if (StringHelper.StrEquals(token.TokenChars, OperatorTypeHelper.op_minus, false))
+                    if (StringHelper.StartsWith(token.TokenChars, OperatorTypeHelper.op_minus, false))
                     {
                         //if (!(nextToken.TokenType == TokenType.VALUE && StringHelper.IsDateTime(nextToken.TokenChars)))
                         {
@@ -142,28 +125,6 @@ namespace DynLan.OnpEngine.Logic
                 }
             }
         }
-
-        /*private static void CorrectFunctionCallTokenInfo(ExpressionTokens Tokens)
-        {
-            for (var i = 0; i < Tokens.Count; i++)
-            {
-                ExpressionToken token = Tokens[i];
-                ExpressionToken nextToken = null;
-                nextToken = (i + 1 < Tokens.Count ? Tokens[i + 1] : null);
-
-                // zamiana minusa na -1
-                if (token.TokenType == TokenType.OPERATOR &&
-                    OnpOnpTokenHelper.IsFunctionOperatorToken(token))
-                {
-                    token.TokenData = new OnpTokenData();
-
-                    if (nextToken.TokenType == TokenType.BRACKET_BEGIN)
-                    {
-                        new TokenizerQueue().GetNextTokensOnSameLevel
-                    }
-                }
-            }
-        }*/
 
         private static void ConvertIndexersToFunctions(ExpressionTokens Tokens)
         {
@@ -221,6 +182,24 @@ namespace DynLan.OnpEngine.Logic
             }
         }
 
+        /*private static void CheckOperatorsOnEnd(
+            ExpressionTokens tokens)
+        {
+            // usunięcie operatorów na końcu
+            for (int i = tokens.Count - 1; i >= 0; i--)
+            {
+                ExpressionToken currentToken = tokens[i];
+                if (currentToken.TokenType == TokenType.OPERATOR)
+                {
+                    tokens.RemoveAt(i);
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }*/
+
         private static void RemoveOperatorsOnEnd(
             ExpressionTokens tokens)
         {
@@ -265,11 +244,11 @@ namespace DynLan.OnpEngine.Logic
 
                 Boolean isMinus =
                     currentToken.TokenType == TokenType.OPERATOR &&
-                    StringHelper.StrEquals(currentToken.TokenChars, DynLanuageSymbols.MinusChars, false);
+                    StringHelper.StartsWith(currentToken.TokenChars, DynLanuageSymbols.MinusChars, false);
 
                 Boolean isNextMinus =
                     nextToken.TokenType == TokenType.OPERATOR &&
-                    StringHelper.StrEquals(nextToken.TokenChars, DynLanuageSymbols.MinusChars, false);
+                    StringHelper.StartsWith(nextToken.TokenChars, DynLanuageSymbols.MinusChars, false);
 
                 // zamiana dwóch minusów na plus
                 if (isMinus && isNextMinus)
@@ -281,18 +260,18 @@ namespace DynLan.OnpEngine.Logic
             }
 
             // zamiana dwóch plusów na jeden plus
-            for (int i = 0; i < tokens.Count - 1; i++)
+            /*for (int i = 0; i < tokens.Count - 1; i++)
             {
                 ExpressionToken currentToken = tokens[i];
                 ExpressionToken nextToken = tokens[i + 1];
 
                 Boolean isPlus =
                     currentToken.TokenType == TokenType.OPERATOR &&
-                    StringHelper.StrEquals(currentToken.TokenChars, DynLanuageSymbols.PlusChars, false);
+                    StringHelper.StartsWith(currentToken.TokenChars, DynLanuageSymbols.PlusChars, false);
 
                 Boolean isNextPlus =
                     nextToken.TokenType == TokenType.OPERATOR &&
-                    StringHelper.StrEquals(nextToken.TokenChars, DynLanuageSymbols.PlusChars, false);
+                    StringHelper.StartsWith(nextToken.TokenChars, DynLanuageSymbols.PlusChars, false);
 
                 // zamiana dwóch plusów na jeden plus
                 if (isPlus && isNextPlus)
@@ -300,13 +279,28 @@ namespace DynLan.OnpEngine.Logic
                     tokens.RemoveAt(i + 1);
                     i--;
                 }
-            }
+            }*/
 
         }
 
         private static void ValidateTokens(
             ExpressionTokens tokens)
         {
+            // usunięcie operatorów na końcu
+            for (int i = tokens.Count - 1; i >= 0; i--)
+            {
+                ExpressionToken currentToken = tokens[i];
+                if (currentToken.TokenType == TokenType.OPERATOR)
+                {
+                    // tokens.RemoveAt(i);
+                    throw new DynLanIncorrectExpressionFormatException("Invalid operator " + currentToken.TokenName + " at the end of expression!");
+                }
+                else
+                {
+                    break;
+                }
+            }
+
             Int32 equalOperators = 0;
             Int32 beginBrackets = 0;
             Int32 endBrackets = 0;
