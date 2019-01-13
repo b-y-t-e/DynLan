@@ -22,15 +22,19 @@ Object result = new Compiler().
 Object result = new Compiler().
   Compile(@"
 
-if 100 < 10:
+if 100 < 10 {
   return 'Not true..'
-elif 100 < 90:
+}
+elif 100 < 90 {
   return 'Also not true..'
-elif 100 < 101:
+}
+elif 100 < 101 {
   return 'This is true..'
-else:
+}
+else {
   return '..' 
-  
+}
+
 ").Eval();
 ```
  + While statement:
@@ -40,8 +44,9 @@ Object result = new Compiler().
   Compile(@"
 
 i = 0
-while i < 100:
+while i < 100 {
   i = i + 1
+}
 return i
 
 ").Eval();
@@ -52,9 +57,10 @@ return i
 Object result = new Compiler().
   Compile(@"
 
-def increment(a): 
+def increment(a) {
   b = a + 1 
   return b 
+}
 return increment(10)
 
 ").Eval();
@@ -66,10 +72,12 @@ Object result = new Compiler().
   Compile(@"
 
 error = null
-try:
+try {
   throw 'Error!'
-catch (ex):
+}
+catch (ex) {
   error = ex
+}
 return error.Message
 
 ").Eval();
@@ -80,11 +88,13 @@ return error.Message
 Object result = new Compiler().
   Compile(@"
 
-class TestClass():
+class TestClass() {
   a = 1
   b = 2
-  def Sum(c):
+  def Sum(c) {
     return this.a + this.b + c
+  }
+}
 obj = TestClass()
 return obj.Sum(3)+obj.a
 
@@ -109,11 +119,14 @@ return A.Length + ' ' + A.Substring(5,6)
 DynLanContext context = new Compiler().
   Compile(@"
 
-def method1(a,b,c):
-  if a:
+def method1(a,b,c){
+  if a {
     return b
-  else:
+  }
+  else {
     return c
+  }
+}
 
 ").CreateContext();
 
