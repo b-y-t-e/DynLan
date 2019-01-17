@@ -36,6 +36,18 @@ namespace DynLanTests
         }
 
         [TestMethod]
+        public void test_value_on_last_line_should_make_result()
+        {
+            {
+                var r = new Compiler().Compile(@"
+str = 'return 556'; eval(str);
+");
+                var v = r.Eval();
+                if (!(556M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+            }
+        }
+
+        [TestMethod]
         public void test_new_code_line()
         {
             {
@@ -80,6 +92,19 @@ return testowa().a
 ");
                 var v = r.Eval();
                 if (!(1M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+            }
+        }
+
+        [TestMethod]
+        public void test_list_as_list()
+        {
+            {
+                var r = new Compiler().Compile(@"
+list = list()
+return list
+");
+                var v = r.Eval();
+                if (!(v is IList)) throw new Exception("Nieprawidłowa wartość!");
             }
         }
 

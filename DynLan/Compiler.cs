@@ -198,6 +198,33 @@ namespace DynLan
                 }
             }
 
+            for(var i = mainProgram.Lines.Count-1; i>=0; i--)
+            {
+                var line = mainProgram.Lines[i];
+
+                if (line.Depth > 0)
+                {
+                    continue;
+                }
+                else if (line.OperatorType == EOperatorType.PASS)
+                {
+                    continue;
+                }
+                else if (line.OperatorType == EOperatorType.RETURN)
+                {
+                    break;
+                }
+                else if (line.OperatorType == EOperatorType.NONE)
+                {
+                    line.OperatorType = EOperatorType.RETURN;
+                    break;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
             if (depth != 0)
             {
                 throw new DynLanCompileException(
