@@ -76,6 +76,13 @@ namespace DynLan.OnpEngine.InternalExtenders
 
                 return dict[finalKey];
             }
+            else if (Collection is IDictionary<string,object>)
+            {
+                IDictionary<string, object> dict = (IDictionary<string, object>)Collection;
+                if (dict.Count == 0)
+                    return null;
+                return dict[UniConvert.ToString(Key)];
+            }
 
             if (Collection is IList)
             {

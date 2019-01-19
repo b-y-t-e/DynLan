@@ -42,6 +42,13 @@ namespace DynLan.OnpEngine.InternalExtenders
                 isValueSet = true;
             }
 
+            else if (obj is IDictionary<string, object>)
+            {
+                IDictionary<string, object> dict = obj as IDictionary<string, object>;
+                dict[propertyPath] = value;
+                isValueSet = true;
+            }
+
             if (obj is DynLanObject)
             {
 #if CASE_INSENSITIVE

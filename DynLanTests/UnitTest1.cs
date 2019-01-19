@@ -16,6 +16,7 @@ using System.Text;
 using System.Runtime.Serialization.Formatters;
 using DynLan.Evaluator;
 using DynLan.Classes;
+using System.Dynamic;
 
 namespace DynLanTests
 {
@@ -56,6 +57,43 @@ str = 'return 556'; return eval(str)
 ");
                 var v = r.Eval();
                 if (!(556M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+            }
+        }
+
+        [TestMethod]
+        public void test_expandoobject_input()
+        {
+            {
+                dynamic osoba = new ExpandoObject();
+                osoba.imie = "andrew";
+                
+                var dict = new Dictionary<string, object>();
+                dict["osoba"] = osoba;
+
+                var r = new Compiler().Compile(@"
+item = dictionary(); item.imie = osoba.imie; return item.imie;
+");
+                var v = r.Eval(dict);
+                Assert.AreEqual("andrew", v);
+                //if (!("andrew").Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+            }
+        }
+
+        [TestMethod]
+        public void test_dictionary_input()
+        {
+            {
+                var osoba = new Dictionary<string, object>();
+                osoba["imie"] = "andrew";
+
+                var dict = new Dictionary<string, object>();
+                dict["osoba"] = osoba;
+
+                var r = new Compiler().Compile(@"
+item = dictionary(); item.imie = osoba.imie; return item.imie;
+");
+                var v = r.Eval(dict);
+                if (!("andrew").Equals(v)) throw new Exception("Nieprawidłowa wartość!");
             }
         }
 
@@ -153,20 +191,20 @@ return 2
         }
 
 
-      /*  [TestMethod]
-        public void test_invalid_if()
-        {
-            {
-                var r = new Compiler().Compile(@"
-if : {
-  return 1
-}
-return 2
-");
-                var v = r.Eval();
-                if (!(1M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
-            }
-        }*/
+        /*  [TestMethod]
+          public void test_invalid_if()
+          {
+              {
+                  var r = new Compiler().Compile(@"
+  if : {
+    return 1
+  }
+  return 2
+  ");
+                  var v = r.Eval();
+                  if (!(1M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+              }
+          }*/
 
         [TestMethod]
         public void test_if_scenario_1()

@@ -62,6 +62,16 @@ namespace DynLan.OnpEngine.Logic
                 }
             }
 
+            else if (Obj is IDictionary<string, object>)
+            {
+                IDictionary<string, object> dict = Obj as IDictionary<string, object>;
+                if (dict.ContainsKey(PropertyPath))
+                {
+                    FoundValue = true;
+                    return dict[PropertyPath];
+                }
+            }
+
             else if (Obj is DynLanObject)
             {
 #if CASE_INSENSITIVE

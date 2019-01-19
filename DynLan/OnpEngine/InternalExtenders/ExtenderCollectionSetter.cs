@@ -91,6 +91,20 @@ namespace DynLan.OnpEngine.InternalExtenders
                 return value;
             }
 
+            else if (Collection is IDictionary<string, object>)
+            {
+                IDictionary<string, object> dict = (IDictionary<string, object>)Collection;
+
+                lock (dict)
+                {
+                    string finalKey = UniConvert.ToString(Key);
+                    dict.Remove(finalKey);
+                    dict.Add(finalKey, value);
+                }
+
+                return value;
+            }
+
             if (Collection is IList)
             {
                 Int32? index = UniConvert.ToInt32N(Key);

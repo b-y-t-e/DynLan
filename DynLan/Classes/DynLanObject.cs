@@ -93,6 +93,11 @@ namespace DynLan.Classes
             return obj;
         }
 
+        public Dictionary<string, object> ToDictionary()
+        {
+            return new Dictionary<string, object>(this.DynamicValues);
+        }
+
         public Boolean Contains(String PropertyName)
         {
 #if CASE_INSENSITIVE
