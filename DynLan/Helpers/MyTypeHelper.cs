@@ -189,6 +189,28 @@ namespace DynLan.Helpers
             return Type == null || IsNumeric(Type);
         }
 
+        public static bool IsFloatNumeric(this Object AnyType)
+        {
+            if (AnyType != null)
+                IsFloatNumeric(AnyType.GetType());
+            return false;
+        }
+
+        public static bool IsFloatNumeric(this Type Type)
+        {
+            if (Type == null)
+                return false;
+
+            if (Type == typeof(Decimal) ||
+                Type == typeof(Decimal?) ||
+                Type == typeof(Single) ||
+                Type == typeof(Single?) ||
+                Type == typeof(Double) ||
+                Type == typeof(Double?))
+                return true;
+            return false;
+        }
+
         public static bool IsNumeric(this Object AnyType)
         {
             if (AnyType != null)

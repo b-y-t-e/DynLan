@@ -66,7 +66,7 @@ str = 'return 556'; return eval(str)
             {
                 dynamic osoba = new ExpandoObject();
                 osoba.imie = "andrew";
-                
+
                 var dict = new Dictionary<string, object>();
                 dict["osoba"] = osoba;
 
@@ -103,7 +103,7 @@ item = dictionary(); item.imie = osoba.imie; return item.imie;
             {
                 var r = new Compiler().Compile(@"def aa() { return 1 } def bb(){ return 2} return aa() + bb() ");
                 var v = r.Eval();
-                if (!(3M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+                if (!(3L).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
             }
         }
 
@@ -113,7 +113,7 @@ item = dictionary(); item.imie = osoba.imie; return item.imie;
             {
                 var r = new Compiler().Compile(@"def aa() {a = 1;   return a + 0}  def bb() { return 2;}    return aa() + bb() ");
                 var v = r.Eval();
-                if (!(3M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+                if (!(3L).Equals(v)) throw new Exception("Nieprawidłowa wartość " + v + "!");
             }
         }
 
@@ -329,7 +329,7 @@ while s < 2:
 return eval('return 556')
 ");
                     var v = r.Eval();
-                    if (!(556M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+                    if (!(556L).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
                 }
 
                 {

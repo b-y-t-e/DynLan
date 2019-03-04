@@ -73,38 +73,7 @@ namespace DynLan.OnpEngine.Logic
             }
             else if (MyTypeHelper.IsNumeric(type1) && MyTypeHelper.IsNumeric(type2))
             {
-                Decimal value1 = UniConvert.
-                    ToDecimal(Value1);
-
-                Decimal value2 = UniConvert.
-                    ToDecimal(Value2);
-
-                if (OperationType == OperatorType.PLUS)
-                    result = value1 + value2;
-                else if (OperationType == OperatorType.DIVIDE)
-                    result = value1 / value2;
-                else if (OperationType == OperatorType.MULTIPLY)
-                    result = value1 * value2;
-                else if (OperationType == OperatorType.SUBTRACT)
-                    result = value1 - value2;
-                else if (OperationType == OperatorType.GREATER)
-                    result = value1 > value2;
-                else if (OperationType == OperatorType.SMALLER)
-                    result = value1 < value2;
-                else if (OperationType == OperatorType.GREATER_OR_EQUAL)
-                    result = value1 >= value2;
-                else if (OperationType == OperatorType.SMALLER_OR_EQUAL)
-                    result = value1 <= value2;
-                else if (OperationType == OperatorType.EQUAL)
-                    result = value1 == value2;
-                else if (OperationType == OperatorType.NOT_EQUAL)
-                    result = value1 != value2;
-                else if (OperationType == OperatorType.AND)
-                    result = (value1 != 0) && (value2 != 0);
-                else if (OperationType == OperatorType.OR)
-                    result = (value1 != 0) || (value2 != 0);
-                else
-                    throw new DynLanInvalidOperationException();
+                result = ExecuteOperatorOnNumericValues(Value1, Value2, OperationType);
             }
             else
             {
@@ -201,6 +170,98 @@ namespace DynLan.OnpEngine.Logic
                     throw new DynLanInvalidOperationException("Invalid operation type " + OperationType + " (" + (type1 == null ? "null" : type1.Name) + " & " + (type2 == null ? "null" : type2.Name) + ")");
                 }
             }
+
+            return result;
+        }
+
+        private static object ExecuteOperatorOnNumericValues(Object Value1, Object Value2, OperatorType OperationType)
+        {
+            if(MyTypeHelper.IsFloatNumeric(Value1) || MyTypeHelper.IsFloatNumeric(Value2))
+            {
+                return ExecuteOperatorOnDecimals(Value1, Value2, OperationType);
+            }
+            else
+            {
+                return ExecuteOperatorOnIntegers(Value1, Value2, OperationType);
+            }
+        }
+
+        private static object ExecuteOperatorOnIntegers(Object Value1, Object Value2, OperatorType OperationType)
+        {
+            Object result = null;
+
+            Int64 value1 = UniConvert.
+                ToInt64(Value1);
+
+            Int64 value2 = UniConvert.
+                ToInt64(Value2);
+
+            if (OperationType == OperatorType.PLUS)
+                result = value1 + value2;
+            else if (OperationType == OperatorType.DIVIDE)
+                result = value1 / value2;
+            else if (OperationType == OperatorType.MULTIPLY)
+                result = value1 * value2;
+            else if (OperationType == OperatorType.SUBTRACT)
+                result = value1 - value2;
+            else if (OperationType == OperatorType.GREATER)
+                result = value1 > value2;
+            else if (OperationType == OperatorType.SMALLER)
+                result = value1 < value2;
+            else if (OperationType == OperatorType.GREATER_OR_EQUAL)
+                result = value1 >= value2;
+            else if (OperationType == OperatorType.SMALLER_OR_EQUAL)
+                result = value1 <= value2;
+            else if (OperationType == OperatorType.EQUAL)
+                result = value1 == value2;
+            else if (OperationType == OperatorType.NOT_EQUAL)
+                result = value1 != value2;
+            else if (OperationType == OperatorType.AND)
+                result = (value1 != 0) && (value2 != 0);
+            else if (OperationType == OperatorType.OR)
+                result = (value1 != 0) || (value2 != 0);
+            else
+                throw new DynLanInvalidOperationException();
+
+            return result;
+        }
+
+        private static object ExecuteOperatorOnDecimals(Object Value1, Object Value2, OperatorType OperationType)
+        {
+            Object result = null;
+
+            Decimal value1 = UniConvert.
+                ToDecimal(Value1);
+
+            Decimal value2 = UniConvert.
+                ToDecimal(Value2);
+
+            if (OperationType == OperatorType.PLUS)
+                result = value1 + value2;
+            else if (OperationType == OperatorType.DIVIDE)
+                result = value1 / value2;
+            else if (OperationType == OperatorType.MULTIPLY)
+                result = value1 * value2;
+            else if (OperationType == OperatorType.SUBTRACT)
+                result = value1 - value2;
+            else if (OperationType == OperatorType.GREATER)
+                result = value1 > value2;
+            else if (OperationType == OperatorType.SMALLER)
+                result = value1 < value2;
+            else if (OperationType == OperatorType.GREATER_OR_EQUAL)
+                result = value1 >= value2;
+            else if (OperationType == OperatorType.SMALLER_OR_EQUAL)
+                result = value1 <= value2;
+            else if (OperationType == OperatorType.EQUAL)
+                result = value1 == value2;
+            else if (OperationType == OperatorType.NOT_EQUAL)
+                result = value1 != value2;
+            else if (OperationType == OperatorType.AND)
+                result = (value1 != 0) && (value2 != 0);
+            else if (OperationType == OperatorType.OR)
+                result = (value1 != 0) || (value2 != 0);
+            else
+                throw new DynLanInvalidOperationException();
 
             return result;
         }
