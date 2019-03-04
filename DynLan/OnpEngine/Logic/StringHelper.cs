@@ -127,6 +127,11 @@ namespace DynLan.OnpEngine.Logic
                 return new ExpressionValue(
                     name.Substring(1, name.Length - 2).Replace("\\'", "'"));
             }
+            else if (StringHelper.IsInteger(chars))
+            {
+                return new ExpressionValue(
+                    UniConvert.ParseUniInt64(chars.Replace2(',', '.').ToString2()));
+            }
             else if (StringHelper.IsNumber(chars))
             {
                 return new ExpressionValue(
@@ -356,6 +361,22 @@ namespace DynLan.OnpEngine.Logic
                 IsUndefined(Chars) ||
                 IsFalse(Chars) ||
                 IsTrue(Chars);
+        }
+
+        public static Boolean IsInteger(
+            IList<Char> Chars)
+        {
+            if (Chars.Count == 0)
+            {
+                return false;
+            }
+            else
+            {
+                foreach (var lChar in Chars)
+                    if (!Char.IsNumber(lChar) && lChar != '-')
+                        return false;
+                return true;
+            }
         }
 
         public static Boolean IsNumber(

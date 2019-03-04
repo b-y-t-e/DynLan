@@ -192,7 +192,7 @@ namespace DynLan.Helpers
         public static bool IsFloatNumeric(this Object AnyType)
         {
             if (AnyType != null)
-                IsFloatNumeric(AnyType.GetType());
+                return IsFloatNumeric(AnyType.GetType());
             return false;
         }
 
