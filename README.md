@@ -19,12 +19,62 @@
 
 ## Examples
 
- + Basic usage:
+ + Simple expressions:
 ```
 // result = 4
 Object result = new Compiler().
-  Compile(" return 1 + 3 ").
+  Compile(" 1 + 3 ").
   Eval();
+```
+
+ + Multiline scripts:
+```
+// result = 100
+Object result = new Compiler().
+  Compile(@"
+    i = 0
+    while i < 100 {
+      i = i + 1
+    }
+    return i
+").Eval();
+```
+
+ + C# interoperability:
+```
+// result = "11 string"
+var variables = new Dictionary<String, Object>();
+variables["A"] = "Test string";
+
+Object result = new Compiler().
+  Compile(@"
+    A.Length + ' ' + A.Substring(5,6)
+").Eval(variables);
+```
+
+ + Objects + classes:
+```
+// result = 70
+Object result = new Compiler().
+  Compile(@"
+
+class TestClass() {
+  a = 1
+  b = 2
+  def Sum(c) {
+    return this.a + this.b + c
+  }
+}
+
+def multiply(a, b) {
+  c = a * b 
+  return c
+}
+
+obj = TestClass()
+return multiply( obj.Sum(3) + obj.a, 10)
+
+").Eval();
 ```
 
 ## [More examples](https://github.com/b-y-t-e/DynLan/blob/master/EXAMPLES.md)
