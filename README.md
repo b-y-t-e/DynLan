@@ -77,4 +77,5 @@ return multiply( obj.Sum(3) + obj.a, 10)
 ").Eval();
 ```
 
-## [More examples](https://github.com/b-y-t-e/DynLan/blob/master/EXAMPLES.md)
+## More examples
+[Explore more examples](https://github.com/b-y-t-e/DynLan/blob/master/EXAMPLES.md)
