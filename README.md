@@ -78,4 +78,4 @@ return multiply( obj.Sum(3) + obj.a, 10)
 ```
 
 ## More examples
-[Explore more examples](https://github.com/b-y-t-e/DynLan/blob/master/EXAMPLES.md)
+[Explore](https://github.com/b-y-t-e/DynLan/blob/master/EXAMPLES.md)
