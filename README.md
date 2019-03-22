@@ -14,13 +14,7 @@
    + .net compact framework
  + pausing script execution
 
-## Limitations
- + one statement per line
-
-## Inspiration
- + python :)
-
-## Sample performance
+## Performance
  22808 lines/second on single core (Intel Core i5-3210M@2.50Ghz)
 
 ## Examples
