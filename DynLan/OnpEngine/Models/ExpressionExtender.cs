@@ -8,10 +8,14 @@ using DynLan.Classes;
 
 namespace DynLan.OnpEngine.Models
 {
+#if !NET20
     [DataContract(IsReference = true)]
+#endif
     public class ExpressionExtenderInfo
     {
+#if !NET20
         [DataMember]
+#endif
         public Guid ID { get; set; }
     }
 

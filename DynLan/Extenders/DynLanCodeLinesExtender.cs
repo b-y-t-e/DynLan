@@ -9,7 +9,10 @@ namespace DynLan.Extenders
     public static class DynLanCodeLinesExtender
     {
         public static DynLanCodeLine NextLine(
-            this DynLanCodeLines Lines,
+#if !NET20
+            this 
+#endif
+             DynLanCodeLines Lines,
             DynLanCodeLine StartLine)
         {
             Int32 depth = (StartLine == null ? 0 : StartLine.Depth);
@@ -29,7 +32,10 @@ namespace DynLan.Extenders
         }
 
         public static DynLanCodeLine PrevLineWithLessDepth(
-            this DynLanCodeLines Lines,
+#if !NET20
+            this 
+#endif
+             DynLanCodeLines Lines,
             DynLanCodeLine StartLine,
             Func<DynLanCodeLine, Boolean> Predicate)
         {
@@ -51,7 +57,10 @@ namespace DynLan.Extenders
         }
 
         public static DynLanCodeLine ExitParentIf(
-            this DynLanCodeLines Lines,
+#if !NET20
+            this 
+#endif
+             DynLanCodeLines Lines,
             DynLanCodeLine StartLine)
         {
             Int32 depth = (StartLine == null ? 0 : StartLine.Depth);
@@ -85,7 +94,10 @@ namespace DynLan.Extenders
         }
 
         public static DynLanCodeLine NextOnSameOrLower(
-            this DynLanCodeLines Lines,
+#if !NET20
+            this 
+#endif
+             DynLanCodeLines Lines,
             DynLanCodeLine StartLine,
             Func<DynLanCodeLine, Boolean> Predicate = null)
         {
@@ -107,7 +119,10 @@ namespace DynLan.Extenders
         }
 
         public static DynLanCodeLine NextOnSameOrHigher(
-            this DynLanCodeLines Lines,
+#if !NET20
+            this 
+#endif
+             DynLanCodeLines Lines,
             DynLanCodeLine StartLine)
         {
             Int32 depth = (StartLine == null ? 0 : StartLine.Depth);

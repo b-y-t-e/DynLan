@@ -7,16 +7,24 @@ using System.Runtime.Serialization;
 
 namespace DynLan.Classes
 {
+#if !NET20
     [DataContract(IsReference = true)]
+#endif
     public class DynLanMethod : DynLanProgram
     {
+#if !NET20
         [DataMember]
+#endif
         public String Name { get; set; }
 
+#if !NET20
         [DataMember]
+#endif
         public List<String> Parameters { get; set; }
 
+#if !NET20
         [DataMember]
+#endif
         public DynLanObject ParentObject { get; set; }
 
         //////////////////////////////////////////////////

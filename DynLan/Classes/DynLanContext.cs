@@ -11,6 +11,7 @@ using DynLan.Helpers;
 
 namespace DynLan.Classes
 {
+#if !NET20
     [DataContract(IsReference = true)]
     [KnownType(typeof(DynLanMethod))]
     [KnownType(typeof(DynLanObject))]
@@ -20,47 +21,70 @@ namespace DynLan.Classes
     [KnownType(typeof(ExpressionMethodInfo))]
     [KnownType(typeof(Undefined))]
     [KnownType(typeof(EmptyObject))]
+#endif
     public class DynLanContext : IDisposable
     {
+#if !NET20
         [DataMember]
+#endif
         public Guid ID { get; set; }
 
         //////////////////////////////////////////////
 
+#if !NET20
         [DataMember]
+#endif
         public DynLanStates Stack { get; set; }
 
+#if !NET20
         [DataMember]
+#endif
         public Boolean BreakEveryLine { get; set; }
 
         //////////////////////////////////////////////
 
+#if !NET20
         [DataMember]
+#endif
         public Exception Error { get; set; }
 
+#if !NET20
         [DataMember]
+#endif
         public Object Result { get; set; }
 
+#if !NET20
         [DataMember]
+#endif
         public Boolean IsFinished { get; set; }
 
+#if !NET20
         [IgnoreDataMember]
+#endif
         public Exception ExceptionToThrow { get; set; }
 
         //////////////////////////////////////////////
 
+#if !NET20
         [DataMember]
+#endif
         public DynLanState CurrentState { get; set; }
 
+#if !NET20
         [DataMember]
+#endif
         public DynLanState GlobalState { get; set; }
 
+#if !NET20
         [DataMember]
+#endif
         public Boolean IsDisposed { get; set; }
 
         //////////////////////////////////////////////
 
+#if !NET20
         [IgnoreDataMember]
+#endif
         public DynLanObject GlobalObject
         {
             get { return GlobalState != null ? GlobalState.Object : null; }
@@ -74,7 +98,9 @@ namespace DynLan.Classes
 
         //////////////////////////////////////////////
 
+#if !NET20
         [IgnoreDataMember]
+#endif
         public ExpressionContext CurrentExpressionContext
         {
             get
@@ -85,7 +111,9 @@ namespace DynLan.Classes
             }
         }
 
+#if !NET20
         [IgnoreDataMember]
+#endif
         public ExpressionGroup CurrentExpressionGroup
         {
             get
@@ -96,7 +124,9 @@ namespace DynLan.Classes
             }
         }
 
+#if !NET20
         [IgnoreDataMember]
+#endif
         public ExpressionState CurrentExpressionState
         {
             get
@@ -109,16 +139,12 @@ namespace DynLan.Classes
 
         //////////////////////////////////////////////
 
-        //[IgnoreDataMember]
         public event EventHandler<DynLanProgramChangedEventArgs> OnProgramStart;
 
-        //[IgnoreDataMember]
         public event EventHandler<DynLanProgramChangedEventArgs> OnProgramEnd;
 
-        //[IgnoreDataMember]
         public event EventHandler<DynLanProgramErrorEventArgs> OnProgramError;
 
-        //[IgnoreDataMember]
         public event EventHandler<DynLanErrorEventArgs> OnError;
 
         //////////////////////////////////////////////
@@ -354,10 +380,14 @@ namespace DynLan.Classes
                     // szukanie zmiennej w metodach gdzie została zadeklarowana metoda
                     if (DynLanContext.Stack != null)
                     {
+#if !NET20
                         DynLanState currentState = DynLanContext.
                             Stack.
                             LastOrDefault();
-
+#else
+                        DynLanState currentState = Linq.LastOrDefault(
+                            DynLanContext.Stack);
+#endif
                         DynLanMethod method = currentState == null ? null :
                             currentState.Program as DynLanMethod;
 

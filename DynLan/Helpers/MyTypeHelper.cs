@@ -28,7 +28,11 @@ namespace DynLan.Helpers
 
         //////////////////////////////////////////////////////////
 
-        public static T CloneObject<T>(this T Item)
+        public static T CloneObject<T>(
+#if !NET20
+            this 
+#endif
+             T Item)
             where T : new()
         {
             if (Item == null)
@@ -51,7 +55,7 @@ namespace DynLan.Helpers
 
             return type.GetGenericArguments()[0];
         }
-        
+
         public static Type GetType(Object Value1, Object Value2)
         {
             if (SameType(Value1, Value2))
@@ -85,14 +89,22 @@ namespace DynLan.Helpers
 
         //////////////////////////////////////////////////////////
 
-        public static bool IsInteger(this Object AnyType)
+        public static bool IsInteger(
+#if !NET20
+            this 
+#endif
+             Object AnyType)
         {
             if (AnyType != null)
                 IsInteger(AnyType.GetType());
             return false;
         }
 
-        public static bool IsInteger(this Type Type)
+        public static bool IsInteger(
+#if !NET20
+            this 
+#endif
+             Type Type)
         {
             if (Type == typeof(Int32) ||
                 Type == typeof(Int32?) ||
@@ -110,20 +122,32 @@ namespace DynLan.Helpers
                 return true;
             return false;
         }
-        
-        public static Boolean IsStatic(this Type Type)
+
+        public static Boolean IsStatic(
+#if !NET20
+            this 
+#endif
+             Type Type)
         {
             return Type.IsAbstract && Type.IsSealed;
         }
 
-        public static bool IsPrimitive(this Object AnyType)
+        public static bool IsPrimitive(
+#if !NET20
+            this 
+#endif
+             Object AnyType)
         {
             if (AnyType != null)
                 return IsPrimitive(AnyType.GetType());
             return false;
         }
 
-        public static Boolean IsPrimitive(this Type Type)
+        public static Boolean IsPrimitive(
+#if !NET20
+            this 
+#endif
+             Type Type)
         {
             return Type.IsPrimitive ||
                 Type.IsEnum ||
@@ -131,14 +155,22 @@ namespace DynLan.Helpers
                 Type == type_string;
         }
 
-        public static bool IsBoolean(this Object AnyType)
+        public static bool IsBoolean(
+#if !NET20
+            this 
+#endif
+             Object AnyType)
         {
             if (AnyType != null)
                 IsBoolean(AnyType.GetType());
             return false;
         }
 
-        public static bool IsBoolean(this Type Type)
+        public static bool IsBoolean(
+#if !NET20
+            this 
+#endif
+             Type Type)
         {
             if (Type == typeof(Boolean) ||
                 Type == typeof(Boolean?))
@@ -146,57 +178,93 @@ namespace DynLan.Helpers
             return false;
         }
 
-        public static bool IsString(this Object AnyType)
+        public static bool IsString(
+#if !NET20
+            this 
+#endif
+             Object AnyType)
         {
             if (AnyType != null)
                 IsString(AnyType.GetType());
             return false;
         }
 
-        public static bool IsString(this Type Type)
+        public static bool IsString(
+#if !NET20
+            this 
+#endif
+             Type Type)
         {
             return (Type == type_string);
         }
 
-        public static bool IsDateTime(this Object AnyType)
+        public static bool IsDateTime(
+#if !NET20
+            this 
+#endif
+             Object AnyType)
         {
             if (AnyType != null)
                 IsDateTime(AnyType.GetType());
             return false;
         }
 
-        public static bool IsDateTime(this Type Type)
+        public static bool IsDateTime(
+#if !NET20
+            this 
+#endif
+             Type Type)
         {
             return (Type == type_datetime ||
                 Type == type_datetime_nullable);
         }
 
-        public static bool IsTimeSpan(this Object AnyType)
+        public static bool IsTimeSpan(
+#if !NET20
+            this 
+#endif
+             Object AnyType)
         {
             if (AnyType != null)
                 IsTimeSpan(AnyType.GetType());
             return false;
         }
 
-        public static bool IsTimeSpan(this Type Type)
+        public static bool IsTimeSpan(
+#if !NET20
+            this 
+#endif
+             Type Type)
         {
             return (Type == type_timespan ||
                 Type == type_timespan_nullable);
         }
 
-        public static bool IsNumericOrNull(this Type Type)
+        public static bool IsNumericOrNull(
+#if !NET20
+            this 
+#endif
+             Type Type)
         {
             return Type == null || IsNumeric(Type);
         }
 
-        public static bool IsFloatNumeric(this Object AnyType)
+        public static bool IsFloatNumeric(
+#if !NET20
+            this 
+#endif
+             Object AnyType)
         {
             if (AnyType != null)
                 return IsFloatNumeric(AnyType.GetType());
             return false;
         }
 
-        public static bool IsFloatNumeric(this Type Type)
+        public static bool IsFloatNumeric(
+#if !NET20
+            this 
+#endif
+             Type Type)
         {
             if (Type == null)
                 return false;
@@ -211,14 +279,22 @@ namespace DynLan.Helpers
             return false;
         }
 
-        public static bool IsNumeric(this Object AnyType)
+        public static bool IsNumeric(
+#if !NET20
+            this 
+#endif
+             Object AnyType)
         {
             if (AnyType != null)
                 IsNumeric(AnyType.GetType());
             return false;
         }
 
-        public static bool IsNumeric(this Type Type)
+        public static bool IsNumeric(
+#if !NET20
+            this 
+#endif
+             Type Type)
         {
             if (Type == null)
                 return false;
@@ -248,7 +324,11 @@ namespace DynLan.Helpers
 
         ////////////////////
 
-        public static Boolean IsEqualWithNumericConvert(this Object o1, Object o2)
+        public static Boolean IsEqualWithNumericConvert(
+#if !NET20
+            this 
+#endif
+             Object o1, Object o2)
         {
             if (o1 == o2) return true;
             else if (o1 != null && o2 == null) return false;
@@ -271,7 +351,11 @@ namespace DynLan.Helpers
             }
         }
 
-        public static Boolean IsEqual(this Object Obj1, Object Obj2)
+        public static Boolean IsEqual(
+#if !NET20
+            this 
+#endif
+             Object Obj1, Object Obj2)
         {
             if (Obj1 == Obj2) return true;
             else if (Obj1 != null && Obj2 == null) return false;
@@ -279,12 +363,20 @@ namespace DynLan.Helpers
             else return Obj1.Equals(Obj2);
         }
 
-        public static Boolean EqualIn(this Object Object, params Object[] Values)
+        public static Boolean EqualIn(
+#if !NET20
+            this 
+#endif
+             Object Object, params Object[] Values)
         {
             if (Values != null)
             {
                 foreach (var lValue in Values)
+#if !NET20
                     if (Object.IsEqual(lValue))
+#else
+                    if (MyTypeHelper.IsEqual(Object, lValue))
+#endif
                         return true;
             }
             return false;
@@ -292,7 +384,11 @@ namespace DynLan.Helpers
 
         ////////////////////
 
-        public static Boolean Is(this Type Type, String Subclass)
+        public static Boolean Is(
+#if !NET20
+            this 
+#endif
+             Type Type, String Subclass)
         {
             return PrivIs(Type, Subclass);
         }
@@ -314,7 +410,11 @@ namespace DynLan.Helpers
 
         ////////////////////
 
-        public static Boolean Is(this Type Type, Type Subclass)
+        public static Boolean Is(
+#if !NET20
+            this 
+#endif
+             Type Type, Type Subclass)
         {
             if (Subclass.IsInterface)
             {
@@ -341,12 +441,24 @@ namespace DynLan.Helpers
 
         ////////////////////
 
-        public static Boolean IsEnumerable(this Type Type)
+        public static Boolean IsEnumerable(
+#if !NET20
+            this 
+#endif
+             Type Type)
         {
+#if !NET20
             return Type.Is(typeof(IEnumerable));
+#else
+            return MyTypeHelper.Is(Type, typeof(IEnumerable));
+#endif
         }
 
-        public static bool IsNullableType(this Type type)
+        public static bool IsNullableType(
+#if !NET20
+            this 
+#endif
+             Type type)
         {
             if (type == null)
                 return false;
@@ -364,7 +476,11 @@ namespace DynLan.Helpers
 
         ////////////////////
 
-        public static Type GetNonNullableType(this Type type)
+        public static Type GetNonNullableType(
+#if !NET20
+            this 
+#endif
+             Type type)
         {
             if (type == null)
                 return null;
@@ -396,27 +512,71 @@ namespace DynLan.Helpers
 
         ////////////////////
 
-        public static Int32 ToInt(this Int64 Val) { return Convert.ToInt32(Val, CultureInfo.InvariantCulture); }
+        public static Int32 ToInt(
+#if !NET20
+            this 
+#endif
+             Int64 Val)
+        { return Convert.ToInt32(Val, CultureInfo.InvariantCulture); }
 
-        public static Int32 ToInt(this Double Val) { return Convert.ToInt32(Val, CultureInfo.InvariantCulture); }
+        public static Int32 ToInt(
+#if !NET20
+            this 
+#endif
+             Double Val)
+        { return Convert.ToInt32(Val, CultureInfo.InvariantCulture); }
 
-        public static Int32 ToInt(this Decimal Val) { return Convert.ToInt32(Val, CultureInfo.InvariantCulture); }
+        public static Int32 ToInt(
+#if !NET20
+            this 
+#endif
+             Decimal Val)
+        { return Convert.ToInt32(Val, CultureInfo.InvariantCulture); }
 
-        public static Int32 ToInt(this Single Val) { return Convert.ToInt32(Val, CultureInfo.InvariantCulture); }
+        public static Int32 ToInt(
+#if !NET20
+            this 
+#endif
+             Single Val)
+        { return Convert.ToInt32(Val, CultureInfo.InvariantCulture); }
 
         ////////////////////
 
-        public static Double ToDouble(this Int32 Val) { return Convert.ToDouble(Val, CultureInfo.InvariantCulture); }
+        public static Double ToDouble(
+#if !NET20
+            this 
+#endif
+             Int32 Val)
+        { return Convert.ToDouble(Val, CultureInfo.InvariantCulture); }
 
-        public static Double ToDouble(this Int64 Val) { return Convert.ToDouble(Val, CultureInfo.InvariantCulture); }
+        public static Double ToDouble(
+#if !NET20
+            this 
+#endif
+             Int64 Val)
+        { return Convert.ToDouble(Val, CultureInfo.InvariantCulture); }
 
-        public static Double ToDouble(this Decimal Val) { return Convert.ToDouble(Val, CultureInfo.InvariantCulture); }
+        public static Double ToDouble(
+#if !NET20
+            this 
+#endif
+             Decimal Val)
+        { return Convert.ToDouble(Val, CultureInfo.InvariantCulture); }
 
-        public static Double ToDouble(this Single Val) { return Convert.ToDouble(Val, CultureInfo.InvariantCulture); }
+        public static Double ToDouble(
+#if !NET20
+            this 
+#endif
+             Single Val)
+        { return Convert.ToDouble(Val, CultureInfo.InvariantCulture); }
 
         ////////////////////
 
-        public static T ConvertTo<T>(this Object Object)
+        public static T ConvertTo<T>(
+#if !NET20
+            this 
+#endif
+             Object Object)
         {
             Object value = ConvertTo(Object, typeof(T));
             if (value == null)
@@ -436,7 +596,11 @@ namespace DynLan.Helpers
             }
         }
 
-        public static Object ConvertTo(this Object Value, Type DestinationType)
+        public static Object ConvertTo(
+#if !NET20
+            this 
+#endif
+             Object Value, Type DestinationType)
         {
             if (Value == null)
             {

@@ -10,6 +10,7 @@ using System.Text;
 
 namespace DynLan.Classes
 {
+#if !NET20
     [DataContract(IsReference = true)]
     [KnownType(typeof(DynLanMethod))]
     [KnownType(typeof(DynLanObject))]
@@ -19,6 +20,7 @@ namespace DynLan.Classes
     [KnownType(typeof(ExpressionMethodInfo))]
     [KnownType(typeof(Undefined))]
     [KnownType(typeof(EmptyObject))]
+#endif
     public class DynLanObject
     {
         public object this[String PropertyName]
@@ -57,7 +59,9 @@ namespace DynLan.Classes
             }
         }
 
+#if !NET20
         [IgnoreDataMember]
+#endif
         public Int32 TotalCount
         {
             get
@@ -68,10 +72,14 @@ namespace DynLan.Classes
 
         ////////////////////////////////////////////////
 
+#if !NET20
         [DataMember]
+#endif
         public IDictionary<String, Object> DynamicValues { get; set; }
 
+#if !NET20
         [DataMember]
+#endif
         public DynLanObject ParentObject { get; set; }
 
         ////////////////////////////////////////////////
@@ -86,12 +94,13 @@ namespace DynLan.Classes
         }
 
         ////////////////////////////////////////////////
-
+#if !NET20
         public DynLanObject CloneBySerialize()
         {
             DynLanObject obj = this.SerializeToBytes().Deserialize<DynLanObject>();
             return obj;
-        }
+        }   
+#endif
 
         public Dictionary<string, object> ToDictionary()
         {

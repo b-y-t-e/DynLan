@@ -14,7 +14,10 @@ namespace DynLan
     public static class Engine
     {
         public static Object Eval(
-            this DynLanProgram Program,
+#if !NET20
+            this 
+#endif
+            DynLanProgram Program,
             IDictionary<String, Object> Parameters = null)
         {
             using (DynLanContext context = CreateContext(Program, Parameters))
@@ -22,9 +25,12 @@ namespace DynLan
                 return Eval(context);
             }
         }
-        
+
         private static Object Eval(
-            this DynLanContext DynLanContext/*,
+#if !NET20
+            this 
+#endif
+            DynLanContext DynLanContext/*,
             IDictionary<String, Object> Parameters = null*/)
         {
             //DynLanContext.
@@ -66,7 +72,7 @@ namespace DynLan
                 return Exec(context);
             }
         }*/
-        
+
         /*public static DynLanObject Exec(
             this DynLanContext DynLanContext)
         {
@@ -130,7 +136,7 @@ namespace DynLan
                 return context.Eval();
             }
         }*/
-        
+
         /*public static Object InvokeObjectMethod(
             this DynLanContext DynLanContext,
             DynLanObject Object,
@@ -353,7 +359,10 @@ namespace DynLan
         //////////////////////////////////////////////
 
         public static DynLanContext CreateContext(
-            this DynLanProgram Program,
+#if !NET20
+            this 
+#endif
+             DynLanProgram Program,
             IDictionary<String, Object> Values = null,
             Boolean BreakEveryLine = false,
             Boolean CopyParameters = false)
@@ -390,7 +399,7 @@ namespace DynLan
 
             if (runContext.CurrentState.Program.Lines.Count > 0)
                 runContext.CurrentState.CurrentLineID = runContext.CurrentState.Program.Lines[0].ID;
-            
+
             if (Values != null)
             {
                 if (CopyParameters)

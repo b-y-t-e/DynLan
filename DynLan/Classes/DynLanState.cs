@@ -9,51 +9,77 @@ using DynLan.OnpEngine.Models;
 
 namespace DynLan.Classes
 {
+#if !NET20
     [DataContract(IsReference = true)]
+#endif
     public class DynLanState
     {
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public Guid ID { get; set; }
 
         //////////////////////////////////////////////
 
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public DynLanProgram Program { get; set; }
 
+#if !NET20
         //[DataMember(EmitDefaultValue = false)]
+#endif
         //public String DisplayName { get; set; }
 
+#if !NET20
         //[DataMember(EmitDefaultValue = false)]
+#endif
         //public Guid ObjectID { get; set; }
 
         //////////////////////////////////////////////
 
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public DynLanContextType ContextType { get; set; }
 
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public DynLanObject Object { get; set; }
 
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public DynLanObject ThisObject { get; set; }
 
+#if !NET20
         //[DataMember(EmitDefaultValue = false)]
+#endif
         //public DynLanCodeLines Lines { get; set; }
 
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public Int32 CurrentLineIndex { get; set; }
 
         //////////////////////////////////////////////
 
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public ExpressionContext ExpressionContext { get; set; }
 
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public Object Tag { get; set; }
 
         //////////////////////////////////////////////
 
+#if !NET20
         [IgnoreDataMember]
+#endif
         public Guid CurrentLineID
         {
             get

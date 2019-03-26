@@ -7,7 +7,9 @@ using System.Runtime.Serialization;
 
 namespace DynLan.Classes
 {
+#if !NET20
     [DataContract(IsReference = true)]
+#endif
     public class DynLanClass : DynLanMethod
     {
         /*public String ClassName { get; set; }

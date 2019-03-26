@@ -27,7 +27,11 @@ namespace DynLan.Helpers
 
         ////////////////////////////////////////
 
-        public static Object GetValue(this Object Obj, String PropertyName)
+        public static Object GetValue(
+#if !NET20
+            this 
+#endif
+             Object Obj, String PropertyName)
         {
             if (Obj != null)
             {
@@ -69,7 +73,11 @@ namespace DynLan.Helpers
                 originalDelegate.Method);
         }
 
-        public static Object GetValueByPath(this Object Obj, String PropertyPath)
+        public static Object GetValueByPath(
+#if !NET20
+            this 
+#endif
+             Object Obj, String PropertyPath)
         {
             Object currentObj = Obj;
             if (currentObj == null)
@@ -99,13 +107,17 @@ namespace DynLan.Helpers
             return null;
         }
 
-        public static void SetValueByPath(this Object Obj, String PropertyPath, Object Value)
+        public static void SetValueByPath(
+#if !NET20
+            this 
+#endif
+             Object Obj, String PropertyPath, Object Value)
         {
             Object currentObj = Obj;
             if (currentObj == null)
                 return;
 
-            if(String.IsNullOrEmpty(PropertyPath))
+            if (String.IsNullOrEmpty(PropertyPath))
             {
                 return;
             }
@@ -127,7 +139,11 @@ namespace DynLan.Helpers
             }
         }
 
-        public static void SetValue(this Object Obj, String PropertyName, Object Value)
+        public static void SetValue(
+#if !NET20
+            this 
+#endif
+             Object Obj, String PropertyName, Object Value)
         {
             if (Obj != null)
             {
@@ -159,7 +175,11 @@ namespace DynLan.Helpers
 
         ////////////////////////////////////////
 
-        public static DynamicCallResult CallMethod(this Object Obj, String MethodName, IList<Object> Parameters)
+        public static DynamicCallResult CallMethod(
+#if !NET20
+            this 
+#endif
+             Object Obj, String MethodName, IList<Object> Parameters)
         {
             MethodInfo methodInfo = MyReflectionHelper.GetMethod(
                 Obj,
@@ -255,7 +275,11 @@ namespace DynLan.Helpers
             return null;
         }
 
-        public static MethodInfo GetMethod(this Object Item, String MethodName, Int32 ParameterCount = -1)
+        public static MethodInfo GetMethod(
+#if !NET20
+            this 
+#endif
+             Object Item, String MethodName, Int32 ParameterCount = -1)
         {
             if (Item != null)
             {
@@ -267,7 +291,11 @@ namespace DynLan.Helpers
             return null;
         }
 
-        public static MethodInfo GetMethod(this Type Type, String MethodName, Int32 ParameterCount = -1)
+        public static MethodInfo GetMethod(
+#if !NET20
+            this 
+#endif
+             Type Type, String MethodName, Int32 ParameterCount = -1)
         {
             if (ParameterCount < 0)
                 ParameterCount = -1;
@@ -287,7 +315,13 @@ namespace DynLan.Helpers
                         GetMethods();
 
                     Int32 index = -1;
-                    foreach (MethodInfo method in methods.OrderByDescending(m => m.GetParameters().Length > 0 ? m.GetParameters()[0].ParameterType == typeof(string) ? 10 : 5 : 0).OrderBy(m => m.Name).OrderBy(m => m.GetParameters().Length))
+#if !NET20
+            foreach (MethodInfo method in methods.OrderByDescending(m => m.GetParameters().Length > 0 ? m.GetParameters()[0].ParameterType == typeof(string) ? 10 : 5 : 0).OrderBy(m => m.Name).OrderBy(m => m.GetParameters().Length))
+                    
+#else
+                    foreach (MethodInfo method in Linq.OrderBy(Linq.OrderBy(Linq.OrderByDescending(methods, m => m.GetParameters().Length > 0 ? m.GetParameters()[0].ParameterType == typeof(string) ? 10 : 5 : 0), m => m.Name), m => m.GetParameters().Length))
+
+#endif
                     {
                         index++;
 
@@ -329,8 +363,12 @@ namespace DynLan.Helpers
             if (innerDict != null)
             {
                 if (ParameterCount == -2 && innerDict.Values.Count > 0)
-                    return innerDict.Values.FirstOrDefault();
 
+#if !NET20
+            return innerDict.Values.FirstOrDefault();
+#else
+                    return Linq.FirstOrDefault(innerDict.Values);
+#endif
                 innerDict.TryGetValue(ParameterCount, out result);
             }
 

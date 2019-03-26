@@ -37,7 +37,11 @@ namespace DynLan.Helpers
         {
             return Boolean.TryParse(Text, out Value);
         }
-        public static String ToUniString(this Boolean Value)
+        public static String ToUniString(
+#if !NET20
+            this 
+#endif
+             Boolean Value)
         {
 #if !PCL
             return Value.ToString(CultureInfo.InvariantCulture);
@@ -72,7 +76,11 @@ namespace DynLan.Helpers
             try { Value = new Guid(Text); return true; }
             catch { Value = Guid.Empty; return false; }
         }
-        public static String ToUniString(this Guid Value)
+        public static String ToUniString(
+#if !NET20
+            this 
+#endif
+             Guid Value)
         {
             return Value.ToString();
         }
@@ -117,7 +125,11 @@ namespace DynLan.Helpers
         {
             return Int32.TryParse(Text, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out Value);
         }
-        public static String ToUniString(this Int32 Value)
+        public static String ToUniString(
+#if !NET20
+            this 
+#endif
+             Int32 Value)
         {
             return Value.ToString(CultureInfo.InvariantCulture);
         }
@@ -147,7 +159,11 @@ namespace DynLan.Helpers
         {
             return Double.TryParse(Text, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out Value);
         }
-        public static String ToUniString(this Double Value)
+        public static String ToUniString(
+#if !NET20
+            this 
+#endif
+             Double Value)
         {
             return Value.ToString(CultureInfo.InvariantCulture);
         }
@@ -177,7 +193,11 @@ namespace DynLan.Helpers
         {
             return Decimal.TryParse(Text, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out Value);
         }
-        public static String ToUniString(this Decimal Value)
+        public static String ToUniString(
+#if !NET20
+            this 
+#endif
+             Decimal Value)
         {
             return Value.ToString(CultureInfo.InvariantCulture);
         }
@@ -210,7 +230,11 @@ namespace DynLan.Helpers
             Value = default(DateTime);
             return false;
         }
-        public static String ToUniString(this DateTime Value)
+        public static String ToUniString(
+#if !NET20
+            this 
+#endif
+             DateTime Value)
         {
             return Value.ToString(CultureInfo.InvariantCulture);
         }
@@ -240,14 +264,22 @@ namespace DynLan.Helpers
         {
             return Single.TryParse(Text, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out Value);
         }
-        public static String ToUniString(this Single Value)
+        public static String ToUniString(
+#if !NET20
+            this 
+#endif
+             Single Value)
         {
             return Value.ToString(CultureInfo.InvariantCulture);
         }
 
         ////////////////////////////////////
 
-        public static String ToUniDateString(this DateTime Value)
+        public static String ToUniDateString(
+#if !NET20
+            this 
+#endif
+             DateTime Value)
         {
             var lYear = Value.Year.ToString();
             var lMonth = Value.Month.ToString(); if (lMonth.Length == 1) lMonth = "0" + lMonth;
@@ -257,7 +289,11 @@ namespace DynLan.Helpers
 
         ////////////////////////////////////
 
-        public static String ToUniString(this Object Value)
+        public static String ToUniString(
+#if !NET20
+            this 
+#endif
+             Object Value)
         {
             if (Value == null)
             {

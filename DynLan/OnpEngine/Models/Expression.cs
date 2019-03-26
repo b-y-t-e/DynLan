@@ -10,19 +10,29 @@ using DynLan.OnpEngine.Logic;
 
 namespace DynLan.OnpEngine.Models
 {
+#if !NET20
     [DataContract(IsReference = true)]
+#endif
     public class Expression
     {
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public String ID { get; set; }
 
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public Boolean IsOnpExecution { get; set; }
 
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public ExpressionTokens Tokens { get; set; }
 
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public ExpressionTokens OnpTokens { get; set; }
         
         //////////////////////////////

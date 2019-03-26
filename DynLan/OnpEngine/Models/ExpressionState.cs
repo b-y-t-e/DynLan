@@ -16,38 +16,58 @@ using DynLan.Helpers;
 
 namespace DynLan.OnpEngine.Models
 {
+#if !NET20
     [DataContract(IsReference = true)]
+#endif
     public class ExpressionState
     {
+#if !NET20
         [DataMember]
+#endif
         public ExpressionTokens ParameterTokens { get; set; }
-
+        
+#if !NET20
         [DataMember]
+#endif
         public Int32 ParameterIndex { get; set; }
-
+        
+#if !NET20
         [DataMember]
+#endif
         public List<Object> Parameters { get; set; }
 
         //////////////////////////////////////////////
-
+        
+#if !NET20
         [DataMember]
+#endif
         public Expression Expression { get; set; }
-
+        
+#if !NET20
         [DataMember]
+#endif
         public List<Object> ValueStack { get; set; }
-
+        
+#if !NET20
         [DataMember]
+#endif
         public Int32 TokenIndex { get; set; }
-
+        
+#if !NET20
         [DataMember]
+#endif
         public Object Result { get; set; }
-
+        
+#if !NET20
         [DataMember]
+#endif
         public Boolean Finished { get; set; }
 
         //////////////////////////////////////////////
-
+        
+#if !NET20
         [IgnoreDataMember]
+#endif
         public Boolean AreParametersCalculating
         {
             get
@@ -55,8 +75,10 @@ namespace DynLan.OnpEngine.Models
                 return Parameters != null && ParameterIndex < ParameterTokens.Count;
             }
         }
-
+        
+#if !NET20
         [IgnoreDataMember]
+#endif
         public Boolean AreParametersCalculated
         {
             get
@@ -80,11 +102,11 @@ namespace DynLan.OnpEngine.Models
         {
             if (AreParametersCalculating)
             {
-                this.Parameters.Push(Value);
+                this.Parameters.Add(Value);
             }
             else
             {
-                this.ValueStack.Push(Value);
+                this.ValueStack.Add(Value);
             }
         }
 

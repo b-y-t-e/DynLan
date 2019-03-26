@@ -29,7 +29,10 @@ namespace DynLan.OnpEngine.Logic
         }
 
         public static Boolean SequenceEqualInsensitive(
-            this IList<Char> Items1,
+#if !NET20
+            this 
+#endif
+             IList<Char> Items1,
             IList<Char> Items2)
         {
             if (Items1 != null && Items2 != null && Items1.Count == Items2.Count)
@@ -75,7 +78,11 @@ namespace DynLan.OnpEngine.Logic
             return a;
         }
 
-        public static String RemoveBracketsFromMethodCall(this String Text)
+        public static String RemoveBracketsFromMethodCall(
+#if !NET20
+            this 
+#endif
+             String Text)
         {
             Text = (Text ?? "").Trim();
             if (Text.StartsWith("(")) Text = Text.Substring(1);
@@ -204,7 +211,10 @@ namespace DynLan.OnpEngine.Logic
         }
 
         public static List<Char> Substring(
-            this IList<Char> Chars,
+#if !NET20
+            this 
+#endif
+             IList<Char> Chars,
             Int32 StartIndex,
             Int32? Length = null)
         {
@@ -227,7 +237,10 @@ namespace DynLan.OnpEngine.Logic
         }
 
         public static IEnumerable<Char> Substring2(
-            this IList<Char> Chars,
+#if !NET20
+            this 
+#endif
+             IList<Char> Chars,
             Int32 StartIndex,
             Int32? Length = null)
         {
@@ -241,7 +254,10 @@ namespace DynLan.OnpEngine.Logic
         }
 
         public static IEnumerable<Char> Replace2(
-            this IEnumerable<Char> Chars,
+#if !NET20
+            this 
+#endif
+             IEnumerable<Char> Chars,
             Char From,
             Char? To)
         {
@@ -256,7 +272,10 @@ namespace DynLan.OnpEngine.Logic
         }
 
         public static String ToString2(
-            this IEnumerable<Char> Chars)
+#if !NET20
+            this 
+#endif
+             IEnumerable<Char> Chars)
         {
             StringBuilder str = new StringBuilder();
             foreach (Char ch in Chars)
@@ -265,7 +284,10 @@ namespace DynLan.OnpEngine.Logic
         }
 
         public static void Trim(
-            this IList<Char> Chars,
+#if !NET20
+            this 
+#endif
+             IList<Char> Chars,
             Char? trimchar = null)
         {
             for (var i = Chars.Count - 1; i >= 0; i--)
@@ -288,7 +310,10 @@ namespace DynLan.OnpEngine.Logic
         }
 
         public static IList<Char> TrimEnd(
-            this IEnumerable<Char> Chars,
+#if !NET20
+            this 
+#endif
+             IEnumerable<Char> Chars,
             Char? trimchar = null)
         {
             var chars = Chars.ToList();
@@ -304,7 +329,10 @@ namespace DynLan.OnpEngine.Logic
         }
 
         public static IList<Char> TrimEnd(
-            this IList<Char> Chars,
+#if !NET20
+            this 
+#endif
+             IList<Char> Chars,
             Char? trimchar = null)
         {
             for (var i = Chars.Count - 1; i >= 0; i--)
@@ -319,7 +347,10 @@ namespace DynLan.OnpEngine.Logic
         }
 
         public static IEnumerable<Char> TrimStart(
-            this IEnumerable<Char> Chars,
+#if !NET20
+            this 
+#endif
+             IEnumerable<Char> Chars,
             Char? trimchar = null)
         {
             Boolean areWhiteChars = true;
@@ -340,7 +371,10 @@ namespace DynLan.OnpEngine.Logic
         }
 
         public static Boolean StartsWith(
-            this IEnumerable<Char> Chars,
+#if !NET20
+            this 
+#endif
+             IEnumerable<Char> Chars,
             Char startChar)
         {
             foreach (char ch in Chars)
@@ -798,7 +832,10 @@ namespace DynLan.OnpEngine.Logic
         }
 
         public static String Join(
-            this IEnumerable<Object> Items,
+#if !NET20
+            this 
+#endif
+             IEnumerable<Object> Items,
             String Separator = ",")
         {
             StringBuilder str = new StringBuilder();

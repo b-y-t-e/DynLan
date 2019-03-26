@@ -9,27 +9,41 @@ using DynLan.OnpEngine.Models;
 
 namespace DynLan.Classes
 {
+#if !NET20
     [DataContract(IsReference = true)]
+#endif
     public class DynLanCodeLine
     {
+#if !NET20
         [DataMember]
+#endif
         public Guid ID { get; set; }
 
         //////////////////////////////////////////////
 
+#if !NET20
         [DataMember]
+#endif
         public String Code { get; set; }
 
+#if !NET20
         [DataMember]
+#endif
         public EOperatorType OperatorType { get; set; }
 
+#if !NET20
         [DataMember]
+#endif
         public ExpressionGroup ExpressionGroup { get; set; }
 
+#if !NET20
         [DataMember]
+#endif
         public Int32 Depth { get; set; }
 
+#if !NET20
         [DataMember]
+#endif
         public Boolean IsLineEmpty { get; set; }
 
         //////////////////////////////////////////////////

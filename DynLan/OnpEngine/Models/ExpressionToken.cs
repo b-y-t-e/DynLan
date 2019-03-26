@@ -11,24 +11,36 @@ using System.Linq2;
 
 namespace DynLan.OnpEngine.Models
 {
+#if !NET20
     [DataContract(IsReference = true)]
+#endif
     public class ExpressionToken
     {
+#if !NET20
         [IgnoreDataMember]
+#endif
         private IList<Char> tokenChars;
 
         ////////////////////////////////////////////////////
 
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public TokenType TokenType { get; set; }
 
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public String TokenName { get; set; }
 
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public Int32 Priority { get; set; }
 
+#if !NET20
         [IgnoreDataMember]
+#endif
         public IList<Char> TokenChars
         {
             get
@@ -42,18 +54,26 @@ namespace DynLan.OnpEngine.Models
 
         ////////////////////////////////////////////////////
 
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public Int32? TokenLength { get; set; }
 
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public OnpTokenData TokenData { get; set; }
 
         ////////////////////////////////////////////////////
 
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public Int32? StartIndex { get; set; }
 
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public Int32? EndIndex { get; set; }
 
         ////////////////////////////////////////////////////
@@ -121,10 +141,14 @@ namespace DynLan.OnpEngine.Models
         }
     }
 
+#if !NET20
     [DataContract(IsReference = true)]
+#endif
     public class OnpTokenData
     {
+#if !NET20
         [DataMember]
+#endif
         public Int32? FunctionParametersCount { get; set; }
 
         public OnpTokenData Clone()

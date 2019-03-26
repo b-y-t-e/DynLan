@@ -6,7 +6,9 @@ using System.Text;
 
 namespace DynLan.Classes
 {
+#if !NET20
     [DataContract(IsReference = true)]
+#endif
     public class EmptyObject 
     {
         public EmptyObject()

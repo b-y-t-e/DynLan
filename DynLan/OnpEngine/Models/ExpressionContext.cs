@@ -9,26 +9,38 @@ using System.Runtime.Serialization;
 
 namespace DynLan.OnpEngine.Models
 {
+#if !NET20
     [DataContract(IsReference = true)]
+#endif
     public class ExpressionContext
     {
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public ExpressionStates Stack { get; set; }
 
         //////////////////////////////////////////////
 
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public ExpressionGroup ExpressionGroup { get; set; }
 
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public Boolean IsFinished { get; set; }
 
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public Object Result { get; set; }
 
         //////////////////////////////////////////////
 
+#if !NET20
         [IgnoreDataMember]
+#endif
         public ExpressionState Current
         {
             get { return Stack.LastOrDefault(); }

@@ -8,16 +8,24 @@ using DynLan.Classes;
 
 namespace DynLan.OnpEngine.Models
 {
+#if !NET20
     [DataContract(IsReference = true)]
+#endif
     public class ExpressionGroup
     {
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public Guid ID { get; set; }
 
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public Expression MainExpression { get; set; }
 
+#if !NET20
         [DataMember(EmitDefaultValue = false)]
+#endif
         public Dictionary<String, Expression> Expressions { get; private set; }
 
         ////////////////////////////////////

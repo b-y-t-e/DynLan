@@ -26,7 +26,7 @@ namespace DynLan.Classes
 
         public override string ToString()
         {
-#if PCL
+#if PCL || NET20
             StringBuilder str = new StringBuilder();
             foreach (char ch in this)
                 str.Append(ch);

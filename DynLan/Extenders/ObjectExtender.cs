@@ -7,12 +7,20 @@ namespace DynLan.Extenders
 {
     public static class ObjectExtender
     {
-        public static Boolean IfTrue(this Object result)
+        public static Boolean IfTrue(
+#if !NET20
+            this 
+#endif
+             Object result)
         {
             return !IfFalse(result);
         }
 
-        public static Boolean IfFalse(this Object result)
+        public static Boolean IfFalse(
+#if !NET20
+            this 
+#endif
+             Object result)
         {
             return 
                 null == result || 
@@ -24,12 +32,20 @@ namespace DynLan.Extenders
                 (false).Equals(result);
         }
 
-        public static Boolean IsTrue(this Object result)
+        public static Boolean IsTrue(
+#if !NET20
+            this 
+#endif
+             Object result)
         {
             return IfTrue(result);
         }
 
-        public static Boolean IsFalse(this Object result)
+        public static Boolean IsFalse(
+#if !NET20
+            this 
+#endif
+             Object result)
         {
             return IfFalse(result);
         }

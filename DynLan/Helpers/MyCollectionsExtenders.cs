@@ -18,19 +18,31 @@ namespace DynLan.Helpers
 {
     public static class MyCollectionsExtenders
     {
-        public static T Peek<T>(this IList<T> Items, Int32 Index = 0)
+        public static T Peek<T>(
+#if !NET20
+            this 
+#endif
+             IList<T> Items, Int32 Index = 0)
         {
             return Items.Count > 0 + Index ?
                 Items[Items.Count - 1 - Index] :
                 default(T);
         }
 
-        public static void Push<T>(this IList<T> Items, T Item)
+        public static void Push<T>(
+#if !NET20
+            this 
+#endif
+             IList<T> Items, T Item)
         {
             Items.Add(Item);
         }
 
-        public static T Pop<T>(this IList<T> Items)
+        public static T Pop<T>(
+#if !NET20
+            this 
+#endif
+             IList<T> Items)
         {
             if (Items.Count == 0)
                 return default(T);
@@ -40,7 +52,11 @@ namespace DynLan.Helpers
             return item;
         }
 
-        public static void AddRange<T>(this ObservableCollection<T> Items, IEnumerable<T> ItemsToAdd)
+        public static void AddRange<T>(
+#if !NET20
+            this 
+#endif
+             ObservableCollection<T> Items, IEnumerable<T> ItemsToAdd)
         {
             if (ItemsToAdd == null)
                 return;
@@ -49,7 +65,11 @@ namespace DynLan.Helpers
                 Items.Add(item);
         }
 
-        public static void Remove<T>(this IList<T> Items, IEnumerable<T> ItemsToRemove)
+        public static void Remove<T>(
+#if !NET20
+            this 
+#endif
+             IList<T> Items, IEnumerable<T> ItemsToRemove)
         {
             if (Items == null || ItemsToRemove == null)
                 return;
