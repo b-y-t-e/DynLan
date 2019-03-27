@@ -54,9 +54,17 @@ namespace DynLan.OnpEngine.Models
             if (item.MainExpression != null)
                 item.MainExpression = item.MainExpression.Clone();
             if (item.Expressions != null)
+            {
+#if !NET20
                 item.Expressions = item.Expressions.ToDictionary(
                     i => i.Key,
                     i => i.Value.Clone());
+#else
+                item.Expressions = Linq.ToDictionary( item.Expressions, 
+                    i => i.Key,
+                    i => i.Value.Clone());
+#endif
+            }
             return item;
         }
     }

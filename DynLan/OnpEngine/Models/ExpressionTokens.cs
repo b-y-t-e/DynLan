@@ -32,10 +32,18 @@ namespace DynLan.OnpEngine.Models
         public Int32 IndexOfSequence(IEnumerable<ExpressionToken> Sequence)
         {
             Int32 index = -1;
-
+#if !NET20
             if (Sequence.Any())
+#else
+            if (Linq.Any(Sequence))
+#endif
+
             {
+#if !NET20
                 index = this.IndexOf(Sequence.First());
+#else
+                index = this.IndexOf(Linq.FirstOrDefault(Sequence));
+#endif
                 if (index >= 0)
                 {
                     Int32 nextIndex = index;
@@ -54,10 +62,17 @@ namespace DynLan.OnpEngine.Models
         public Int32 RemoveSequence(IEnumerable<ExpressionToken> Sequence)
         {
             Int32 index = -1;
-
+#if !NET20
             if (Sequence.Any())
+#else
+            if (Linq.Any(Sequence))
+#endif
             {
+#if !NET20
                 index = this.IndexOf(Sequence.First());
+#else
+                index = this.IndexOf(Linq.FirstOrDefault(Sequence));
+#endif
                 if (index >= 0)
                 {
                     Int32 nextIndex = index;
@@ -78,9 +93,15 @@ namespace DynLan.OnpEngine.Models
 
         public Boolean CloseInBrackets()
         {
+#if !NET20
             if (this.Count >= 1 &&
                 this.First().TokenType != TokenType.BRACKET_BEGIN &&
                 this.Last().TokenType != TokenType.BRACKET_END)
+#else
+            if (this.Count >= 1 &&
+                Linq.FirstOrDefault(this).TokenType != TokenType.BRACKET_BEGIN &&
+                Linq.LastOrDefault(this).TokenType != TokenType.BRACKET_END)
+#endif
             {
                 this.Insert(0, new ExpressionToken(new[] { '(' }, TokenType.BRACKET_BEGIN));
                 this.Add(new ExpressionToken(new[] { ')' }, TokenType.BRACKET_END));
@@ -91,9 +112,15 @@ namespace DynLan.OnpEngine.Models
 
         public Boolean InBrackets()
         {
+#if !NET20
             if (this.Count >= 1 &&
                 this.First().TokenType != TokenType.BRACKET_BEGIN &&
                 this.Last().TokenType != TokenType.BRACKET_END)
+#else
+            if (this.Count >= 1 &&
+                Linq.FirstOrDefault(this).TokenType != TokenType.BRACKET_BEGIN &&
+                Linq.LastOrDefault(this).TokenType != TokenType.BRACKET_END)
+#endif
             {
                 return false;
             }
@@ -104,8 +131,13 @@ namespace DynLan.OnpEngine.Models
         {
             while (this.Count > 1)
             {
+#if !NET20
                 if (this.First().TokenType == TokenType.BRACKET_BEGIN &&
                    this.Last().TokenType == TokenType.BRACKET_END)
+#else
+                if (Linq.FirstOrDefault(this).TokenType == TokenType.BRACKET_BEGIN &&
+                   Linq.LastOrDefault(this).TokenType == TokenType.BRACKET_END)
+#endif
                 {
                     this.RemoveAt(0);
                     this.RemoveAt(this.Count - 1);

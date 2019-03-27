@@ -52,7 +52,7 @@ namespace DynLan.Helpers
             return item;
         }
 
-        public static void AddRange<T>(
+        /*public static void AddRange<T>(
 #if !NET20
             this 
 #endif
@@ -76,6 +76,6 @@ namespace DynLan.Helpers
 
             foreach (T item in ItemsToRemove)
                 Items.Remove(item);
-        }
+        }*/
     }
 }

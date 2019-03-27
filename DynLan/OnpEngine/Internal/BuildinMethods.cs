@@ -158,7 +158,11 @@ namespace DynLan.OnpEngine.Internal
                 OperationNames = new[] { "return" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
                 {
+#if !NET20
                     return new ExpressionMethodResult(Parameters.FirstOrDefault());
+#else
+                    return new ExpressionMethodResult(Linq.FirstOrDefault(Parameters));
+#endif
                 }
             };
             yield return new ExpressionMethod()
@@ -290,8 +294,13 @@ namespace DynLan.OnpEngine.Internal
                 {
                     if (Parameters.Count > 0)
                     {
+#if !NET20
                         DynLanProgram program = new Compiler().Compile(
                             UniConvert.ToString(Parameters.First()));
+#else
+                        DynLanProgram program = new Compiler().Compile(
+                            UniConvert.ToString(Linq.FirstOrDefault(Parameters)));
+#endif
 
                         EvaluatorForMethods.EvaluateMethod(
                             null,
@@ -426,9 +435,15 @@ namespace DynLan.OnpEngine.Internal
                 {
                     if (Parameters.Count > 0)
                     {
+#if !NET20
                         if (Parameters.First() != null)
                             return new ExpressionMethodResult(
                                 Parameters.First().GetType());
+#else
+                        if (Linq.FirstOrDefault(Parameters) != null)
+                            return new ExpressionMethodResult(
+                                Linq.FirstOrDefault(Parameters).GetType());
+#endif
                     }
                     return new ExpressionMethodResult(null);
                 }

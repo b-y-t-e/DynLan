@@ -48,13 +48,17 @@ namespace DynLan.Helpers
 
             if (unsensitive)
             {
+#if !NET20                
                 PropertiesToOmit = PropertiesToOmit.Select(i => i.ToUpper()).ToArray();
+#else
+                PropertiesToOmit = Linq.From(PropertiesToOmit).Select(i => i.ToUpper()).ToArray();
+#endif
             }
 
             foreach (var property in GetPropertyinfos(Source))
             {
                 if (PropertiesToOmit != null && PropertiesToOmit.Length > 0)
-                    if (PropertiesToOmit.Contains(unsensitive ? property.Name.ToUpper() : property.Name))
+                    if (Linq.Contains(PropertiesToOmit, unsensitive ? property.Name.ToUpper() : property.Name))
                         continue;
 
                 if (Attribute.IsDefined(property, typeof(NoCloneAttribute)))
@@ -268,9 +272,15 @@ namespace DynLan.Helpers
                 {
                     if (!_cachePropertyInfos.ContainsKey(Type))
                     {
+#if !NET20
                         _cachePropertyInfos[Type] = Type.GetProperties().ToDictionary(
                             p => this.unsensitive ? p.Name.ToUpper() : p.Name,
                             p => p);
+#else
+                        _cachePropertyInfos[Type] = Linq.ToDictionary(Type.GetProperties(),
+                            p => this.unsensitive ? p.Name.ToUpper() : p.Name,
+                            p => p);
+#endif
                     }
                 }
             }
@@ -298,9 +308,15 @@ namespace DynLan.Helpers
                 {
                     if (!_cachePropertiesTypes.ContainsKey(Type))
                     {
+#if !NET20
                         _cachePropertiesTypes[Type] = Type.GetProperties().ToDictionary(
                             p => this.unsensitive ? p.Name.ToUpper() : p.Name,
                             p => p.PropertyType);
+#else
+                        _cachePropertiesTypes[Type] = Linq.ToDictionary(Type.GetProperties(),
+                            p => this.unsensitive ? p.Name.ToUpper() : p.Name,
+                            p => p.PropertyType);
+#endif
                     }
                 }
             }
@@ -326,7 +342,12 @@ namespace DynLan.Helpers
                 {
                     if (!_cacheProperties.ContainsKey(Type))
                     {
+#if !NET20
                         _cacheProperties[Type] = Type.GetProperties().Select(p => this.unsensitive ? p.Name.ToUpper() : p.Name).ToArray();
+#else
+                        _cacheProperties[Type] = Linq.From(Type.GetProperties()).Select(p => this.unsensitive ? p.Name.ToUpper() : p.Name).ToArray();
+#endif
+
                     }
                 }
             }
@@ -352,7 +373,8 @@ namespace DynLan.Helpers
                 {
                     if (!_cacheProperties2.ContainsKey(Type))
                     {
-                        _cacheProperties2[Type] = Type.GetProperties().ToArray();
+
+                        _cacheProperties2[Type] = Type.GetProperties();
                     }
                 }
             }
@@ -397,8 +419,13 @@ namespace DynLan.Helpers
                         if (!innerDict.ContainsKey(Name))
                         {
                             MemberSetter setter = null;
+#if !NET20
                             PropertyInfo property = this.unsensitive ? type.GetProperties().FirstOrDefault(p => p.Name.ToUpper().Equals(Name)) : type.GetProperty(Name);
                             FieldInfo field = this.unsensitive ? type.GetFields().FirstOrDefault(p => p.Name.ToUpper().Equals(Name)) : type.GetField(Name);
+#else
+                            PropertyInfo property = this.unsensitive ? Linq.FirstOrDefault(type.GetProperties(), p => p.Name.ToUpper().Equals(Name)) : type.GetProperty(Name);
+                            FieldInfo field = this.unsensitive ? Linq.FirstOrDefault(type.GetFields(), p => p.Name.ToUpper().Equals(Name)) : type.GetField(Name);
+#endif
 
                             if (property != null || field != null)
                             {
@@ -456,9 +483,13 @@ namespace DynLan.Helpers
                         if (!innerDict.ContainsKey(Name))
                         {
                             MemberGetter getter = null;
+#if !NET20
                             PropertyInfo property = this.unsensitive ? type.GetProperties().FirstOrDefault(p => p.Name.ToUpper().Equals(Name)) : type.GetProperty(Name);
                             FieldInfo field = this.unsensitive ? type.GetFields().FirstOrDefault(p => p.Name.ToUpper().Equals(Name)) : type.GetField(Name);
-
+#else
+                            PropertyInfo property = this.unsensitive ? Linq.FirstOrDefault(type.GetProperties(), p => p.Name.ToUpper().Equals(Name)) : type.GetProperty(Name);
+                            FieldInfo field = this.unsensitive ? Linq.FirstOrDefault(type.GetFields(), p => p.Name.ToUpper().Equals(Name)) : type.GetField(Name);
+#endif
                             if (property != null || field != null)
                             {
                                 if (property != null)

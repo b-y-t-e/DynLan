@@ -282,7 +282,7 @@ namespace DynLan.Evaluator
                         new Exception(message));*/
                 }
                 // jesli return to konczymy
-                else if(currentLine.OperatorType == EOperatorType.BREAK)
+                else if (currentLine.OperatorType == EOperatorType.BREAK)
                 {
                     return ExitCurrentLoop(
                         DynLanContext,
@@ -585,17 +585,24 @@ namespace DynLan.Evaluator
 
                     if (nextCatch != null)
                     {
-                        ExpressionToken variableForException =
-                            nextCatch.ExpressionGroup != null &&
+                        ExpressionToken variableForException = null;
+
+                        if (nextCatch.ExpressionGroup != null &&
                             nextCatch.ExpressionGroup.MainExpression != null &&
                             nextCatch.ExpressionGroup.MainExpression.Tokens != null &&
-                            nextCatch.ExpressionGroup.MainExpression.Tokens.Count > 0 ?
-                                nextCatch.
-                                    ExpressionGroup.
-                                    MainExpression.
-                                    Tokens.
-                                    FirstOrDefault(i => i.TokenType != TokenType.BRACKET_BEGIN) :
-                                null;
+                            nextCatch.ExpressionGroup.MainExpression.Tokens.Count > 0)
+                        {
+#if !NET20
+                            variableForException = nextCatch.
+                                    ExpressionGroup.MainExpression.Tokens.
+                                    FirstOrDefault(i => i.TokenType != TokenType.BRACKET_BEGIN);
+#else
+                            variableForException = Linq.FirstOrDefault( nextCatch.
+                                    ExpressionGroup.MainExpression.Tokens, 
+                                    i => i.TokenType != TokenType.BRACKET_BEGIN);
+#endif
+                        }
+
 
                         currentState.CurrentLineID = nextCatch.ID;
 

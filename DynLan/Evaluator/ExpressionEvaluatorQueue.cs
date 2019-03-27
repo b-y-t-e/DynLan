@@ -58,13 +58,13 @@ namespace DynLan.Evaluator
             {
                 Object finResult = null;
                 if (expState.ValueStack.Count > 0)
-                    finResult = expState.ValueStack.Pop();
+                    finResult = MyCollectionsExtenders.Pop(expState.ValueStack);
 
                 expState.ValueStack.Clear();
                 expState.Finished = true;
                 expState.Result = InternalTypeConverter.ToOuter(finResult);
 
-                expContext.Stack.Pop();
+                MyCollectionsExtenders.Pop(expContext.Stack);
 
                 if (expContext.Current != null)
                 {
@@ -111,11 +111,10 @@ namespace DynLan.Evaluator
                     {
                         Object obj = expState.ValueStack.Count == 1 ?
                             new EmptyObject() :
-                            expState.ValueStack.Peek(1);
+                            MyCollectionsExtenders.Peek(expState.ValueStack, 1);
 
-                        Object methodObject = expState.
-                            ValueStack.
-                            Peek(0);
+                        Object methodObject = MyCollectionsExtenders.
+                            Peek(expState.ValueStack, 0);
 
                         result = EvaluatorForMethods.EvaluateMethod(
                             obj,
@@ -194,7 +193,7 @@ namespace DynLan.Evaluator
                 }
                 else
                 {
-                    Object prevValue = expState.ValueStack.Peek();
+                    Object prevValue = MyCollectionsExtenders.Peek(expState.ValueStack);
 
                     prevValue = InternalTypeConverter.
                         ToOuter(prevValue);
@@ -216,7 +215,7 @@ namespace DynLan.Evaluator
                 }
                 else
                 {
-                    Object prevValue = expState.ValueStack.Peek();
+                    Object prevValue = MyCollectionsExtenders.Peek(expState.ValueStack);
 
                     prevValue = InternalTypeConverter.
                         ToOuter(prevValue);
@@ -253,7 +252,7 @@ namespace DynLan.Evaluator
                     prevValue = (
                         expState.ValueStack.Count == 0 ?
                             null :
-                            expState.ValueStack.Peek());
+                            MyCollectionsExtenders.Peek(expState.ValueStack));
                 }
 
                 prevValue = InternalTypeConverter.
@@ -279,7 +278,7 @@ namespace DynLan.Evaluator
                     paramCount,
                     DynLanContext);
 
-                if (DynLanContext.CurrentExpressionState.ValueStack.Peek() == null)
+                if (MyCollectionsExtenders.Peek(DynLanContext.CurrentExpressionState.ValueStack) == null)
                 {
                     ExpressionToken next_next_token = expState.TokenIndex + 2 < expState.Expression.Tokens.Count ?
                         expState.Expression.Tokens[expState.TokenIndex + 2] :
@@ -338,7 +337,7 @@ namespace DynLan.Evaluator
                 expState.TokenIndex += originalSequenceCount; // -1
             }
 
-            if (expState.ValueStack.Peek() == null)
+            if (MyCollectionsExtenders.Peek(expState.ValueStack) == null)
                 return false;
 
             return false;

@@ -25,12 +25,20 @@ namespace DynLan.Classes
 
         public DynLanMethod By_ID(Guid ID)
         {
+#if !NET20
             return this.FirstOrDefault(i => i.ID == ID);
+#else
+            return Linq.FirstOrDefault( this,i => i.ID == ID);
+#endif
         }
 
         public DynLanMethod By_Name(String Name)
         {
+#if !NET20
             return this.FirstOrDefault(i => i.Name == Name);
+#else
+            return Linq.FirstOrDefault(  this, i => i.Name == Name);
+#endif
         }
 
         public void Remove_by_Name(String Name)

@@ -2758,6 +2758,48 @@ return f1(1)
                 throw new Exception("Nieprawidłowa wartość!");
         }
 
+
+        [TestMethod]
+        public void test_linq_select()
+        {
+            var array = new[] { "aaa", "bb", "dddd", "c" };
+
+            var r1 = string.Join(",", array.Select(i => i.Length).ToArray());
+            var r2 = string.Join(",", Linq.From(array).Select(i => i.Length).ToArray());
+
+            Assert.AreEqual(r1, r2);
+
+            /*var r1 = (String)new Compiler().Compile(" return  '\\'\\'\"' * 2 ").Eval(GetParams().VARIABLES);
+            var r2 = "''\"''\"";
+            if (r1 != r2)
+                throw new Exception("Nieprawidłowa wartość!");*/
+
+        }
+
+
+        [TestMethod]
+        public void test_linq_orderby1()
+        {
+            var array = new[] { "aaa", "bb", "dddd", "c" };
+
+            var r1 = string.Join(",", array.Select(i => i.Length).OrderBy(i => i).ToArray());
+            var r2 = string.Join(",", Linq.From(array).Select(i => i.Length).OrderBy(i => i).ToArray());
+
+            Assert.AreEqual(r1, r2);
+        }
+
+        [TestMethod]
+        public void test_linq_orderby2()
+        {
+            var array = new[] { "aaa", "bb", "dddd", "c" };
+
+            var r1 = string.Join(",", array.Select(i => i.Length).OrderBy(i => i).ToArray());
+            var r2 = string.Join(",", Linq.OrderBy(Linq.Select(array, i => i.Length), i => i).ToArray());
+
+            Assert.AreEqual(r1, r2);
+        }
+
+
         private static IEnumerable<ExpressionMethod> GetMethods()
         {
             yield return new ExpressionMethod()

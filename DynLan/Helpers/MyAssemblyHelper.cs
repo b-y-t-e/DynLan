@@ -44,7 +44,11 @@ namespace DynLan.Helpers
                 }
                 else
                 {
+#if !NET20
                     return dict.First().Value;
+#else
+                    return Linq.FirstOrDefault( dict).Value;
+#endif
                 }
             }
 

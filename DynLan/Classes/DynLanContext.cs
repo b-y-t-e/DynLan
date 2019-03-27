@@ -156,7 +156,7 @@ namespace DynLan.Classes
                 DynLanContextType.GLOBAL);
 
             this.Stack = new DynLanStates();
-            this.Stack.Push(this.GlobalState);
+            this.Stack.Add(this.GlobalState);
             this.CurrentState = this.GlobalState;
 
             this.ID = Guid.NewGuid();
@@ -199,7 +199,7 @@ namespace DynLan.Classes
         {
             DynLanState state = new DynLanState(Program, ContextType); // DisplayName, ObjectID, ContextType);
             DynLanObject obj = state.Object;
-            this.Stack.Push(state);
+            this.Stack.Add(state);
             this.CurrentState = state;
 
             List<DynLanMethodParam> finalParameters = new List<DynLanMethodParam>();
@@ -260,7 +260,7 @@ namespace DynLan.Classes
 
         public DynLanState PopContext(Exception ex)
         {
-            DynLanState currentState = this.Stack.Peek();
+            DynLanState currentState = MyCollectionsExtenders.Peek(this.Stack);
 
             if (currentState != null &&
                 currentState.ContextType != DynLanContextType.GLOBAL)
@@ -269,8 +269,8 @@ namespace DynLan.Classes
 
                 currentState.Clean();
 
-                DynLanState popedState = this.Stack.Pop();
-                this.CurrentState = this.Stack.Peek();
+                DynLanState popedState = MyCollectionsExtenders.Pop(this.Stack);
+                this.CurrentState = MyCollectionsExtenders.Peek(this.Stack);
 
                 return currentState;
             }
@@ -281,7 +281,7 @@ namespace DynLan.Classes
 
         public void RaiseProgramStart(DynLanState state, IList<DynLanMethodParam> finalParameters)
         {
-            DynLanState currentState = this.Stack.Peek();
+            DynLanState currentState = MyCollectionsExtenders.Peek(this.Stack);
 
             if (this.OnProgramStart != null)
             {

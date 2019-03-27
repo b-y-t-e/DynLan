@@ -30,7 +30,7 @@ namespace DynLan.Helpers
 
         public static T CloneObject<T>(
 #if !NET20
-            this 
+            this
 #endif
              T Item)
             where T : new()
@@ -91,7 +91,7 @@ namespace DynLan.Helpers
 
         public static bool IsInteger(
 #if !NET20
-            this 
+            this
 #endif
              Object AnyType)
         {
@@ -102,7 +102,7 @@ namespace DynLan.Helpers
 
         public static bool IsInteger(
 #if !NET20
-            this 
+            this
 #endif
              Type Type)
         {
@@ -125,7 +125,7 @@ namespace DynLan.Helpers
 
         public static Boolean IsStatic(
 #if !NET20
-            this 
+            this
 #endif
              Type Type)
         {
@@ -134,7 +134,7 @@ namespace DynLan.Helpers
 
         public static bool IsPrimitive(
 #if !NET20
-            this 
+            this
 #endif
              Object AnyType)
         {
@@ -145,7 +145,7 @@ namespace DynLan.Helpers
 
         public static Boolean IsPrimitive(
 #if !NET20
-            this 
+            this
 #endif
              Type Type)
         {
@@ -157,7 +157,7 @@ namespace DynLan.Helpers
 
         public static bool IsBoolean(
 #if !NET20
-            this 
+            this
 #endif
              Object AnyType)
         {
@@ -168,7 +168,7 @@ namespace DynLan.Helpers
 
         public static bool IsBoolean(
 #if !NET20
-            this 
+            this
 #endif
              Type Type)
         {
@@ -180,7 +180,7 @@ namespace DynLan.Helpers
 
         public static bool IsString(
 #if !NET20
-            this 
+            this
 #endif
              Object AnyType)
         {
@@ -191,7 +191,7 @@ namespace DynLan.Helpers
 
         public static bool IsString(
 #if !NET20
-            this 
+            this
 #endif
              Type Type)
         {
@@ -200,7 +200,7 @@ namespace DynLan.Helpers
 
         public static bool IsDateTime(
 #if !NET20
-            this 
+            this
 #endif
              Object AnyType)
         {
@@ -211,7 +211,7 @@ namespace DynLan.Helpers
 
         public static bool IsDateTime(
 #if !NET20
-            this 
+            this
 #endif
              Type Type)
         {
@@ -221,7 +221,7 @@ namespace DynLan.Helpers
 
         public static bool IsTimeSpan(
 #if !NET20
-            this 
+            this
 #endif
              Object AnyType)
         {
@@ -232,7 +232,7 @@ namespace DynLan.Helpers
 
         public static bool IsTimeSpan(
 #if !NET20
-            this 
+            this
 #endif
              Type Type)
         {
@@ -242,7 +242,7 @@ namespace DynLan.Helpers
 
         public static bool IsNumericOrNull(
 #if !NET20
-            this 
+            this
 #endif
              Type Type)
         {
@@ -251,7 +251,7 @@ namespace DynLan.Helpers
 
         public static bool IsFloatNumeric(
 #if !NET20
-            this 
+            this
 #endif
              Object AnyType)
         {
@@ -262,7 +262,7 @@ namespace DynLan.Helpers
 
         public static bool IsFloatNumeric(
 #if !NET20
-            this 
+            this
 #endif
              Type Type)
         {
@@ -281,7 +281,7 @@ namespace DynLan.Helpers
 
         public static bool IsNumeric(
 #if !NET20
-            this 
+            this
 #endif
              Object AnyType)
         {
@@ -292,7 +292,7 @@ namespace DynLan.Helpers
 
         public static bool IsNumeric(
 #if !NET20
-            this 
+            this
 #endif
              Type Type)
         {
@@ -326,7 +326,7 @@ namespace DynLan.Helpers
 
         public static Boolean IsEqualWithNumericConvert(
 #if !NET20
-            this 
+            this
 #endif
              Object o1, Object o2)
         {
@@ -353,7 +353,7 @@ namespace DynLan.Helpers
 
         public static Boolean IsEqual(
 #if !NET20
-            this 
+            this
 #endif
              Object Obj1, Object Obj2)
         {
@@ -365,7 +365,7 @@ namespace DynLan.Helpers
 
         public static Boolean EqualIn(
 #if !NET20
-            this 
+            this
 #endif
              Object Object, params Object[] Values)
         {
@@ -386,7 +386,7 @@ namespace DynLan.Helpers
 
         public static Boolean Is(
 #if !NET20
-            this 
+            this
 #endif
              Type Type, String Subclass)
         {
@@ -412,13 +412,17 @@ namespace DynLan.Helpers
 
         public static Boolean Is(
 #if !NET20
-            this 
+            this
 #endif
              Type Type, Type Subclass)
         {
             if (Subclass.IsInterface)
             {
+#if !NET20
                 return Type.GetInterfaces().Contains(Subclass);
+#else
+                return Linq.Contains(Type.GetInterfaces(), Subclass);
+#endif
             }
             else
             {
@@ -443,7 +447,7 @@ namespace DynLan.Helpers
 
         public static Boolean IsEnumerable(
 #if !NET20
-            this 
+            this
 #endif
              Type Type)
         {
@@ -456,7 +460,7 @@ namespace DynLan.Helpers
 
         public static bool IsNullableType(
 #if !NET20
-            this 
+            this
 #endif
              Type type)
         {
@@ -478,7 +482,7 @@ namespace DynLan.Helpers
 
         public static Type GetNonNullableType(
 #if !NET20
-            this 
+            this
 #endif
              Type type)
         {
@@ -514,28 +518,28 @@ namespace DynLan.Helpers
 
         public static Int32 ToInt(
 #if !NET20
-            this 
+            this
 #endif
              Int64 Val)
         { return Convert.ToInt32(Val, CultureInfo.InvariantCulture); }
 
         public static Int32 ToInt(
 #if !NET20
-            this 
+            this
 #endif
              Double Val)
         { return Convert.ToInt32(Val, CultureInfo.InvariantCulture); }
 
         public static Int32 ToInt(
 #if !NET20
-            this 
+            this
 #endif
              Decimal Val)
         { return Convert.ToInt32(Val, CultureInfo.InvariantCulture); }
 
         public static Int32 ToInt(
 #if !NET20
-            this 
+            this
 #endif
              Single Val)
         { return Convert.ToInt32(Val, CultureInfo.InvariantCulture); }
@@ -544,28 +548,28 @@ namespace DynLan.Helpers
 
         public static Double ToDouble(
 #if !NET20
-            this 
+            this
 #endif
              Int32 Val)
         { return Convert.ToDouble(Val, CultureInfo.InvariantCulture); }
 
         public static Double ToDouble(
 #if !NET20
-            this 
+            this
 #endif
              Int64 Val)
         { return Convert.ToDouble(Val, CultureInfo.InvariantCulture); }
 
         public static Double ToDouble(
 #if !NET20
-            this 
+            this
 #endif
              Decimal Val)
         { return Convert.ToDouble(Val, CultureInfo.InvariantCulture); }
 
         public static Double ToDouble(
 #if !NET20
-            this 
+            this
 #endif
              Single Val)
         { return Convert.ToDouble(Val, CultureInfo.InvariantCulture); }
@@ -574,7 +578,7 @@ namespace DynLan.Helpers
 
         public static T ConvertTo<T>(
 #if !NET20
-            this 
+            this
 #endif
              Object Object)
         {
@@ -598,7 +602,7 @@ namespace DynLan.Helpers
 
         public static Object ConvertTo(
 #if !NET20
-            this 
+            this
 #endif
              Object Value, Type DestinationType)
         {

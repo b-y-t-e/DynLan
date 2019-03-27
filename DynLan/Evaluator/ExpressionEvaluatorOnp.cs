@@ -25,13 +25,13 @@ namespace DynLan.Evaluator
             {
                 Object finResult = null;
                 if (expState.ValueStack.Count > 0)
-                    finResult = expState.ValueStack.Pop();
+                    finResult = MyCollectionsExtenders.Pop(expState.ValueStack);
 
                 expState.ValueStack.Clear();
                 expState.Finished = true;
                 expState.Result = InternalTypeConverter.ToOuter(finResult);
 
-                expContext.Stack.Pop();
+                MyCollectionsExtenders.Pop(expContext.Stack);
 
                 if (expContext.Current != null)
                 {
@@ -72,10 +72,10 @@ namespace DynLan.Evaluator
             else if (token.TokenType == TokenType.OPERATOR)
             {
                 Object valueA = InternalTypeConverter.ToInner(
-                    expState.ValueStack.Pop());
+                    MyCollectionsExtenders.Pop(expState.ValueStack));
 
                 Object valueB = InternalTypeConverter.ToInner(
-                    expState.ValueStack.Pop());
+                    MyCollectionsExtenders.Pop(expState.ValueStack));
 
                 Object value = null;
                 OperatorType operatorType = OperatorTypeHelper.

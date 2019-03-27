@@ -21,8 +21,11 @@ namespace DynLan.OnpEngine.InternalExtenders
         public static Object Execute(DynLanContext EvaluateContext, Object obj, IList<Object> Parameters)
         {
             Object Collection = obj;
+#if !NET20
             Object Key = Parameters == null ? null : Parameters.FirstOrDefault();
-
+#else
+            Object Key = Parameters == null ? null : Linq.FirstOrDefault(Parameters);
+#endif
             if (Collection == null)
                 return null;
 

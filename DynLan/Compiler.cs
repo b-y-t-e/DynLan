@@ -71,7 +71,7 @@ namespace DynLan
 
             DynLanProgram mainProgram = new DynLanProgram();
             List<DynLanProgram> methodStack = new List<DynLanProgram>();
-            methodStack.Push(mainProgram);
+            methodStack.Add(mainProgram);
 
             Int32 lineNr = 0;
             Int32 depth = 0;
@@ -156,15 +156,15 @@ namespace DynLan
 #endif
                     }
 
-                    DynLanProgram currentMethod = methodStack.Peek();
+                    DynLanProgram currentMethod = MyCollectionsExtenders.Peek(methodStack);
                     if (codeLine == null || !codeLine.IsLineEmpty)
                     {
                         while (currentDepth < currentMethod.Depth ||
                             (currentDepth == currentMethod.Depth && classDefinition != null && classDefinition != currentMethod) ||
                             (currentDepth == currentMethod.Depth && method != null && method != currentMethod))
                         {
-                            methodStack.Pop();
-                            currentMethod = methodStack.Peek();
+                            MyCollectionsExtenders.Pop(methodStack);
+                            currentMethod = MyCollectionsExtenders.Peek(methodStack);
                         }
                     }
 
@@ -172,7 +172,7 @@ namespace DynLan
                     {
                         currentMethod.Methods.Remove_by_Name(method.Name);
                         currentMethod.Methods.Add(method);
-                        methodStack.Push(method);
+                        methodStack.Add(method);
                         continue;
                     }
 
@@ -180,7 +180,7 @@ namespace DynLan
                     {
                         currentMethod.Classes.Remove_by_Name(classDefinition.Name);
                         currentMethod.Classes.Add(classDefinition);
-                        methodStack.Push(classDefinition);
+                        methodStack.Add(classDefinition);
                         continue;
                     }
 
@@ -198,7 +198,7 @@ namespace DynLan
                 }
             }
 
-            for(var i = mainProgram.Lines.Count-1; i>=0; i--)
+            for (var i = mainProgram.Lines.Count - 1; i >= 0; i--)
             {
                 var line = mainProgram.Lines[i];
 
@@ -252,8 +252,8 @@ namespace DynLan
 #endif
 
                 string codeLine = trimmedLine.ToString().Substring(str_method.Length + 1);
-                if (codeLine.Trim().Length == 0)                
-                    throw new Exception("DEF method name cannot be empty !");                
+                if (codeLine.Trim().Length == 0)
+                    throw new Exception("DEF method name cannot be empty !");
 
                 IList<OnpMethodPart> methodParameters = MethodParser.
                     ExtractNames(codeLine, true);
@@ -726,9 +726,15 @@ namespace DynLan
                     // gdy znalazł znak nowej linii
                     else
                     {
+#if !NET20
                         if (DynLanuageSymbols.NewLineChars.Contains(firstNext.Chars) ||
                             DynLanuageSymbols.DepthBegin.Contains(firstNext.Chars) ||
                             DynLanuageSymbols.DepthEnd.Contains(firstNext.Chars))
+#else
+                        if (Linq.Contains( DynLanuageSymbols.NewLineChars, firstNext.Chars) ||
+                            Linq.Contains(DynLanuageSymbols.DepthBegin, firstNext.Chars) ||
+                            Linq.Contains(DynLanuageSymbols.DepthEnd, firstNext.Chars))
+#endif
                         {
                             OnpOnpStringFindResult commentStartNext = StringHelper.FirstNextIndex(
                                 Chars, i, firstNext.Index,
@@ -758,9 +764,13 @@ namespace DynLan
                                 }
                                 wasCommentStart = true;
                             }
-
+#if !NET20
                             if (DynLanuageSymbols.DepthBegin.Contains(firstNext.Chars) ||
                                 DynLanuageSymbols.DepthEnd.Contains(firstNext.Chars))
+#else
+                            if (Linq.Contains( DynLanuageSymbols.DepthBegin, firstNext.Chars) ||
+                                Linq.Contains(DynLanuageSymbols.DepthEnd, firstNext.Chars))
+#endif
                             {
                                 if (currentLine.Count > 0)
                                 {

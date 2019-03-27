@@ -241,6 +241,7 @@
       <Link>OnpEngine\Symbols\OperatorType.cs</Link>
     </Compile>
     <Compile Include="Helpers\RefHelperBasePCL.cs" />
+    <Compile Include="Net35Delegates.cs" />
     <Compile Include="Linq.cs" />
     <Compile Include="NotPCL\LinqExtenders.cs" />
     <Compile Include="NotPCL\ObservableCollection.cs" />
