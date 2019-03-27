@@ -251,11 +251,12 @@ namespace DynLan.OnpEngine.Logic
 
         private static IList<object> CorrectParameters(IList<object> Parameters)
         {
-            object [] newParameters = new object[Parameters.Count];
+            if (Parameters == null)
+                return null;
+
+            object[] newParameters = new object[Parameters.Count];
             try
             {
-                if (Parameters == null)
-                    return null;
 
                 for (var i = 0; i < Parameters.Count; i++)
                     newParameters[i] = InternalTypeConverter.ToOuter(Parameters[i]);
@@ -263,8 +264,7 @@ namespace DynLan.OnpEngine.Logic
             }
             catch
             {
-                newParameters = newParameters;
-                return null;
+                throw;
             }
         }
 
