@@ -240,11 +240,10 @@
     <Compile Include="..\dynlan\onpengine\symbols\OperatorType.cs">
       <Link>OnpEngine\Symbols\OperatorType.cs</Link>
     </Compile>
-    <Compile Include="Helpers\RefHelperBasePCL.cs" />
-    <Compile Include="Net35Delegates.cs" />
+    <Compile Include="NotPCL\RefHelperBasePCL.cs" />
+    <Compile Include="NotPCL\Net35Delegates.cs" />
     <Compile Include="NotPCL\LinqExtenders.cs" />
     <Compile Include="NotPCL\ObservableCollection.cs" />
-    <Compile Include="ObservableCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

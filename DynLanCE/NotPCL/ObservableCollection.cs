@@ -1,19 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
-namespace System.Collections.Generic
+namespace System.Collections.ObjectModel
 {
     public class ObservableCollection<T> : List<T>
     {
+        public T Peek()
+        {
+            return this.Count > 0 + 0 ?
+                this[this.Count - 1 - 0] :
+                default(T);
+        }
+        
         public T Peek(
-              Int32 Index = 0)
+              Int32 Index )
         {
             return this.Count > 0 + Index ?
                 this[this.Count - 1 - Index] :
                 default(T);
         }
-
+        
         public void Push(
              T Item)
         {
@@ -30,7 +38,7 @@ namespace System.Collections.Generic
             return item;
         }
 
-        public void AddRange( IEnumerable<T> ItemsToAdd)
+        public void AddRange(IEnumerable<T> ItemsToAdd)
         {
             if (ItemsToAdd == null)
                 return;
@@ -39,7 +47,7 @@ namespace System.Collections.Generic
                 this.Add(item);
         }
 
-        public void Remove( IEnumerable<T> ItemsToRemove)
+        public void Remove(IEnumerable<T> ItemsToRemove)
         {
             if (this == null || ItemsToRemove == null)
                 return;

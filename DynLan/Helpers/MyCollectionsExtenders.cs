@@ -8,11 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-#if PCL
-using System.Collections.ObjectModel2;
-#else
 using System.Collections.ObjectModel;
-#endif
 
 namespace DynLan.Helpers
 {
@@ -22,10 +18,21 @@ namespace DynLan.Helpers
 #if !NET20
             this 
 #endif
-             IList<T> Items, Int32 Index = 0)
+             IList<T> Items, Int32 Index)
         {
             return Items.Count > 0 + Index ?
                 Items[Items.Count - 1 - Index] :
+                default(T);
+        }
+        
+        public static T Peek<T>(
+#if !NET20
+            this 
+#endif
+             IList<T> Items)
+        {
+            return Items.Count > 0 + 0 ?
+                Items[Items.Count - 1 - 0] :
                 default(T);
         }
 

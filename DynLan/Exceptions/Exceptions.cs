@@ -13,7 +13,7 @@ namespace DynLan.Exceptions
         String DynLanStacktrace { get; set; }
     }
 
-#if !PCL
+#if !PCL && !NET20
     [Serializable]
 #endif
     public class DynLanAbortException : Exception, IDynLanException
@@ -23,7 +23,7 @@ namespace DynLan.Exceptions
         public DynLanAbortException() : this("Abort execution") { }
         public DynLanAbortException(string message) : base(message) { }
         public DynLanAbortException(string message, Exception inner) : base(message, inner) { }
-#if !PCL
+#if !PCL && !NET20
         protected DynLanAbortException(
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context)
@@ -36,7 +36,7 @@ namespace DynLan.Exceptions
         }
     }
 
-#if !PCL
+#if !PCL && !NET20
     [Serializable]
 #endif
     public class DynLanMethodNotFoundException : Exception, IDynLanException
@@ -46,7 +46,7 @@ namespace DynLan.Exceptions
         public DynLanMethodNotFoundException() { }
         public DynLanMethodNotFoundException(string message) : base(message) { }
         public DynLanMethodNotFoundException(string message, Exception inner) : base(message, inner) { }
-#if !PCL
+#if !PCL && !NET20
         protected DynLanMethodNotFoundException(
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context)
@@ -58,7 +58,7 @@ namespace DynLan.Exceptions
         }
     }
 
-#if !PCL
+#if !PCL && !NET20
     [Serializable]
 #endif
     public class DynLanUnsupportedMethodTypeException : Exception, IDynLanException
@@ -68,7 +68,7 @@ namespace DynLan.Exceptions
         public DynLanUnsupportedMethodTypeException() { }
         public DynLanUnsupportedMethodTypeException(string message) : base(message) { }
         public DynLanUnsupportedMethodTypeException(string message, Exception inner) : base(message, inner) { }
-#if !PCL
+#if !PCL && !NET20
         protected DynLanUnsupportedMethodTypeException(
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context)
@@ -80,7 +80,7 @@ namespace DynLan.Exceptions
         }
     }
 
-#if !PCL
+#if !PCL && !NET20
     [Serializable]
 #endif
     public class DynLanInvalidOperationException : Exception, IDynLanException
@@ -90,7 +90,7 @@ namespace DynLan.Exceptions
         public DynLanInvalidOperationException() : this("Invalid operation type") { }
         public DynLanInvalidOperationException(string message) : base(message) { }
         public DynLanInvalidOperationException(string message, Exception inner) : base(message, inner) { }
-#if !PCL
+#if !PCL && !NET20
         protected DynLanInvalidOperationException(
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context)
@@ -102,7 +102,7 @@ namespace DynLan.Exceptions
         }
     }
 
-#if !PCL
+#if !PCL && !NET20
     [Serializable]
 #endif
     public class DynLanInvalidExpressionException : Exception, IDynLanException
@@ -112,7 +112,7 @@ namespace DynLan.Exceptions
         public DynLanInvalidExpressionException() : this("Invalid expression") { }
         public DynLanInvalidExpressionException(string message) : base(message) { }
         public DynLanInvalidExpressionException(string message, Exception inner) : base(message, inner) { }
-#if !PCL
+#if !PCL && !NET20
         protected DynLanInvalidExpressionException(
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context)
@@ -124,7 +124,7 @@ namespace DynLan.Exceptions
         }
     }
 
-#if !PCL
+#if !PCL && !NET20
     [Serializable]
 #endif
     public class DynLanIncorrectExpressionFormatException : Exception, IDynLanException
@@ -134,7 +134,7 @@ namespace DynLan.Exceptions
         public DynLanIncorrectExpressionFormatException() : this("Incorrect expression format") { }
         public DynLanIncorrectExpressionFormatException(string message) : base(message) { }
         public DynLanIncorrectExpressionFormatException(string message, Exception inner) : base(message, inner) { }
-#if !PCL
+#if !PCL && !NET20
         protected DynLanIncorrectExpressionFormatException(
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context)
@@ -146,7 +146,7 @@ namespace DynLan.Exceptions
         }
     }
 
-#if !PCL
+#if !PCL && !NET20
     [Serializable]
 #endif
     public class DynLanCompileException : Exception, IDynLanException
@@ -156,7 +156,7 @@ namespace DynLan.Exceptions
         public DynLanCompileException() : this("Compile exception") { }
         public DynLanCompileException(string message) : base(message) { }
         public DynLanCompileException(string message, Exception inner) : base(message, inner) { }
-#if !PCL
+#if !PCL && !NET20
         protected DynLanCompileException(
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context)
@@ -168,7 +168,7 @@ namespace DynLan.Exceptions
         }
     }
 
-#if !PCL
+#if !PCL && !NET20
     [Serializable]
 #endif
     public class DynLanExecuteException : Exception, IDynLanException
@@ -178,7 +178,7 @@ namespace DynLan.Exceptions
         public DynLanExecuteException() : this("Execute exception") { }
         public DynLanExecuteException(string message) : base(message) { }
         public DynLanExecuteException(string message, Exception inner) : base(message, inner) { }
-#if !PCL
+#if !PCL && !NET20
         protected DynLanExecuteException(
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context)

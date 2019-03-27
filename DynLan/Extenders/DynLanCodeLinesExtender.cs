@@ -92,14 +92,24 @@ namespace DynLan.Extenders
 
             return null;
         }
+        
+        public static DynLanCodeLine NextOnSameOrLower(
+#if !NET20
+            this 
+#endif
+            DynLanCodeLines Lines,
+            DynLanCodeLine StartLine)
+        {
+            return NextOnSameOrLower(Lines, StartLine, null);
+        }
 
         public static DynLanCodeLine NextOnSameOrLower(
 #if !NET20
             this 
 #endif
-             DynLanCodeLines Lines,
+            DynLanCodeLines Lines,
             DynLanCodeLine StartLine,
-            Func<DynLanCodeLine, Boolean> Predicate = null)
+            Func<DynLanCodeLine, Boolean> Predicate)
         {
             Int32 depth = (StartLine == null ? 0 : StartLine.Depth);
             Int32 index = (StartLine == null ? 0 : Lines.IndexOf(StartLine));

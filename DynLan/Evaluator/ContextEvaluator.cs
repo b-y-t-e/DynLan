@@ -143,7 +143,7 @@ namespace DynLan.Evaluator
                         (name == "" ? (state.Program.ContextType + "; ") : (name + " {" + state.Program.ContextType + "}; ")) +
                         "index: " + (state.CurrentLineIndex) + "; " +
                         "code: " + code +
-                        Environment.NewLine;
+                        "\r\n";
 
                     /*DynLanStacktrace +=
                         "at " +

@@ -199,7 +199,7 @@ namespace DynLan.OnpEngine.Logic
     }
 
 
-#if !PCL
+#if !PCL && !NET20
     [Serializable]
 #endif
     public class DynLanVariableNotFoundException : Exception
@@ -209,7 +209,7 @@ namespace DynLan.OnpEngine.Logic
         public DynLanVariableNotFoundException(string message) : base(message) { }
         public DynLanVariableNotFoundException(string message, Exception inner) : base(message, inner) { }
 
-#if !PCL
+#if !PCL && !NET20
         protected DynLanVariableNotFoundException(
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context) : base(info, context) { }

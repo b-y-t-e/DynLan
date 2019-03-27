@@ -53,14 +53,18 @@ namespace DynLan.OnpEngine.Logic
 #if !NET20
             this
 #endif
-             IList<Char> Items1,
+IList<Char> Items1,
             IList<Char> Items2)
         {
             if (Items1 != null && Items2 != null && Items1.Count == Items2.Count)
             {
                 Int32 c = Items1.Count;
                 for (Int32 i = 0; i < c; i++)
+#if NETCE
+                    if (Char.ToLower(Items1[i]) != Char.ToLower(Items2[i]))
+#else
                     if (Char.ToLowerInvariant(Items1[i]) != Char.ToLowerInvariant(Items2[i]))
+#endif
                         return false;
                 return true;
             }
@@ -89,7 +93,12 @@ namespace DynLan.OnpEngine.Logic
             return r;
         }
 
-        private static String FormatDatePart(Int32 Val, Int32 Count = 2)
+        private static String FormatDatePart(Int32 Val)
+        {
+            return FormatDatePart(Val, 2);
+        }
+
+        private static String FormatDatePart(Int32 Val, Int32 Count)
         {
             var a = Val.ToString();
             if (Count == 2)
@@ -103,7 +112,7 @@ namespace DynLan.OnpEngine.Logic
 #if !NET20
             this
 #endif
-             String Text)
+String Text)
         {
             Text = (Text ?? "").Trim();
             if (Text.StartsWith("(")) Text = Text.Substring(1);
@@ -179,7 +188,7 @@ namespace DynLan.OnpEngine.Logic
             }
             else if (StringHelper.SequenceEqual(chars, OperatorTypeHelper.symbol_new_line))
             {
-                return new ExpressionValue(Environment.NewLine);
+                return new ExpressionValue("\r\n");
             }
             else if (StringHelper.SequenceEqualInsensitive(chars, OperatorTypeHelper.symbol_undefined))
             {
@@ -225,8 +234,15 @@ namespace DynLan.OnpEngine.Logic
 
         public static List<Char> Substring(
             List<Char> Chars,
+            Int32 StartIndex)
+        {
+            return Substring(Chars, StartIndex, null);
+        }
+
+        public static List<Char> Substring(
+            List<Char> Chars,
             Int32 StartIndex,
-            Int32? Length = null)
+            Int32? Length)
         {
             return Substring((IList<Char>)Chars, StartIndex, Length);
         }
@@ -235,9 +251,19 @@ namespace DynLan.OnpEngine.Logic
 #if !NET20
             this
 #endif
-             IList<Char> Chars,
+IList<Char> Chars,
+            Int32 StartIndex)
+        {
+            return Substring(Chars, StartIndex, null);
+        }
+
+        public static List<Char> Substring(
+#if !NET20
+            this
+#endif
+IList<Char> Chars,
             Int32 StartIndex,
-            Int32? Length = null)
+            Int32? Length)
         {
             Int32 max = Length == null ?
                 Chars.Count :
@@ -251,8 +277,15 @@ namespace DynLan.OnpEngine.Logic
 
         public static IEnumerable<Char> Substring2(
             List<Char> Chars,
+            Int32 StartIndex)
+        {
+            return Substring2(Chars, StartIndex, null);
+        }
+
+        public static IEnumerable<Char> Substring2(
+            List<Char> Chars,
             Int32 StartIndex,
-            Int32? Length = null)
+            Int32? Length)
         {
             return Substring2((IList<Char>)Chars, StartIndex, Length);
         }
@@ -261,9 +294,19 @@ namespace DynLan.OnpEngine.Logic
 #if !NET20
             this
 #endif
-             IList<Char> Chars,
+IList<Char> Chars,
+            Int32 StartIndex)
+        {
+            return Substring2(Chars, StartIndex, null);
+        }
+
+        public static IEnumerable<Char> Substring2(
+#if !NET20
+            this
+#endif
+IList<Char> Chars,
             Int32 StartIndex,
-            Int32? Length = null)
+            Int32? Length)
         {
             Int32 max = Length == null ?
                 Chars.Count :
@@ -278,7 +321,7 @@ namespace DynLan.OnpEngine.Logic
 #if !NET20
             this
 #endif
-             IEnumerable<Char> Chars,
+IEnumerable<Char> Chars,
             Char From,
             Char? To)
         {
@@ -296,7 +339,7 @@ namespace DynLan.OnpEngine.Logic
 #if !NET20
             this
 #endif
-             IEnumerable<Char> Chars)
+IEnumerable<Char> Chars)
         {
             StringBuilder str = new StringBuilder();
             foreach (Char ch in Chars)
@@ -308,8 +351,17 @@ namespace DynLan.OnpEngine.Logic
 #if !NET20
             this
 #endif
-             IList<Char> Chars,
-            Char? trimchar = null)
+IList<Char> Chars)
+        {
+            Trim(Chars, null);
+        }
+
+        public static void Trim(
+#if !NET20
+            this
+#endif
+IList<Char> Chars,
+            Char? trimchar)
         {
             for (var i = Chars.Count - 1; i >= 0; i--)
             {
@@ -334,8 +386,17 @@ namespace DynLan.OnpEngine.Logic
 #if !NET20
             this
 #endif
-             IEnumerable<Char> Chars,
-            Char? trimchar = null)
+IEnumerable<Char> Chars)
+        {
+            return TrimEnd(Chars, null);
+        }
+
+        public static IList<Char> TrimEnd(
+#if !NET20
+            this
+#endif
+IEnumerable<Char> Chars,
+            Char? trimchar)
         {
             var chars = Linq2.ToList(Chars);
             for (var i = chars.Count - 1; i >= 0; i--)
@@ -353,8 +414,17 @@ namespace DynLan.OnpEngine.Logic
 #if !NET20
             this
 #endif
-             IList<Char> Chars,
-            Char? trimchar = null)
+IList<Char> Chars)
+        {
+            return TrimEnd(Chars, null);
+        }
+
+        public static IList<Char> TrimEnd(
+#if !NET20
+            this
+#endif
+IList<Char> Chars,
+            Char? trimchar)
         {
             for (var i = Chars.Count - 1; i >= 0; i--)
             {
@@ -371,8 +441,17 @@ namespace DynLan.OnpEngine.Logic
 #if !NET20
             this
 #endif
-             IEnumerable<Char> Chars,
-            Char? trimchar = null)
+IEnumerable<Char> Chars)
+        {
+            return TrimStart(Chars, null);
+        }
+
+        public static IEnumerable<Char> TrimStart(
+#if !NET20
+            this
+#endif
+IEnumerable<Char> Chars,
+            Char? trimchar)
         {
             Boolean areWhiteChars = true;
             foreach (char ch in Chars)
@@ -395,7 +474,7 @@ namespace DynLan.OnpEngine.Logic
 #if !NET20
             this
 #endif
-             IEnumerable<Char> Chars,
+IEnumerable<Char> Chars,
             Char startChar)
         {
             foreach (char ch in Chars)
@@ -406,8 +485,14 @@ namespace DynLan.OnpEngine.Logic
         }
 
         public static Boolean IsValue(
+            IList<Char> Chars)
+        {
+            return IsValue(Chars, '\'');
+        }
+
+        public static Boolean IsValue(
             IList<Char> Chars,
-            Char StringChar = '\'')
+            Char StringChar)
         {
             return IsNumber(Chars) ||
                 IsString(Chars, StringChar) || /*IsDateTime(Chars) ||*/
@@ -451,8 +536,14 @@ namespace DynLan.OnpEngine.Logic
         }
 
         public static Boolean IsString(
+            IList<Char> Chars)
+        {
+            return IsString(Chars, '\'');
+        }
+
+        public static Boolean IsString(
             IList<Char> Chars,
-            Char StringChar = '\'')
+            Char StringChar)
         {
             if (Chars.Count < 2)
             {
@@ -575,8 +666,16 @@ namespace DynLan.OnpEngine.Logic
         public static Char[] StartsWith(
             IList<Char> Source,
             IList<Char[]> ItemsToFind,
+            Boolean Insensitive)
+        {
+            return StartsWith(Source, ItemsToFind, Insensitive, false);
+        }
+
+        public static Char[] StartsWith(
+            IList<Char> Source,
+            IList<Char[]> ItemsToFind,
             Boolean Insensitive,
-            Boolean WholeWord = false)
+            Boolean WholeWord)
         {
             foreach (Char[] item in ItemsToFind)
                 if (StartsWith(Source, item, Insensitive, WholeWord))
@@ -588,8 +687,17 @@ namespace DynLan.OnpEngine.Logic
             IList<Char> Source,
             IList<Char[]> ItemsToFind,
             Int32 StartIndex,
+            Boolean Insensitive)
+        {
+            return StartsWith(Source, ItemsToFind, StartIndex, Insensitive, false);
+        }
+
+        public static Char[] StartsWith(
+            IList<Char> Source,
+            IList<Char[]> ItemsToFind,
+            Int32 StartIndex,
             Boolean Insensitive,
-            Boolean WholeWord = false)
+            Boolean WholeWord)
         {
             foreach (Char[] item in ItemsToFind)
                 if (StartsWith(Source, item, StartIndex, Insensitive, WholeWord))
@@ -616,7 +724,11 @@ namespace DynLan.OnpEngine.Logic
             {
                 if (Insensitive)
                 {
+#if NETCE
+                    if (Char.ToLower(Items1[i]) != Char.ToLower(Items2[i]))
+#else
                     if (Char.ToLowerInvariant(Items1[i]) != Char.ToLowerInvariant(Items2[i]))
+#endif
                         return false;
                 }
                 else
@@ -633,8 +745,16 @@ namespace DynLan.OnpEngine.Logic
         public static Boolean StartsWith(
             IList<Char> Source,
             IList<Char> ItemToFind,
+            Boolean Insensitive)
+        {
+            return StartsWith(Source, ItemToFind, Insensitive, false);
+        }
+
+        public static Boolean StartsWith(
+            IList<Char> Source,
+            IList<Char> ItemToFind,
             Boolean Insensitive,
-            Boolean WholeWord = false)
+            Boolean WholeWord)
         {
             if (Source == null || ItemToFind == null)
                 return false;
@@ -647,7 +767,11 @@ namespace DynLan.OnpEngine.Logic
             for (i = 0; i < length; i++)
                 if (Insensitive)
                 {
+#if NETCE
+                    if (Char.ToLower(Source[i]) != Char.ToLower(ItemToFind[i]))
+#else
                     if (Char.ToLowerInvariant(Source[i]) != Char.ToLowerInvariant(ItemToFind[i]))
+#endif
                         return false;
                 }
                 else
@@ -673,8 +797,17 @@ namespace DynLan.OnpEngine.Logic
             IList<Char> Source,
             IList<Char> ItemToFind,
             Int32 StartIndex,
+            Boolean Insensitive)
+        {
+            return StartsWith(Source, ItemToFind, StartIndex, Insensitive, false);
+        }
+
+        public static Boolean StartsWith(
+            IList<Char> Source,
+            IList<Char> ItemToFind,
+            Int32 StartIndex,
             Boolean Insensitive,
-            Boolean WholeWord = false)
+            Boolean WholeWord)
         {
             if (Source == null || ItemToFind == null)
                 return false;
@@ -691,7 +824,11 @@ namespace DynLan.OnpEngine.Logic
                 {
                     if (Insensitive)
                     {
+#if NETCE
+                        if (Char.ToLower(Source[i]) != Char.ToLower(ItemToFind[j]))
+#else
                         if (Char.ToLowerInvariant(Source[i]) != Char.ToLowerInvariant(ItemToFind[j]))
+#endif
                             return false;
                     }
                     else
@@ -720,8 +857,17 @@ namespace DynLan.OnpEngine.Logic
             IList<Char> Source,
             Int32 StartIndex,
             IList<Char[][]> ItemsToFind,
+            Boolean Insensitive)
+        {
+            return FirstNextIndex(Source, StartIndex, ItemsToFind, Insensitive, '\'');
+        }
+
+        public static OnpOnpStringFindResult FirstNextIndex(
+            IList<Char> Source,
+            Int32 StartIndex,
+            IList<Char[][]> ItemsToFind,
             Boolean Insensitive,
-            Char StringChar = '\'')
+            Char StringChar)
         {
             return FirstNextIndex(Source, StartIndex, Source.Count, ItemsToFind, Insensitive, StringChar);
         }
@@ -731,8 +877,18 @@ namespace DynLan.OnpEngine.Logic
             Int32 StartIndex,
             Int32 EndIndex,
             IList<Char[][]> ItemsToFind,
+            Boolean Insensitive)
+        {
+            return FirstNextIndex(Source, StartIndex, EndIndex, ItemsToFind, Insensitive, '\'');
+        }
+
+        public static OnpOnpStringFindResult FirstNextIndex(
+            IList<Char> Source,
+            Int32 StartIndex,
+            Int32 EndIndex,
+            IList<Char[][]> ItemsToFind,
             Boolean Insensitive,
-            Char StringChar = '\'')
+            Char StringChar)
         {
             if (ItemsToFind == null || ItemsToFind.Count == 0)
                 return null;
@@ -857,8 +1013,17 @@ namespace DynLan.OnpEngine.Logic
 #if !NET20
             this
 #endif
-             IEnumerable<Object> Items,
-            String Separator = ",")
+IEnumerable<Object> Items)
+        {
+            return Join(Items, ",");
+        }
+
+        public static String Join(
+#if !NET20
+            this
+#endif
+IEnumerable<Object> Items,
+            String Separator)
         {
             StringBuilder str = new StringBuilder();
             if (Items != null)

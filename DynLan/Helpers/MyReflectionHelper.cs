@@ -58,7 +58,7 @@ namespace DynLan.Helpers
             return null;
         }
 
-        public static void BindToEvent(Object Object, String EventName, Action<object, object> Handler)
+        /*public static void BindToEvent(Object Object, String EventName, Action<object, object> Handler)
         {
             EventInfo eventInfo = Object.GetType().GetEvent(EventName);
             Delegate convertedHandler = ConvertDelegate(Handler, eventInfo.EventHandlerType);
@@ -71,7 +71,7 @@ namespace DynLan.Helpers
                 targetDelegateType,
                 originalDelegate.Target,
                 originalDelegate.Method);
-        }
+        }*/
 
         public static Object GetValueByPath(
 #if !NET20
@@ -279,7 +279,7 @@ namespace DynLan.Helpers
 #if !NET20
             this 
 #endif
-             Object Item, String MethodName, Int32 ParameterCount = -1)
+             Object Item, String MethodName, Int32 ParameterCount)
         {
             if (Item != null)
             {
@@ -295,7 +295,7 @@ namespace DynLan.Helpers
 #if !NET20
             this 
 #endif
-             Type Type, String MethodName, Int32 ParameterCount = -1)
+             Type Type, String MethodName, Int32 ParameterCount)
         {
             if (ParameterCount < 0)
                 ParameterCount = -1;

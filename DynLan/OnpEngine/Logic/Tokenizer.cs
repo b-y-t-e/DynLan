@@ -27,8 +27,14 @@ namespace DynLan.OnpEngine.Logic
     public class Tokenizer
     {
         public ExpressionGroup Compile(
+            String Expression)
+        {
+            return Compile(Expression, null);
+        }
+
+        public ExpressionGroup Compile(
             String Expression,
-            ParserSettings ParserSettings = null)
+            ParserSettings ParserSettings)
         {
             if (ParserSettings == null)
                 ParserSettings = new ParserSettings();
@@ -37,10 +43,16 @@ namespace DynLan.OnpEngine.Logic
                 Expression.ToCharArray(),
                 ParserSettings);
         }
+        
+        public ExpressionGroup Compile(
+            IList<Char> expressionChars)
+        {
+            return Compile(expressionChars, null);
+        }
 
         public ExpressionGroup Compile(
             IList<Char> expressionChars,
-            ParserSettings ParserSettings = null)
+            ParserSettings ParserSettings)
         {
             if (expressionChars != null)
             {
@@ -365,8 +377,13 @@ namespace DynLan.OnpEngine.Logic
                 ToArray();
 #endif
         }
+        
+        private ExpressionTokens TakeSetTokens(IList<ExpressionToken> Tokens)
+        {
+            return TakeSetTokens(Tokens, true);
+        }
 
-        private ExpressionTokens TakeSetTokens(IList<ExpressionToken> Tokens, Boolean RemoveTakenTokens = true)
+        private ExpressionTokens TakeSetTokens(IList<ExpressionToken> Tokens, Boolean RemoveTakenTokens )
         {
             ExpressionTokens result = null;
             if (Tokens.Count >= 2)

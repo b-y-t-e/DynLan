@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+#if !NETCE
 using System.Runtime.Serialization;
+#endif
 using DynLan.OnpEngine.Logic;
 #if PCL
 using System.Linq2;
@@ -102,8 +104,13 @@ namespace DynLan.OnpEngine.Models
         {
             return TokenLength == null ? (TokenChars != null ? TokenChars.Count : 0) : TokenLength.Value;
         }
+        
+        public void Set(String TokenName)
+        {
+            Set(TokenName, true);
+        }
 
-        public void Set(String TokenName, Boolean CorrectPriority = true)
+        public void Set(String TokenName, Boolean CorrectPriority)
         {
             this.TokenChars = Linq2.ToArray(TokenName.ToCharArray());
             this.TokenName = TokenName;
@@ -111,8 +118,13 @@ namespace DynLan.OnpEngine.Models
             if (CorrectPriority)
                 this.Priority = OnpOnpTokenHelper.GetPriority(this);
         }
+        
+        public void Set(IList<Char> TokenName)
+        {
+            Set(TokenName, true);
+        }
 
-        public void Set(IList<Char> TokenName, Boolean CorrectPriority = true)
+        public void Set(IList<Char> TokenName, Boolean CorrectPriority)
         {
             this.TokenChars = TokenName;
             this.TokenName = new String(Linq2.ToArray(this.TokenChars));

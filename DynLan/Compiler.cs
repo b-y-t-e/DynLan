@@ -802,7 +802,12 @@ namespace DynLan
 
     public static class DynLanConverter
     {
-        public static String ConvertToString(Object Obj, Boolean WithQuotes = true)
+        public static String ConvertToString(Object Obj)
+        {
+            return ConvertToString(Obj, true);
+        }
+
+        public static String ConvertToString(Object Obj, Boolean WithQuotes)
         {
             if (Obj == null)
             {

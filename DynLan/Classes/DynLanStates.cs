@@ -4,11 +4,7 @@ using System.Linq;
 using System.Text;
 
 using DynLan;
-#if PCL
-using System.Collections.ObjectModel2;
-#else
 using System.Collections.ObjectModel;
-#endif
 
 namespace DynLan.Classes
 {

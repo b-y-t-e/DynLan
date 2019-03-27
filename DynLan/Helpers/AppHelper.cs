@@ -9,7 +9,8 @@ namespace DynLan.Helpers
 {
     public static class AppHelper
     {
-        public static String GetPath(String FilePath = null)
+#if !NETCE       
+        public static String GetPath(String FilePath)
         {
             var uri = new Uri(Assembly.GetExecutingAssembly().CodeBase);
             var path = Path.GetDirectoryName(uri.LocalPath);
@@ -20,5 +21,6 @@ namespace DynLan.Helpers
             return Path.Combine(
                 path, FilePath);
         }
+#endif
     }
 }

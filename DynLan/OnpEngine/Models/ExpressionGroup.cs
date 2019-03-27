@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DynLan;
+#if !NETCE
 using System.Runtime.Serialization;
+#endif
 using DynLan.Classes;
 
 namespace DynLan.OnpEngine.Models
@@ -29,8 +31,14 @@ namespace DynLan.OnpEngine.Models
         public Dictionary<String, Expression> Expressions { get; private set; }
 
         ////////////////////////////////////
+        
+        public ExpressionGroup()
+            :this(true)
+        {
 
-        public ExpressionGroup(Boolean CreateExpressions = true)
+        }
+
+        public ExpressionGroup(Boolean CreateExpressions)
         {
             this.ID = Guid.NewGuid();
             if (CreateExpressions)

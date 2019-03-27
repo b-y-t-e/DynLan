@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using DynLan;
 using System.Collections.ObjectModel;
+#if !NETCE
 using System.Runtime.Serialization;
+#endif
 using DynLan.OnpEngine.Models;
 
 namespace DynLan.Classes

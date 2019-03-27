@@ -29,6 +29,7 @@ namespace DynLan.Helpers
         {
             return Boolean.Parse(Text);
         }
+#if  !NET20
         public static Boolean TryParseUniBoolean(String Text)
         {
             Boolean lTmp; return TryParseUniBoolean(Text, out lTmp);
@@ -37,11 +38,12 @@ namespace DynLan.Helpers
         {
             return Boolean.TryParse(Text, out Value);
         }
+#endif
         public static String ToUniString(
 #if !NET20
             this 
 #endif
-             Boolean Value)
+Boolean Value)
         {
 #if !PCL
             return Value.ToString(CultureInfo.InvariantCulture);
@@ -80,7 +82,7 @@ namespace DynLan.Helpers
 #if !NET20
             this 
 #endif
-             Guid Value)
+Guid Value)
         {
             return Value.ToString();
         }
@@ -98,6 +100,7 @@ namespace DynLan.Helpers
             if (V is String) return ParseUniInt32(Convert.ToString(V));
             else return Convert.ToInt32(V, CultureInfo.InvariantCulture);
         }
+#if !NETCE
         public static Int64? ToInt64N(Object V)
         {
             if (V == null) return null;
@@ -109,10 +112,24 @@ namespace DynLan.Helpers
             if (V is String) return ParseUniInt64(Convert.ToString(V));
             else return Convert.ToInt64(V, CultureInfo.InvariantCulture);
         }
+#else
+        public static Int64? ToInt64N(Object V)
+        {
+            if (V == null) return null;
+            else if (V is String) return (Int64?)ParseUniInt64(Convert.ToString(V));
+            else return (Int64?)Convert.ToInt64(V, CultureInfo.InvariantCulture);
+        }
+        public static Int64 ToInt64(Object V)
+        {
+            if (V is String) return ParseUniInt64(Convert.ToString(V));
+            else return Convert.ToInt64(V, CultureInfo.InvariantCulture);
+        }
+#endif
         public static Int32 ParseUniInt32(String Text)
         {
             return Int32.Parse(Text, CultureInfo.InvariantCulture);
         }
+#if !NETCE
         public static Int64 ParseUniInt64(String Text)
         {
             return Int64.Parse(Text, CultureInfo.InvariantCulture);
@@ -120,16 +137,22 @@ namespace DynLan.Helpers
         public static Boolean TryParseUniInt32(String Text)
         {
             Int32 lTmp; return TryParseUniInt32(Text, out lTmp);
-        }
+        }      
         public static Boolean TryParseUniInt32(String Text, out Int32 Value)
         {
             return Int32.TryParse(Text, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out Value);
         }
+#else
+        public static Int64 ParseUniInt64(String Text)
+        {
+            return Int64.Parse(Text, NumberStyles.Integer, CultureInfo.InvariantCulture);
+        }
+#endif
         public static String ToUniString(
 #if !NET20
             this 
 #endif
-             Int32 Value)
+Int32 Value)
         {
             return Value.ToString(CultureInfo.InvariantCulture);
         }
@@ -151,6 +174,7 @@ namespace DynLan.Helpers
         {
             return Double.Parse(Text, CultureInfo.InvariantCulture);
         }
+#if !NETCE
         public static Boolean TryParseUniDouble(String Text)
         {
             Double lTmp; return TryParseUniDouble(Text, out lTmp);
@@ -159,11 +183,12 @@ namespace DynLan.Helpers
         {
             return Double.TryParse(Text, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out Value);
         }
+#endif
         public static String ToUniString(
 #if !NET20
             this 
 #endif
-             Double Value)
+Double Value)
         {
             return Value.ToString(CultureInfo.InvariantCulture);
         }
@@ -185,6 +210,7 @@ namespace DynLan.Helpers
         {
             return Decimal.Parse(Text, CultureInfo.InvariantCulture);
         }
+#if !NETCE
         public static Boolean TryParseUniDecimal(String Text)
         {
             Decimal lTmp; return TryParseUniDecimal(Text, out lTmp);
@@ -193,11 +219,12 @@ namespace DynLan.Helpers
         {
             return Decimal.TryParse(Text, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out Value);
         }
+#endif
         public static String ToUniString(
 #if !NET20
             this 
 #endif
-             Decimal Value)
+Decimal Value)
         {
             return Value.ToString(CultureInfo.InvariantCulture);
         }
@@ -234,7 +261,7 @@ namespace DynLan.Helpers
 #if !NET20
             this 
 #endif
-             DateTime Value)
+DateTime Value)
         {
             return Value.ToString(CultureInfo.InvariantCulture);
         }
@@ -256,6 +283,7 @@ namespace DynLan.Helpers
         {
             return Single.Parse(Text, CultureInfo.InvariantCulture);
         }
+#if !NETCE
         public static Boolean TryParseUniSingle(String Text)
         {
             Single lTmp; return TryParseUniSingle(Text, out lTmp);
@@ -264,11 +292,12 @@ namespace DynLan.Helpers
         {
             return Single.TryParse(Text, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out Value);
         }
+#endif
         public static String ToUniString(
 #if !NET20
             this 
 #endif
-             Single Value)
+Single Value)
         {
             return Value.ToString(CultureInfo.InvariantCulture);
         }
@@ -279,7 +308,7 @@ namespace DynLan.Helpers
 #if !NET20
             this 
 #endif
-             DateTime Value)
+DateTime Value)
         {
             var lYear = Value.Year.ToString();
             var lMonth = Value.Month.ToString(); if (lMonth.Length == 1) lMonth = "0" + lMonth;
@@ -293,7 +322,7 @@ namespace DynLan.Helpers
 #if !NET20
             this 
 #endif
-             Object Value)
+Object Value)
         {
             if (Value == null)
             {

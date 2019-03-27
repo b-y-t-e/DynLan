@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 
 using DynLan;
+#if !NETCE
 using System.Runtime.Serialization;
+#endif
 using DynLan.OnpEngine.Logic;
 
 
@@ -37,7 +39,12 @@ namespace DynLan.OnpEngine.Models
 
         //////////////////////////////
 
-        public Expression(String ID = null)
+        public Expression() :
+            this(null)
+        {
+        }
+
+        public Expression(String ID)
         {
             this.ID = ID ?? IdGenerator.Generate();
             this.IsOnpExecution = true;

@@ -40,14 +40,14 @@ namespace DynLan.OnpEngine.Symbols
 
         public static readonly char[][] Whitespaces = Linq2.ToArray(Linq2.OrderByDescending(
             new char[][] {
-            Environment.NewLine.ToCharArray(),
+            "\r\n".ToCharArray(),
             " ".ToCharArray(),
             ((Char)10).ToString().ToCharArray(),
             ((Char)13).ToString().ToCharArray(), }, i => i.Length));
 
         public static readonly char[][] NewLineChars = Linq2.ToArray(Linq2.OrderByDescending(
             new char[][] {
-            Environment.NewLine.ToCharArray(),
+            "\r\n".ToCharArray(),
             ";".ToCharArray(),
             // ":".ToCharArray(),
             ((Char)10).ToString().ToCharArray(),

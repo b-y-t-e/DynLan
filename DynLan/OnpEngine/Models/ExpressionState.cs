@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 
 using DynLan;
+#if !NETCE
 using System.Runtime.Serialization;
+#endif
+using System.Collections.ObjectModel;
 #if PCL
-using System.Collections.ObjectModel2;
 using DynLan.Helpers;
 #else
-using System.Collections.ObjectModel;
 using DynLan.Helpers;
 #endif
 

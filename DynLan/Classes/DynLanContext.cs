@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DynLan;
+#if !NETCE
 using System.Runtime.Serialization;
+#endif
 using DynLan.EventArgs;
 using DynLan.OnpEngine.Models;
 using DynLan.OnpEngine.Internal;

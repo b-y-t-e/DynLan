@@ -5,7 +5,9 @@ using DynLan.OnpEngine.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+#if !NETCE
 using System.Runtime.Serialization;
+#endif
 using System.Text;
 
 namespace DynLan.Classes

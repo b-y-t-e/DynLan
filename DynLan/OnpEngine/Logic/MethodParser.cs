@@ -23,8 +23,12 @@ namespace DynLan.OnpEngine.Logic
 
     public static class MethodParser
     {
+        public static IList<OnpMethodPart> ExtractNames(String Code)
+        {
+            return ExtractNames(Code, false);
+        }
 
-        public static IList<OnpMethodPart> ExtractNames(String Code, Boolean AllObjects = false)
+        public static IList<OnpMethodPart> ExtractNames(String Code, Boolean AllObjects)
         {
             List<OnpMethodPart> parts = new List<OnpMethodPart>();
 
@@ -143,7 +147,12 @@ namespace DynLan.OnpEngine.Logic
 
         ////////////////////////////////////////////////////////
 
-        public static IEnumerable<String> SplitMethodParameters(String Code, Boolean AllObjects = false)
+        public static IEnumerable<String> SplitMethodParameters(String Code)
+        {
+            return SplitMethodParameters(Code, false);
+        }
+
+        public static IEnumerable<String> SplitMethodParameters(String Code, Boolean AllObjects)
         {
             StringBuilder paramStr = new StringBuilder();
             Boolean isFirst = true;

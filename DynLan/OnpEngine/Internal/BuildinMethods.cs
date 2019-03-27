@@ -209,6 +209,9 @@ namespace DynLan.OnpEngine.Internal
                 OperationNames = new[] { "split" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
                 {
+#if NETCE
+                    throw new NotImplementedException();
+#else
                     if (Parameters.Count > 0)
                     {
                         List<String> list = new List<String>();
@@ -219,7 +222,11 @@ namespace DynLan.OnpEngine.Internal
                             for (Int32 i = 1; i < Parameters.Count; i++)
                                 splitParams.Add(UniConvert.ToString(Parameters[i] ?? ""));
 
+#if NET20
                             foreach (String item in str.Split(splitParams.ToArray(), StringSplitOptions.None))
+#else
+                            foreach (String item in str.Split(splitParams.ToArray(), StringSplitOptions.None))
+#endif
                                 list.Add(item);
                         }
                         else
@@ -229,6 +236,7 @@ namespace DynLan.OnpEngine.Internal
                         return new ExpressionMethodResult(list);
                     }
                     return new ExpressionMethodResult("");
+#endif
                 }
             };
             yield return new ExpressionMethod()
@@ -571,10 +579,19 @@ namespace DynLan.OnpEngine.Internal
                             }
                             String strval = UniConvert.ToString(val);
                             Boolean result = false;
-                            Decimal numval = 0;
 
+#if NETCE
+                            try
+                            {
+                                Decimal.Parse(strval);
+                                result = true;
+                            }
+                            catch { }
+#else
+                            Decimal numval = 0;
                             if (Decimal.TryParse(strval, out numval))
                                 result = true;
+#endif
 
                             return new ExpressionMethodResult(
                                 UniConvert.ToDecimal(result));

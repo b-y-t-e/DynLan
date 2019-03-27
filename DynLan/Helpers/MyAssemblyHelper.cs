@@ -66,7 +66,7 @@ namespace DynLan.Helpers
                     if (cache == null)
                     {
                         cache = new Dictionary<String, Dictionary<String, Type>>();
-#if !PCL
+#if !PCL && !NETCE
                         foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
                         {
                             var types = assembly.GetTypes();

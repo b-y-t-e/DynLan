@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DynLan;
+#if !NETCE
 using System.Runtime.Serialization;
+#endif
 
 namespace DynLan.Classes
 {
@@ -74,13 +76,17 @@ namespace DynLan.Classes
 
         //////////////////////////////////////////////////
 
+        public Object Eval()
+        {
+            using (DynLanContext context = this.CreateContext(null))
+                return Eval(context);
+        }
+
         public Object Eval(
-            IDictionary<String, Object> Parameters = null)
+            IDictionary<String, Object> Parameters)
         {
             using (DynLanContext context = this.CreateContext(Parameters))
-            {
                 return Eval(context);
-            }
         }
 
         private Object Eval(
@@ -113,10 +119,21 @@ namespace DynLan.Classes
 
         //////////////////////////////////////////////////////////////////////////////////////////////////
 
+        public DynLanContext CreateContext()
+        {
+            return CreateContext(null, false, false);
+        }
+
         public DynLanContext CreateContext(
-            IDictionary<String, Object> Values = null,
-            Boolean BreakEveryLine = false,
-            Boolean CopyParameters = false)
+            IDictionary<String, Object> Values)
+        {
+            return CreateContext(Values, false, false);
+        }
+
+        public DynLanContext CreateContext(
+            IDictionary<String, Object> Values,
+            Boolean BreakEveryLine,
+            Boolean CopyParameters)
         {
             if (Values == null)
                 Values = new Dictionary<String, Object>();
@@ -137,8 +154,8 @@ namespace DynLan.Classes
         private static DynLanContext CreateContext(
             DynLanCodeLines Lines,
             IDictionary<String, Object> Values,
-            Boolean BreakEveryLine = false,
-            Boolean CopyParameters = false)
+            Boolean BreakEveryLine,
+            Boolean CopyParameters)
         {
             DynLanContext runContext = new DynLanContext(
                 new DynLanProgram()

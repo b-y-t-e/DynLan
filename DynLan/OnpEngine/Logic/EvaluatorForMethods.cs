@@ -201,6 +201,9 @@ namespace DynLan.OnpEngine.Logic
             }
             else if (Method is Delegate)
             {
+#if NETCE
+                throw new NotSupportedException("Calling delegates is forbidden on wince2.0!");
+#else
                 Delegate m = Method as Delegate;
 
                 DynamicCallResult callResult = MyReflectionHelper.CallMethod(
@@ -210,6 +213,7 @@ namespace DynLan.OnpEngine.Logic
 
                 if (callResult != null)
                     return new ExpressionMethodResult(callResult.Value);
+#endif
             }
 
             if (Method == null)
