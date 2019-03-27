@@ -60,7 +60,7 @@ namespace DynLan.OnpEngine.Models
                     i => i.Key,
                     i => i.Value.Clone());
 #else
-                item.Expressions = Linq.ToDictionary( item.Expressions, 
+                item.Expressions = Linq2.ToDictionary( item.Expressions, 
                     i => i.Key,
                     i => i.Value.Clone());
 #endif

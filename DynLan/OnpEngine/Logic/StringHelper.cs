@@ -15,6 +15,27 @@ namespace DynLan.OnpEngine.Logic
 {
     public static class StringHelper
     {
+        public static Boolean SequenceEqual(
+            IList<Char> Items1,
+            IList<Char> Items2)
+        {
+            if (Items1 != null && Items2 != null && Items1.Count == Items2.Count)
+            {
+                Int32 c = Items1.Count;
+                for (Int32 i = 0; i < c; i++)
+                    if (Items1[i] != Items2[i])
+                        return false;
+                return true;
+            }
+            else if (Items1 == null && Items2 == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         public static Boolean SequenceEqualInsensitive(
             IList<Char> Items1,
@@ -30,7 +51,7 @@ namespace DynLan.OnpEngine.Logic
 
         public static Boolean SequenceEqualInsensitive(
 #if !NET20
-            this 
+            this
 #endif
              IList<Char> Items1,
             IList<Char> Items2)
@@ -80,7 +101,7 @@ namespace DynLan.OnpEngine.Logic
 
         public static String RemoveBracketsFromMethodCall(
 #if !NET20
-            this 
+            this
 #endif
              String Text)
         {
@@ -130,37 +151,37 @@ namespace DynLan.OnpEngine.Logic
 
             if (StringHelper.IsString(chars, '\''))
             {
-                var name = chars.ToString2();
+                var name = StringHelper.ToString2(chars);
                 return new ExpressionValue(
                     name.Substring(1, name.Length - 2).Replace("\\'", "'"));
             }
             else if (StringHelper.IsInteger(chars))
             {
                 return new ExpressionValue(
-                    UniConvert.ParseUniInt64(chars.Replace2(',', '.').ToString2()));
+                    UniConvert.ParseUniInt64(StringHelper.ToString2(StringHelper.Replace2(chars, ',', '.'))));
             }
             else if (StringHelper.IsNumber(chars))
             {
                 return new ExpressionValue(
-                    UniConvert.ParseUniDecimal(chars.Replace2(',', '.').ToString2()));
+                    UniConvert.ParseUniDecimal(StringHelper.ToString2(StringHelper.Replace2(chars, ',', '.'))));
             }
-            else if (chars.SequenceEqualInsensitive(OperatorTypeHelper.symbol_null))
+            else if (StringHelper.SequenceEqualInsensitive(chars, OperatorTypeHelper.symbol_null))
             {
                 return new ExpressionValue(null);
             }
-            else if (chars.SequenceEqualInsensitive(OperatorTypeHelper.symbol_false))
+            else if (StringHelper.SequenceEqualInsensitive(chars, OperatorTypeHelper.symbol_false))
             {
                 return new ExpressionValue(false);
             }
-            else if (chars.SequenceEqualInsensitive(OperatorTypeHelper.symbol_true))
+            else if (StringHelper.SequenceEqualInsensitive(chars, OperatorTypeHelper.symbol_true))
             {
                 return new ExpressionValue(true);
             }
-            else if (chars.SequenceEqual(OperatorTypeHelper.symbol_new_line))
+            else if (StringHelper.SequenceEqual(chars, OperatorTypeHelper.symbol_new_line))
             {
                 return new ExpressionValue(Environment.NewLine);
             }
-            else if (chars.SequenceEqualInsensitive(OperatorTypeHelper.symbol_undefined))
+            else if (StringHelper.SequenceEqualInsensitive(chars, OperatorTypeHelper.symbol_undefined))
             {
                 return new ExpressionValue(new Undefined());
             }
@@ -212,7 +233,7 @@ namespace DynLan.OnpEngine.Logic
 
         public static List<Char> Substring(
 #if !NET20
-            this 
+            this
 #endif
              IList<Char> Chars,
             Int32 StartIndex,
@@ -238,7 +259,7 @@ namespace DynLan.OnpEngine.Logic
 
         public static IEnumerable<Char> Substring2(
 #if !NET20
-            this 
+            this
 #endif
              IList<Char> Chars,
             Int32 StartIndex,
@@ -255,7 +276,7 @@ namespace DynLan.OnpEngine.Logic
 
         public static IEnumerable<Char> Replace2(
 #if !NET20
-            this 
+            this
 #endif
              IEnumerable<Char> Chars,
             Char From,
@@ -273,7 +294,7 @@ namespace DynLan.OnpEngine.Logic
 
         public static String ToString2(
 #if !NET20
-            this 
+            this
 #endif
              IEnumerable<Char> Chars)
         {
@@ -285,7 +306,7 @@ namespace DynLan.OnpEngine.Logic
 
         public static void Trim(
 #if !NET20
-            this 
+            this
 #endif
              IList<Char> Chars,
             Char? trimchar = null)
@@ -311,12 +332,12 @@ namespace DynLan.OnpEngine.Logic
 
         public static IList<Char> TrimEnd(
 #if !NET20
-            this 
+            this
 #endif
              IEnumerable<Char> Chars,
             Char? trimchar = null)
         {
-            var chars = Chars.ToList();
+            var chars = Linq2.ToList(Chars);
             for (var i = chars.Count - 1; i >= 0; i--)
             {
                 char ch = chars[i];
@@ -330,7 +351,7 @@ namespace DynLan.OnpEngine.Logic
 
         public static IList<Char> TrimEnd(
 #if !NET20
-            this 
+            this
 #endif
              IList<Char> Chars,
             Char? trimchar = null)
@@ -348,7 +369,7 @@ namespace DynLan.OnpEngine.Logic
 
         public static IEnumerable<Char> TrimStart(
 #if !NET20
-            this 
+            this
 #endif
              IEnumerable<Char> Chars,
             Char? trimchar = null)
@@ -372,7 +393,7 @@ namespace DynLan.OnpEngine.Logic
 
         public static Boolean StartsWith(
 #if !NET20
-            this 
+            this
 #endif
              IEnumerable<Char> Chars,
             Char startChar)
@@ -492,7 +513,8 @@ namespace DynLan.OnpEngine.Logic
             }
             else
             {
-                return Chars.SequenceEqualInsensitive(OperatorTypeHelper.symbol_undefined);
+                return StringHelper.
+                    SequenceEqualInsensitive(Chars, OperatorTypeHelper.symbol_undefined);
             }
         }
 
@@ -505,7 +527,7 @@ namespace DynLan.OnpEngine.Logic
             }
             else
             {
-                return Chars.SequenceEqualInsensitive(OperatorTypeHelper.symbol_null);
+                return StringHelper.SequenceEqualInsensitive(Chars, OperatorTypeHelper.symbol_null);
             }
         }
 
@@ -518,7 +540,7 @@ namespace DynLan.OnpEngine.Logic
             }
             else
             {
-                return Chars.SequenceEqualInsensitive(OperatorTypeHelper.symbol_true);
+                return StringHelper.SequenceEqualInsensitive(Chars, OperatorTypeHelper.symbol_true);
             }
         }
 
@@ -531,7 +553,7 @@ namespace DynLan.OnpEngine.Logic
             }
             else
             {
-                return Chars.SequenceEqualInsensitive(OperatorTypeHelper.symbol_false);
+                return StringHelper.SequenceEqualInsensitive(Chars, OperatorTypeHelper.symbol_false);
             }
         }
 
@@ -546,7 +568,7 @@ namespace DynLan.OnpEngine.Logic
             {
                 return
                     Chars.Count == OperatorTypeHelper.symbol_new_line.Length &&
-                    Chars.SequenceEqual(OperatorTypeHelper.symbol_new_line);
+                    StringHelper.SequenceEqual(Chars, OperatorTypeHelper.symbol_new_line);
             }
         }
 
@@ -689,7 +711,7 @@ namespace DynLan.OnpEngine.Logic
                     if (!IsWordBreakChar(ch))
                         return false;
                 }
-                
+
                 return true;
             }
         }
@@ -833,7 +855,7 @@ namespace DynLan.OnpEngine.Logic
 
         public static String Join(
 #if !NET20
-            this 
+            this
 #endif
              IEnumerable<Object> Items,
             String Separator = ",")

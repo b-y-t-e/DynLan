@@ -34,7 +34,7 @@ namespace DynLan.OnpEngine.Models
         [DataMember(EmitDefaultValue = false)]
 #endif
         public ExpressionTokens OnpTokens { get; set; }
-        
+
         //////////////////////////////
 
         public Expression(String ID = null)
@@ -50,16 +50,16 @@ namespace DynLan.OnpEngine.Models
             return String.Format(
                 "{0}",
                 //ID,
-                String.Join(" ", this.Tokens.Select(i => i.TokenName).ToArray()));
+                String.Join(" ", Linq2.ToArray(Linq2.Select(this.Tokens, i => i.TokenName))));
         }
 
         public virtual Expression Clone()
         {
             Expression item = (Expression)this.MemberwiseClone();
             if (item.Tokens != null)
-                item.Tokens = new ExpressionTokens(item.Tokens.Select(i => i.Clone()));
+                item.Tokens = new ExpressionTokens(Linq2.Select(item.Tokens, i => i.Clone()));
             if (item.OnpTokens != null)
-                item.OnpTokens = new ExpressionTokens(item.OnpTokens.Select(i => i.Clone()));
+                item.OnpTokens = new ExpressionTokens(Linq2.Select(item.OnpTokens, i => i.Clone()));
             return item;
         }
     }

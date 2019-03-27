@@ -103,7 +103,7 @@ namespace DynLan.OnpEngine.Internal
                     {
                         Type conditionType = condition.GetType();
 
-                        if ((conditionType.IsNumeric() && Convert.ToDecimal(condition) > 0) ||
+                        if ((MyTypeHelper.IsNumeric(conditionType) && Convert.ToDecimal(condition) > 0) ||
                             (conditionType == typeof(String) && Convert.ToString(condition).Length > 0))
                         {
                             return new ExpressionMethodResult(ifTrue);
@@ -161,7 +161,7 @@ namespace DynLan.OnpEngine.Internal
 #if !NET20
                     return new ExpressionMethodResult(Parameters.FirstOrDefault());
 #else
-                    return new ExpressionMethodResult(Linq.FirstOrDefault(Parameters));
+                    return new ExpressionMethodResult(Linq2.FirstOrDefault(Parameters));
 #endif
                 }
             };
@@ -299,7 +299,7 @@ namespace DynLan.OnpEngine.Internal
                             UniConvert.ToString(Parameters.First()));
 #else
                         DynLanProgram program = new Compiler().Compile(
-                            UniConvert.ToString(Linq.FirstOrDefault(Parameters)));
+                            UniConvert.ToString(Linq2.FirstOrDefault(Parameters)));
 #endif
 
                         EvaluatorForMethods.EvaluateMethod(
@@ -440,9 +440,9 @@ namespace DynLan.OnpEngine.Internal
                             return new ExpressionMethodResult(
                                 Parameters.First().GetType());
 #else
-                        if (Linq.FirstOrDefault(Parameters) != null)
+                        if (Linq2.FirstOrDefault(Parameters) != null)
                             return new ExpressionMethodResult(
-                                Linq.FirstOrDefault(Parameters).GetType());
+                                Linq2.FirstOrDefault(Parameters).GetType());
 #endif
                     }
                     return new ExpressionMethodResult(null);
@@ -463,12 +463,12 @@ namespace DynLan.OnpEngine.Internal
                         {
                             if (type is Type)
                             {
-                                result = obj.GetType().Is((Type)type);
+                                result = MyTypeHelper.Is(obj.GetType(), (Type)type);
                             }
                             else
                             {
                                 String typeName = UniConvert.ToString(type);
-                                result = obj.GetType().Is(typeName);
+                                result = MyTypeHelper.Is(obj.GetType(), typeName);
                             }
                         }
                     }
@@ -490,12 +490,12 @@ namespace DynLan.OnpEngine.Internal
                         {
                             if (type is Type)
                             {
-                                result = !obj.GetType().Is((Type)type);
+                                result = !MyTypeHelper.Is(obj.GetType(), (Type)type);
                             }
                             else
                             {
                                 String typeName = UniConvert.ToString(type);
-                                result = !obj.GetType().Is(typeName);
+                                result = !MyTypeHelper.Is(obj.GetType(), typeName);
                             }
                         }
                     }

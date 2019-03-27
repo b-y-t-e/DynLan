@@ -46,7 +46,7 @@ namespace DynLan.OnpEngine.Models
             get
             {
                 if (tokenChars == null && TokenName != null)
-                    tokenChars = TokenName.ToList();
+                    tokenChars = Linq2.ToList(TokenName.ToCharArray());
                 return tokenChars;
             }
             set { tokenChars = value; }
@@ -105,7 +105,7 @@ namespace DynLan.OnpEngine.Models
 
         public void Set(String TokenName, Boolean CorrectPriority = true)
         {
-            this.TokenChars = TokenName.ToArray();
+            this.TokenChars = Linq2.ToArray(TokenName.ToCharArray());
             this.TokenName = TokenName;
 
             if (CorrectPriority)
@@ -115,7 +115,7 @@ namespace DynLan.OnpEngine.Models
         public void Set(IList<Char> TokenName, Boolean CorrectPriority = true)
         {
             this.TokenChars = TokenName;
-            this.TokenName = new String(this.TokenChars.ToArray());
+            this.TokenName = new String(Linq2.ToArray(this.TokenChars));
 
             if (CorrectPriority)
                 this.Priority = OnpOnpTokenHelper.GetPriority(this);
@@ -134,7 +134,7 @@ namespace DynLan.OnpEngine.Models
         public ExpressionToken Clone()
         {
             ExpressionToken item = (ExpressionToken)this.MemberwiseClone();
-            item.TokenChars = this.TokenChars.ToArray();
+            item.TokenChars = Linq2.ToArray(this.TokenChars);
             if (item.TokenData != null)
                 item.TokenData = item.TokenData.Clone();
             return item;

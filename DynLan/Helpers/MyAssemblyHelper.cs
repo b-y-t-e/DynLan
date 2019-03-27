@@ -47,7 +47,7 @@ namespace DynLan.Helpers
 #if !NET20
                     return dict.First().Value;
 #else
-                    return Linq.FirstOrDefault( dict).Value;
+                    return Linq2.FirstOrDefault( dict).Value;
 #endif
                 }
             }
@@ -72,7 +72,7 @@ namespace DynLan.Helpers
                             var types = assembly.GetTypes();
                             foreach (var type in types)
                             {
-                                if (!((type.IsPublic || type.IsStatic()) && !type.IsInterface))
+                                if (!((type.IsPublic || MyTypeHelper.IsStatic(type)) && !type.IsInterface))
                                     continue;
 
                                 var typeName = GetShortName(type.FullName);

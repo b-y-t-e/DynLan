@@ -100,10 +100,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="..\DynLanNet20\Linq.cs">
-      <Link>Linq.cs</Link>
-    </Compile>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="OtherTests.cs" />
+    <Compile Include="DynLanTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -96,6 +96,7 @@
     <Compile Include="EventArgs\DynLanProgramChangedEventArgs.cs" />
     <Compile Include="Exceptions\Exceptions.cs" />
     <Compile Include="Helpers\AppHelper.cs" />
+    <Compile Include="Helpers\LinqHelper.cs" />
     <Compile Include="Helpers\MyAssemblyHelper.cs" />
     <Compile Include="Helpers\SerializationHelper.cs" />
     <Compile Include="OnpEngine\Models\ExpressionContext.cs" />
@@ -152,7 +153,6 @@
     <Compile Include="OnpEngine\Symbols\DynLanLanguageSymbols.cs" />
     <Compile Include="Extenders\DynLanCodeLinesExtender.cs" />
     <Compile Include="Evaluator\ContextEvaluator.cs" />
-    <Compile Include="Engine.cs" />
     <Compile Include="Classes\DynLanCodeLine.cs" />
     <Compile Include="Compiler.cs" />
     <Compile Include="Classes\CodeLines.cs" />

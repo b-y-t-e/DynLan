@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DynLan.Extenders
 {
-    public static class ObjectExtender
+    public static class BooleanHelper
     {
         public static Boolean IfTrue(
 #if !NET20

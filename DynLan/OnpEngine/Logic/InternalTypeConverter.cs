@@ -10,7 +10,7 @@ namespace DynLan.OnpEngine.Logic
     {
         public static Object ToInner(Object Value)
         {
-            if (Value != null && Value.GetType().IsDateTime())
+            if (Value != null && MyTypeHelper.IsDateTime(Value.GetType()))
             {
                 return new InternalDateTime(((DateTime)Value).Ticks);
             }

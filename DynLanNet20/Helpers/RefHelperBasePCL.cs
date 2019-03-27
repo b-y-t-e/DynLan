@@ -51,14 +51,14 @@ namespace DynLan.Helpers
 #if !NET20                
                 PropertiesToOmit = PropertiesToOmit.Select(i => i.ToUpper()).ToArray();
 #else
-                PropertiesToOmit = Linq.From(PropertiesToOmit).Select(i => i.ToUpper()).ToArray();
+                PropertiesToOmit = Linq2.From(PropertiesToOmit).Select(i => i.ToUpper()).ToArray();
 #endif
             }
 
             foreach (var property in GetPropertyinfos(Source))
             {
                 if (PropertiesToOmit != null && PropertiesToOmit.Length > 0)
-                    if (Linq.Contains(PropertiesToOmit, unsensitive ? property.Name.ToUpper() : property.Name))
+                    if (Linq2.Contains(PropertiesToOmit, unsensitive ? property.Name.ToUpper() : property.Name))
                         continue;
 
                 if (Attribute.IsDefined(property, typeof(NoCloneAttribute)))
@@ -277,7 +277,7 @@ namespace DynLan.Helpers
                             p => this.unsensitive ? p.Name.ToUpper() : p.Name,
                             p => p);
 #else
-                        _cachePropertyInfos[Type] = Linq.ToDictionary(Type.GetProperties(),
+                        _cachePropertyInfos[Type] = Linq2.ToDictionary(Type.GetProperties(),
                             p => this.unsensitive ? p.Name.ToUpper() : p.Name,
                             p => p);
 #endif
@@ -313,7 +313,7 @@ namespace DynLan.Helpers
                             p => this.unsensitive ? p.Name.ToUpper() : p.Name,
                             p => p.PropertyType);
 #else
-                        _cachePropertiesTypes[Type] = Linq.ToDictionary(Type.GetProperties(),
+                        _cachePropertiesTypes[Type] = Linq2.ToDictionary(Type.GetProperties(),
                             p => this.unsensitive ? p.Name.ToUpper() : p.Name,
                             p => p.PropertyType);
 #endif
@@ -345,7 +345,7 @@ namespace DynLan.Helpers
 #if !NET20
                         _cacheProperties[Type] = Type.GetProperties().Select(p => this.unsensitive ? p.Name.ToUpper() : p.Name).ToArray();
 #else
-                        _cacheProperties[Type] = Linq.From(Type.GetProperties()).Select(p => this.unsensitive ? p.Name.ToUpper() : p.Name).ToArray();
+                        _cacheProperties[Type] = Linq2.From(Type.GetProperties()).Select(p => this.unsensitive ? p.Name.ToUpper() : p.Name).ToArray();
 #endif
 
                     }
@@ -423,8 +423,8 @@ namespace DynLan.Helpers
                             PropertyInfo property = this.unsensitive ? type.GetProperties().FirstOrDefault(p => p.Name.ToUpper().Equals(Name)) : type.GetProperty(Name);
                             FieldInfo field = this.unsensitive ? type.GetFields().FirstOrDefault(p => p.Name.ToUpper().Equals(Name)) : type.GetField(Name);
 #else
-                            PropertyInfo property = this.unsensitive ? Linq.FirstOrDefault(type.GetProperties(), p => p.Name.ToUpper().Equals(Name)) : type.GetProperty(Name);
-                            FieldInfo field = this.unsensitive ? Linq.FirstOrDefault(type.GetFields(), p => p.Name.ToUpper().Equals(Name)) : type.GetField(Name);
+                            PropertyInfo property = this.unsensitive ? Linq2.FirstOrDefault(type.GetProperties(), p => p.Name.ToUpper().Equals(Name)) : type.GetProperty(Name);
+                            FieldInfo field = this.unsensitive ? Linq2.FirstOrDefault(type.GetFields(), p => p.Name.ToUpper().Equals(Name)) : type.GetField(Name);
 #endif
 
                             if (property != null || field != null)
@@ -487,8 +487,8 @@ namespace DynLan.Helpers
                             PropertyInfo property = this.unsensitive ? type.GetProperties().FirstOrDefault(p => p.Name.ToUpper().Equals(Name)) : type.GetProperty(Name);
                             FieldInfo field = this.unsensitive ? type.GetFields().FirstOrDefault(p => p.Name.ToUpper().Equals(Name)) : type.GetField(Name);
 #else
-                            PropertyInfo property = this.unsensitive ? Linq.FirstOrDefault(type.GetProperties(), p => p.Name.ToUpper().Equals(Name)) : type.GetProperty(Name);
-                            FieldInfo field = this.unsensitive ? Linq.FirstOrDefault(type.GetFields(), p => p.Name.ToUpper().Equals(Name)) : type.GetField(Name);
+                            PropertyInfo property = this.unsensitive ? Linq2.FirstOrDefault(type.GetProperties(), p => p.Name.ToUpper().Equals(Name)) : type.GetProperty(Name);
+                            FieldInfo field = this.unsensitive ? Linq2.FirstOrDefault(type.GetFields(), p => p.Name.ToUpper().Equals(Name)) : type.GetField(Name);
 #endif
                             if (property != null || field != null)
                             {

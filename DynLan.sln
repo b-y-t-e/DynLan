@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynLanNet35", "DynLanNet35\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynLanNet20", "DynLanNet20\DynLanNet20.csproj", "{273A65E1-7140-411C-81E7-15BC21E41FE2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynLanTests20", "DynLanTests20\DynLanTests20.csproj", "{ACDC0CD5-AE8C-43A1-A575-583F806CBE3E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,18 @@ Global
 		{273A65E1-7140-411C-81E7-15BC21E41FE2}.Release|x64.Build.0 = Release|Any CPU
 		{273A65E1-7140-411C-81E7-15BC21E41FE2}.Release|x86.ActiveCfg = Release|Any CPU
 		{273A65E1-7140-411C-81E7-15BC21E41FE2}.Release|x86.Build.0 = Release|Any CPU
+		{ACDC0CD5-AE8C-43A1-A575-583F806CBE3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACDC0CD5-AE8C-43A1-A575-583F806CBE3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACDC0CD5-AE8C-43A1-A575-583F806CBE3E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{ACDC0CD5-AE8C-43A1-A575-583F806CBE3E}.Debug|x64.Build.0 = Debug|Any CPU
+		{ACDC0CD5-AE8C-43A1-A575-583F806CBE3E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ACDC0CD5-AE8C-43A1-A575-583F806CBE3E}.Debug|x86.Build.0 = Debug|Any CPU
+		{ACDC0CD5-AE8C-43A1-A575-583F806CBE3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACDC0CD5-AE8C-43A1-A575-583F806CBE3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACDC0CD5-AE8C-43A1-A575-583F806CBE3E}.Release|x64.ActiveCfg = Release|Any CPU
+		{ACDC0CD5-AE8C-43A1-A575-583F806CBE3E}.Release|x64.Build.0 = Release|Any CPU
+		{ACDC0CD5-AE8C-43A1-A575-583F806CBE3E}.Release|x86.ActiveCfg = Release|Any CPU
+		{ACDC0CD5-AE8C-43A1-A575-583F806CBE3E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

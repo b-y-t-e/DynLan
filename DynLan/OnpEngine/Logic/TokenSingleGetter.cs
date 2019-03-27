@@ -160,7 +160,7 @@ namespace DynLan.OnpEngine.Logic
             if (nextIndex < 0)
                 nextIndex = Chars.Count;
 
-            chars.Trim();
+            StringHelper.Trim(chars);
 
             if (chars.Count != 0)
             {

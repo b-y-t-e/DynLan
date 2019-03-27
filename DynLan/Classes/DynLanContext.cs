@@ -385,7 +385,7 @@ namespace DynLan.Classes
                             Stack.
                             LastOrDefault();
 #else
-                        DynLanState currentState = Linq.LastOrDefault(
+                        DynLanState currentState = Linq2.LastOrDefault(
                             DynLanContext.Stack);
 #endif
                         DynLanMethod method = currentState == null ? null :

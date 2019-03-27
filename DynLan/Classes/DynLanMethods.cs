@@ -28,7 +28,7 @@ namespace DynLan.Classes
 #if !NET20
             return this.FirstOrDefault(i => i.ID == ID);
 #else
-            return Linq.FirstOrDefault( this,i => i.ID == ID);
+            return Linq2.FirstOrDefault( this,i => i.ID == ID);
 #endif
         }
 
@@ -37,7 +37,7 @@ namespace DynLan.Classes
 #if !NET20
             return this.FirstOrDefault(i => i.Name == Name);
 #else
-            return Linq.FirstOrDefault(  this, i => i.Name == Name);
+            return Linq2.FirstOrDefault(  this, i => i.Name == Name);
 #endif
         }
 

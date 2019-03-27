@@ -58,17 +58,17 @@ namespace DynLan.OnpEngine.Logic
 
             if (OperationType == OperatorType.EQUAL)
             {
-                Boolean r = Value1.IsEqualWithNumericConvert(Value2);
+                Boolean r = MyTypeHelper.IsEqualWithNumericConvert(Value1, Value2);
                 return r;
             }
             else if (OperationType == OperatorType.NOT_EQUAL)
             {
-                Boolean r = !Value1.IsEqualWithNumericConvert(Value2);
+                Boolean r = !MyTypeHelper.IsEqualWithNumericConvert(Value1, Value2);
                 return r;
             }
             else if (OperationType == OperatorType.PROPERTY)
-            {
-                Object outValue = InternalTypeConverter.ToOuter(Value1).GetValue(UniConvert.ToString(Value2));
+            {                
+                Object outValue = MyReflectionHelper.GetValue(InternalTypeConverter.ToOuter(Value1), UniConvert.ToString(Value2));
                 return InternalTypeConverter.ToInner(outValue);
             }
             else if (MyTypeHelper.IsNumeric(type1) && MyTypeHelper.IsNumeric(type2))
@@ -81,14 +81,14 @@ namespace DynLan.OnpEngine.Logic
                 {
                     throw new DynLanInvalidOperationException("Invalid operation type " + OperationType + " (TimeSpan & TimeSpan)");
                 }
-                else if (OperationType == OperatorType.MULTIPLY && type1.IsNumeric() && type2 == typeof(String))
+                else if (OperationType == OperatorType.MULTIPLY && MyTypeHelper.IsNumeric(type1) && type2 == typeof(String))
                 {
                     StringBuilder outString = new StringBuilder();
                     for (var i = 0; i < UniConvert.ToInt32(Value1); i++)
                         outString.Append(Value2);
                     return outString.ToString();
                 }
-                else if (OperationType == OperatorType.MULTIPLY && type2.IsNumeric() && type1 == typeof(String))
+                else if (OperationType == OperatorType.MULTIPLY && MyTypeHelper.IsNumeric(type2) && type1 == typeof(String))
                 {
                     StringBuilder outString = new StringBuilder();
                     for (var i = 0; i < UniConvert.ToInt32(Value2); i++)
@@ -176,7 +176,7 @@ namespace DynLan.OnpEngine.Logic
 
         private static object ExecuteOperatorOnNumericValues(Object Value1, Object Value2, OperatorType OperationType)
         {
-            if(MyTypeHelper.IsFloatNumeric(Value1) || MyTypeHelper.IsFloatNumeric(Value2))
+            if (MyTypeHelper.IsFloatNumeric(Value1) || MyTypeHelper.IsFloatNumeric(Value2))
             {
                 return ExecuteOperatorOnDecimals(Value1, Value2, OperationType);
             }

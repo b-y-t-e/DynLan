@@ -90,35 +90,35 @@ namespace DynLan.OnpEngine.Symbols
 
         public static OperatorType GetOperationType(IList<Char> Token)
         {
-            if (Token.SequenceEqual(op_plus))
+            if (StringHelper.SequenceEqual(Token, op_plus))
                 return OperatorType.PLUS;
-            else if (Token.SequenceEqual(op_multiply))
+            else if (StringHelper.SequenceEqual(Token, op_multiply))
                 return OperatorType.MULTIPLY;
-            else if (Token.SequenceEqual(op_property))
+            else if (StringHelper.SequenceEqual(Token, op_property))
                 return OperatorType.PROPERTY;
-            else if (Token.SequenceEqual(op_divide))
+            else if (StringHelper.SequenceEqual(Token, op_divide))
                 return OperatorType.DIVIDE;
-            else if (Token.SequenceEqual(op_minus))
+            else if (StringHelper.SequenceEqual(Token, op_minus))
                 return OperatorType.SUBTRACT;
-            else if (Token.SequenceEqual(op_greater))
+            else if (StringHelper.SequenceEqual(Token, op_greater))
                 return OperatorType.GREATER;
-            else if (Token.SequenceEqual(op_greater_equal))
+            else if (StringHelper.SequenceEqual(Token, op_greater_equal))
                 return OperatorType.GREATER_OR_EQUAL;
-            else if (Token.SequenceEqual(op_smaller_equal))
+            else if (StringHelper.SequenceEqual(Token, op_smaller_equal))
                 return OperatorType.SMALLER_OR_EQUAL;
-            else if (Token.SequenceEqual(op_smaller))
+            else if (StringHelper.SequenceEqual(Token, op_smaller))
                 return OperatorType.SMALLER;
-            else if (Token.SequenceEqual(op_equal))
+            else if (StringHelper.SequenceEqual(Token, op_equal))
                 return OperatorType.EQUAL;
-            else if (Token.SequenceEqual(op_not_equal))
+            else if (StringHelper.SequenceEqual(Token, op_not_equal))
                 return OperatorType.NOT_EQUAL;
             
             foreach (char[] seq in op_and)
-                if (Token.SequenceEqualInsensitive(seq))
+                if (StringHelper.SequenceEqualInsensitive(Token, seq))
                     return OperatorType.AND;
 
             foreach (char[] seq in op_or)
-                if (Token.SequenceEqualInsensitive(seq))
+                if (StringHelper.SequenceEqualInsensitive(Token, seq))
                     return OperatorType.OR;
 
             return OperatorType.INVALID;

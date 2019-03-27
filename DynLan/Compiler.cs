@@ -236,7 +236,7 @@ namespace DynLan
 
         public DynLanMethod GetMethodDefinition(CodeLine line, Int32 Depth)
         {
-            CodeLine trimmedLine = new CodeLine(line.TrimStart());
+            CodeLine trimmedLine = new CodeLine(StringHelper.TrimStart(line));
 
             // DEF: wykrycie definicji metody
             if (//trimmedLine.Count > str_method.Length &&
@@ -281,7 +281,7 @@ namespace DynLan
 
         public DynLanClass GetClassDefinition(CodeLine line, Int32 Depth)
         {
-            CodeLine trimmedLine = new CodeLine(line.TrimStart());
+            CodeLine trimmedLine = new CodeLine(StringHelper.TrimStart(line));
 
             // DEF: wykrycie definicji klasy
             if (//trimmedLine.Count > str_class.Length &&
@@ -338,26 +338,24 @@ namespace DynLan
         {
             Int32 orgDepth = Depth;
 
-            IList<Char> lineTrimmed = line.
-                TrimEnd().
-                TrimStart().
-                ToArray();
+            IList<Char> lineTrimmed = Linq2.ToArray(
+                StringHelper.TrimStart(
+                    StringHelper.TrimEnd(line)));
 
             IList<Char> lineBody = line;
             EOperatorType operatorType = EOperatorType.NONE;
 
             // IF: wykrycie definicji IF'a
             if (//lineTrimmed.Count > str_if.Length &&
-                   StringHelper.StartsWith(lineTrimmed.TrimStart().ToArray(), str_if, true, true)/* &&
+                   StringHelper.StartsWith(Linq2.ToArray(StringHelper.TrimStart(lineTrimmed)), str_if, true, true)/* &&
                    Char.IsWhiteSpace(lineTrimmed[str_if.Length])*/ )
             {
                 Int32 depth = GetDepth(line);
                 operatorType = EOperatorType.IF;
 
-                lineBody = lineTrimmed.
-                    Substring2(str_if.Length).
-                    TrimStart().
-                    ToList();
+                lineBody = Linq2.ToList(
+                    StringHelper.TrimStart(
+                        StringHelper.Substring2(lineTrimmed, str_if.Length)));
 
 #if SPACES_FOR_DEPTH
                 for (int i = 0; i < depth; i++)
@@ -380,16 +378,15 @@ namespace DynLan
             }
             // WHILE: wykrycie definicji WHILE'a
             else if (//lineTrimmed.Count > str_while.Length &&
-                   StringHelper.StartsWith(lineTrimmed.TrimStart().ToArray(), str_while, true, true) /*&&
+                   StringHelper.StartsWith(Linq2.ToArray(StringHelper.TrimStart(lineTrimmed)), str_while, true, true) /*&&
                    Char.IsWhiteSpace(lineTrimmed[str_while.Length])*/)
             {
                 Int32 depth = GetDepth(line);
                 operatorType = EOperatorType.WHILE;
 
-                lineBody = lineTrimmed.
-                    Substring2(str_while.Length).
-                    TrimStart().
-                    ToList();
+                lineBody = Linq2.ToList(
+                    StringHelper.TrimStart(
+                        StringHelper.Substring2(lineTrimmed, str_while.Length)));
 
 #if SPACES_FOR_DEPTH
                 for (int i = 0; i < depth; i++)
@@ -412,15 +409,14 @@ namespace DynLan
             }
             // ELSE: wykrycie definicji ELSE'a
             else if (// lineTrimmed.Count >= str_else.Length &&
-                   StringHelper.StartsWith(lineTrimmed.TrimStart().ToArray(), str_else, true, true))
+                   StringHelper.StartsWith(Linq2.ToArray(StringHelper.TrimStart(lineTrimmed)), str_else, true, true))
             {
                 Int32 depth = GetDepth(line);
                 operatorType = EOperatorType.ELSE;
 
-                lineBody = lineTrimmed.
-                    Substring2(str_else.Length).
-                    TrimStart().
-                    ToList();
+                lineBody = Linq2.ToList(
+                    StringHelper.TrimStart(
+                        StringHelper.Substring2(lineTrimmed, str_else.Length)));
 
 #if SPACES_FOR_DEPTH
                 for (int i = 0; i < depth; i++)
@@ -443,16 +439,15 @@ namespace DynLan
             }
             // ELIF: wykrycie definicji ELIF'a
             else if (// lineTrimmed.Count > str_elif.Length &&
-                       StringHelper.StartsWith(lineTrimmed.TrimStart().ToArray(), str_elif, true, true) /*&&
+                       StringHelper.StartsWith(Linq2.ToArray(StringHelper.TrimStart(lineTrimmed)), str_elif, true, true) /*&&
                        Char.IsWhiteSpace(lineTrimmed[str_elif.Length])*/)
             {
                 Int32 depth = GetDepth(line);
                 operatorType = EOperatorType.ELIF;
 
-                lineBody = lineTrimmed.
-                    Substring2(str_elif.Length).
-                    TrimStart().
-                    ToList();
+                lineBody = Linq2.ToList(
+                    StringHelper.TrimStart(
+                        StringHelper.Substring2(lineTrimmed, str_elif.Length)));
 
 #if SPACES_FOR_DEPTH
                 for (int i = 0; i < depth; i++)
@@ -475,16 +470,15 @@ namespace DynLan
             }
             // RETURN: wykrycie definicji RETURN'a
             else if (// lineTrimmed.Count > str_return.Length &&
-                       StringHelper.StartsWith(lineTrimmed.TrimStart().ToArray(), str_return, true, true) /*&&
+                       StringHelper.StartsWith(Linq2.ToArray(StringHelper.TrimStart(lineTrimmed)), str_return, true, true) /*&&
                        Char.IsWhiteSpace(lineTrimmed[str_return.Length])*/)
             {
                 Int32 depth = GetDepth(line);
                 operatorType = EOperatorType.RETURN;
 
-                lineBody = lineTrimmed.
-                    Substring2(str_return.Length).
-                    TrimStart().
-                    ToList();
+                lineBody = Linq2.ToList(
+                    StringHelper.TrimStart(
+                        StringHelper.Substring2(lineTrimmed, str_return.Length)));
 
 #if SPACES_FOR_DEPTH
                 for (int i = 0; i < depth; i++)
@@ -512,15 +506,14 @@ namespace DynLan
             }*/
             // RETURN: wykrycie definicji PASS'a
             else if (//(lineTrimmed.Count == str_pass.Length || (lineTrimmed.Count > str_pass.Length && Char.IsWhiteSpace(lineTrimmed[str_pass.Length])))
-                StringHelper.StartsWith(lineTrimmed.TrimStart().ToArray(), str_pass, true, true))
+                StringHelper.StartsWith(Linq2.ToArray(StringHelper.TrimStart(lineTrimmed)), str_pass, true, true))
             {
                 Int32 depth = GetDepth(line);
                 operatorType = EOperatorType.PASS;
 
-                lineBody = lineTrimmed.
-                    Substring2(str_pass.Length).
-                    TrimStart().
-                    ToList();
+                lineBody = Linq2.ToList(
+                    StringHelper.TrimStart(
+                        StringHelper.Substring2(lineTrimmed, str_pass.Length)));
 
 #if SPACES_FOR_DEPTH
                 for (int i = 0; i < depth; i++)
@@ -530,16 +523,15 @@ namespace DynLan
             }
             // TRY: wykrycie definicji TRY'a
             else if (// lineTrimmed.Count > str_try.Length &&
-                       StringHelper.StartsWith(lineTrimmed.TrimStart().ToArray(), str_try, true, true) /*&&
+                       StringHelper.StartsWith(Linq2.ToArray(StringHelper.TrimStart(lineTrimmed)), str_try, true, true) /*&&
                        Char.IsWhiteSpace(lineTrimmed[str_try.Length])*/)
             {
                 Int32 depth = GetDepth(line);
                 operatorType = EOperatorType.TRY;
 
-                lineBody = lineTrimmed.
-                    Substring2(str_try.Length).
-                    TrimStart().
-                    ToList();
+                lineBody = Linq2.ToList(
+                    StringHelper.TrimStart(
+                        StringHelper.Substring2(lineTrimmed, str_try.Length)));
 
 #if SPACES_FOR_DEPTH
                 for (int i = 0; i < depth; i++)
@@ -558,16 +550,15 @@ namespace DynLan
             }
             // CATCH: wykrycie definicji CATCH'a
             else if (// lineTrimmed.Count > str_catch.Length &&
-                       StringHelper.StartsWith(lineTrimmed.TrimStart().ToArray(), str_catch, true, true) /*&&
+                       StringHelper.StartsWith(Linq2.ToArray(StringHelper.TrimStart(lineTrimmed)), str_catch, true, true) /*&&
                        Char.IsWhiteSpace(lineTrimmed[str_catch.Length])*/)
             {
                 Int32 depth = GetDepth(line);
                 operatorType = EOperatorType.CATCH;
 
-                lineBody = lineTrimmed.
-                    Substring2(str_catch.Length).
-                    TrimStart().
-                    ToList();
+                lineBody = Linq2.ToList(
+                    StringHelper.TrimStart(
+                        StringHelper.Substring2(lineTrimmed, str_catch.Length)));
 
 #if SPACES_FOR_DEPTH
                 for (int i = 0; i < depth; i++)
@@ -586,16 +577,15 @@ namespace DynLan
             }
             // FINALLY: wykrycie definicji FINALLY'a
             else if (// lineTrimmed.Count > str_finally.Length &&
-                       StringHelper.StartsWith(lineTrimmed.TrimStart().ToArray(), str_finally, true, true) /*&&
+                       StringHelper.StartsWith(Linq2.ToArray(StringHelper.TrimStart(lineTrimmed)), str_finally, true, true) /*&&
                        Char.IsWhiteSpace(lineTrimmed[str_finally.Length])*/)
             {
                 Int32 depth = GetDepth(line);
                 operatorType = EOperatorType.FINALLY;
 
-                lineBody = lineTrimmed.
-                    Substring2(str_finally.Length).
-                    TrimStart().
-                    ToList();
+                lineBody = Linq2.ToList(
+                    StringHelper.TrimStart(
+                        StringHelper.Substring2(lineTrimmed, str_finally.Length)));
 
 #if SPACES_FOR_DEPTH
                 for (int i = 0; i < depth; i++)
@@ -614,16 +604,15 @@ namespace DynLan
             }
             // THROW: wykrycie definicji THROW'a
             else if (lineTrimmed.Count > str_throw.Length &&
-                       StringHelper.StartsWith(lineTrimmed.TrimStart().ToArray(), str_throw, true, true) /*&&
+                       StringHelper.StartsWith(Linq2.ToArray(StringHelper.TrimStart(lineTrimmed)), str_throw, true, true) /*&&
                        Char.IsWhiteSpace(lineTrimmed[str_THROW.Length])*/)
             {
                 Int32 depth = GetDepth(line);
                 operatorType = EOperatorType.THROW;
 
-                lineBody = lineTrimmed.
-                    Substring2(str_throw.Length).
-                    TrimStart().
-                    ToList();
+                lineBody = Linq2.ToList(
+                    StringHelper.TrimStart(
+                        StringHelper.Substring2(lineTrimmed, str_throw.Length)));
 
 #if SPACES_FOR_DEPTH
                 for (int i = 0; i < depth; i++)
@@ -633,16 +622,15 @@ namespace DynLan
             }
             // BREAK: wykrycie definicji BREAK'a
             else if (// lineTrimmed.Count > str_break.Length &&
-                       StringHelper.StartsWith(lineTrimmed.TrimStart().ToArray(), str_break, true, true) /*&&
+                       StringHelper.StartsWith(Linq2.ToArray(StringHelper.TrimStart(lineTrimmed)), str_break, true, true) /*&&
                        Char.IsWhiteSpace(lineTrimmed[str_break.Length])*/)
             {
                 Int32 depth = GetDepth(line);
                 operatorType = EOperatorType.BREAK;
 
-                lineBody = lineTrimmed.
-                    Substring2(str_break.Length).
-                    TrimStart().
-                    ToList();
+                lineBody = Linq2.ToList(
+                    StringHelper.TrimStart(
+                        StringHelper.Substring2(lineTrimmed, str_break.Length)));
 
 #if SPACES_FOR_DEPTH
                 for (int i = 0; i < depth; i++)
@@ -657,7 +645,7 @@ namespace DynLan
             if (compiledLine == null)
                 compiledLine = new DynLanCodeLine();
 
-            compiledLine.Code = line.ToString2();
+            compiledLine.Code = StringHelper.ToString2(line);
             compiledLine.ExpressionGroup = expressionGroup;
             compiledLine.OperatorType = operatorType;
             compiledLine.IsLineEmpty = lineTrimmed.Count == 0;
@@ -731,9 +719,9 @@ namespace DynLan
                             DynLanuageSymbols.DepthBegin.Contains(firstNext.Chars) ||
                             DynLanuageSymbols.DepthEnd.Contains(firstNext.Chars))
 #else
-                        if (Linq.Contains( DynLanuageSymbols.NewLineChars, firstNext.Chars) ||
-                            Linq.Contains(DynLanuageSymbols.DepthBegin, firstNext.Chars) ||
-                            Linq.Contains(DynLanuageSymbols.DepthEnd, firstNext.Chars))
+                        if (Linq2.Contains( DynLanuageSymbols.NewLineChars, firstNext.Chars) ||
+                            Linq2.Contains(DynLanuageSymbols.DepthBegin, firstNext.Chars) ||
+                            Linq2.Contains(DynLanuageSymbols.DepthEnd, firstNext.Chars))
 #endif
                         {
                             OnpOnpStringFindResult commentStartNext = StringHelper.FirstNextIndex(
@@ -768,8 +756,8 @@ namespace DynLan
                             if (DynLanuageSymbols.DepthBegin.Contains(firstNext.Chars) ||
                                 DynLanuageSymbols.DepthEnd.Contains(firstNext.Chars))
 #else
-                            if (Linq.Contains( DynLanuageSymbols.DepthBegin, firstNext.Chars) ||
-                                Linq.Contains(DynLanuageSymbols.DepthEnd, firstNext.Chars))
+                            if (Linq2.Contains( DynLanuageSymbols.DepthBegin, firstNext.Chars) ||
+                                Linq2.Contains(DynLanuageSymbols.DepthEnd, firstNext.Chars))
 #endif
                             {
                                 if (currentLine.Count > 0)

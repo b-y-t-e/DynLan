@@ -195,7 +195,7 @@ namespace DynLan.OnpEngine.Logic
                 if (functionCallTokens.Count > 1)
                 {
                     // generowanie expressions dla wnętrz funkcji
-                    IList<ExpressionTokens> functionParameters = SplitTokensIntoFunctionParameters(functionCallTokens).ToList();
+                    IList<ExpressionTokens> functionParameters = Linq2.ToList(SplitTokensIntoFunctionParameters(functionCallTokens));
                     foreach (ExpressionTokens functionParameter in functionParameters)
                     {
                         // generowanie expression z wyrażenia z parametru

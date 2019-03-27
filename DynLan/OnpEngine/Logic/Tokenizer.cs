@@ -123,7 +123,7 @@ namespace DynLan.OnpEngine.Logic
             catch (Exception ex)
             {
                 throw new DynLanCompileException(
-                    "Error in expression: '" + new string(ExpressionChars.ToArray(), 0, ExpressionChars.Count).Replace("'", "\\'") + "'; " + ex.Message,
+                    "Error in expression: '" + new string(Linq2.ToArray(ExpressionChars), 0, ExpressionChars.Count).Replace("'", "\\'") + "'; " + ex.Message,
                     ex);
             }
         }
@@ -352,11 +352,18 @@ namespace DynLan.OnpEngine.Logic
 
         private IList<String> GetVariablesNames(Expression Expression, ExpressionGroup ExpressionGroup)
         {
+#if !NET20
             return Expression.
                 Tokens.
                 Where(t => t.TokenType == TokenType.VARIABLE && !ExpressionGroup.Expressions.ContainsKey(t.TokenName)).
                 Select(t => t.TokenName).
                 ToArray();
+#else
+            return Linq2.From(Expression.Tokens).
+                Where(t => t.TokenType == TokenType.VARIABLE && !ExpressionGroup.Expressions.ContainsKey(t.TokenName)).
+                Select(t => t.TokenName).
+                ToArray();
+#endif
         }
 
         private ExpressionTokens TakeSetTokens(IList<ExpressionToken> Tokens, Boolean RemoveTakenTokens = true)
@@ -364,7 +371,7 @@ namespace DynLan.OnpEngine.Logic
             ExpressionTokens result = null;
             if (Tokens.Count >= 2)
             {
-                if (Tokens.Any(t => t.TokenType == TokenType.EQUAL_OPERATOR))
+                if (Linq2.Any(Tokens, t => t.TokenType == TokenType.EQUAL_OPERATOR))
                 {
                     for (var i = 0; i < Tokens.Count; i++)
                     {
@@ -399,7 +406,7 @@ namespace DynLan.OnpEngine.Logic
             ExpressionTokens result = null;
             if (Tokens.Count >= 2)
             {
-                if (Tokens.Any(t => t.TokenType == TokenType.EQUAL_OPERATOR))
+                if (Linq2.Any(Tokens, t => t.TokenType == TokenType.EQUAL_OPERATOR))
                 {
                     for (var i = 0; i < Tokens.Count; i++)
                     {

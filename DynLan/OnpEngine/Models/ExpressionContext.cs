@@ -43,7 +43,7 @@ namespace DynLan.OnpEngine.Models
 #endif
         public ExpressionState Current
         {
-            get { return Stack.LastOrDefault(); }
+            get { return Linq2.LastOrDefault(Stack); }
         }
 
         //////////////////////////////////////////////

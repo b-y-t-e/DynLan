@@ -319,7 +319,7 @@ namespace DynLan.Helpers
             foreach (MethodInfo method in methods.OrderByDescending(m => m.GetParameters().Length > 0 ? m.GetParameters()[0].ParameterType == typeof(string) ? 10 : 5 : 0).OrderBy(m => m.Name).OrderBy(m => m.GetParameters().Length))
                     
 #else
-                    foreach (MethodInfo method in Linq.OrderBy(Linq.OrderBy(Linq.OrderByDescending(methods, m => m.GetParameters().Length > 0 ? m.GetParameters()[0].ParameterType == typeof(string) ? 10 : 5 : 0), m => m.Name), m => m.GetParameters().Length))
+                    foreach (MethodInfo method in Linq2.OrderBy(Linq2.OrderBy(Linq2.OrderByDescending(methods, m => m.GetParameters().Length > 0 ? m.GetParameters()[0].ParameterType == typeof(string) ? 10 : 5 : 0), m => m.Name), m => m.GetParameters().Length))
 
 #endif
                     {
@@ -367,7 +367,7 @@ namespace DynLan.Helpers
 #if !NET20
             return innerDict.Values.FirstOrDefault();
 #else
-                    return Linq.FirstOrDefault(innerDict.Values);
+                    return Linq2.FirstOrDefault(innerDict.Values);
 #endif
                 innerDict.TryGetValue(ParameterCount, out result);
             }

@@ -24,7 +24,7 @@ namespace DynLan.OnpEngine.InternalExtenders
 #if !NET20
             Object Key = Parameters == null ? null : Parameters.FirstOrDefault();
 #else
-            Object Key = Parameters == null ? null : Linq.FirstOrDefault(Parameters);
+            Object Key = Parameters == null ? null : Linq2.FirstOrDefault(Parameters);
 #endif
             if (Collection == null)
                 return null;

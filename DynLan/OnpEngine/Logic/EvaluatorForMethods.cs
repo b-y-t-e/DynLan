@@ -49,7 +49,7 @@ namespace DynLan.OnpEngine.Logic
                     CurrentState.
                     Object.
                     DynamicValues);
-                
+
                 DynLanState newState = DynLanContext.PushContext(
                     program,
                     DynLanContextType.METHOD,
@@ -122,10 +122,15 @@ namespace DynLan.OnpEngine.Logic
                 }
                 else
                 {
+#if !NET20
+                    var tmp = new[] { Object }.Union(MethodParameters);
+#else
+                    var tmp = Linq2.From(  new[] { Object }).Union(MethodParameters).ToArray();
+#endif
                     result = onpMethod.
                         CalculateValueDelegate(
                             DynLanContext,
-                            CorrectParameters(new[] { Object }.Union(MethodParameters)));
+                            CorrectParameters(tmp));
                 }
 
                 return result == null ?
@@ -150,10 +155,15 @@ namespace DynLan.OnpEngine.Logic
                 }
                 else
                 {
+#if !NET20
+                    var tmp = new[] { Object }.Union(MethodParameters);
+#else
+                    var tmp = Linq2.From( new[] { Object }).Union(MethodParameters).ToArray();
+#endif
                     result = onpMethod.
                         CalculateValueDelegate(
                             DynLanContext,
-                            CorrectParameters(new[] { Object }.Union(MethodParameters)));
+                            CorrectParameters(tmp));
                 }
 
                 if (result != null)

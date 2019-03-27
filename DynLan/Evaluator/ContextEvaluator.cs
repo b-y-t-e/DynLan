@@ -185,7 +185,7 @@ namespace DynLan.Evaluator
             // jeśli linia jest pusta to przechodzimy do nastepnej
             if (currentLine.IsLineEmpty)
             {
-                DynLanCodeLine nextLine = lines.NextLine(currentLine);
+                DynLanCodeLine nextLine = DynLanCodeLinesExtender.NextLine(lines, currentLine);
                 if (nextLine == null)
                 {
                     return ExitCurrentContext(
@@ -294,10 +294,12 @@ namespace DynLan.Evaluator
                     currentLine.OperatorType == EOperatorType.IF ||
                     currentLine.OperatorType == EOperatorType.ELIF)
                 {
-                    Boolean conditionResult = currentValue.IfTrue();
+                    Boolean conditionResult = BooleanHelper.IfTrue(currentValue);
                     if (conditionResult)
                     {
-                        DynLanCodeLine nextLine = lines.NextOnSameOrHigher(currentLine);
+                        DynLanCodeLine nextLine = DynLanCodeLinesExtender.
+                            NextOnSameOrHigher(lines, currentLine);
+
                         if (nextLine != null)
                         {
                             currentState.CurrentLineID = nextLine.ID;
@@ -309,7 +311,9 @@ namespace DynLan.Evaluator
                     }
                     else
                     {
-                        DynLanCodeLine nextLine = lines.NextOnSameOrLower(currentLine);
+                        DynLanCodeLine nextLine = DynLanCodeLinesExtender.
+                            NextOnSameOrLower(lines, currentLine);
+
                         if (nextLine == null)
                         {
                             return ExitCurrentContext(
@@ -326,7 +330,7 @@ namespace DynLan.Evaluator
                                     nextLine.OperatorType == EOperatorType.ELIF /*||
                                 nextLine.OperatorType == EOperatorType.FINALLY*/))
                                 {
-                                    nextLine = lines.ExitParentIf(nextLine);
+                                    nextLine = DynLanCodeLinesExtender.ExitParentIf(lines, nextLine);
 
                                     if (nextLine == null)
                                         break;
@@ -346,8 +350,8 @@ namespace DynLan.Evaluator
 
                                     while (true)
                                     {
-                                        DynLanCodeLine prevConditionLine = lines.
-                                            PrevLineWithLessDepth(
+                                        DynLanCodeLine prevConditionLine = DynLanCodeLinesExtender.PrevLineWithLessDepth(
+                                                lines,
                                                 currentLine,
                                                 l => l.OperatorType == EOperatorType.IF || l.OperatorType == EOperatorType.ELIF || l.OperatorType == EOperatorType.ELSE || l.OperatorType == EOperatorType.WHILE);
 
@@ -385,7 +389,9 @@ namespace DynLan.Evaluator
                     currentLine.OperatorType == EOperatorType.TRY ||
                     currentLine.OperatorType == EOperatorType.ELSE)
                 {
-                    DynLanCodeLine nextLine = lines.NextOnSameOrHigher(currentLine);
+                    DynLanCodeLine nextLine = DynLanCodeLinesExtender.
+                        NextOnSameOrHigher(lines, currentLine);
+
                     if (nextLine != null)
                     {
                         currentState.CurrentLineID = nextLine.ID;
@@ -406,7 +412,9 @@ namespace DynLan.Evaluator
                     if (DynLanContext.Error != null)
                     {
                         DynLanContext.Error = null;
-                        DynLanCodeLine nextLine = lines.NextOnSameOrHigher(currentLine);
+                        DynLanCodeLine nextLine = DynLanCodeLinesExtender.
+                            NextOnSameOrHigher(lines, currentLine);
+
                         if (nextLine != null)
                         {
                             currentState.CurrentLineID = nextLine.ID;
@@ -418,7 +426,9 @@ namespace DynLan.Evaluator
                     }
                     else
                     {
-                        DynLanCodeLine nextLine = lines.NextOnSameOrLower(currentLine);
+                        DynLanCodeLine nextLine = DynLanCodeLinesExtender.NextOnSameOrLower(
+                            lines, currentLine);
+
                         if (nextLine != null)
                         {
                             currentState.CurrentLineID = nextLine.ID;
@@ -433,7 +443,7 @@ namespace DynLan.Evaluator
                 }
                 else if (currentLine.OperatorType == EOperatorType.NONE || currentLine.OperatorType == EOperatorType.PASS)
                 {
-                    DynLanCodeLine nextLine = lines.NextLine(currentLine);
+                    DynLanCodeLine nextLine = DynLanCodeLinesExtender.NextLine(lines, currentLine);
                     if (nextLine != null)
                     {
                         while (
@@ -442,7 +452,7 @@ namespace DynLan.Evaluator
                             nextLine.OperatorType == EOperatorType.ELIF /*||
                         nextLine.OperatorType == EOperatorType.FINALLY*/))
                         {
-                            nextLine = lines.ExitParentIf(nextLine);
+                            nextLine = DynLanCodeLinesExtender.ExitParentIf(lines, nextLine);
 
                             if (nextLine == null)
                             {
@@ -466,8 +476,9 @@ namespace DynLan.Evaluator
 
                             while (true)
                             {
-                                DynLanCodeLine prevConditionLine = lines.
+                                DynLanCodeLine prevConditionLine = DynLanCodeLinesExtender.
                                     PrevLineWithLessDepth(
+                                        lines,
                                         currentLine,
                                         l => l.OperatorType == EOperatorType.IF || l.OperatorType == EOperatorType.ELIF || l.OperatorType == EOperatorType.ELSE || l.OperatorType == EOperatorType.WHILE);
 
@@ -502,8 +513,9 @@ namespace DynLan.Evaluator
 
                         while (true)
                         {
-                            DynLanCodeLine prevConditionLine = lines.
+                            DynLanCodeLine prevConditionLine = DynLanCodeLinesExtender.
                                 PrevLineWithLessDepth(
+                                    lines,
                                     currentLine,
                                     l => l.OperatorType == EOperatorType.IF || l.OperatorType == EOperatorType.ELIF || l.OperatorType == EOperatorType.ELSE || l.OperatorType == EOperatorType.WHILE);
 
@@ -550,12 +562,12 @@ namespace DynLan.Evaluator
                 DynLanCodeLine currentLine = currentState.GetCurrentLine();
 
                 // poszukanie poprzedniego catch'a
-                DynLanCodeLine prevCatch = lines.
-                    PrevLineWithLessDepth(currentLine, l => l.OperatorType == EOperatorType.CATCH);
+                DynLanCodeLine prevCatch = DynLanCodeLinesExtender.
+                    PrevLineWithLessDepth(lines, currentLine, l => l.OperatorType == EOperatorType.CATCH);
 
                 // poszukanie poprzedniego try'a
-                DynLanCodeLine prevTry = lines.
-                    PrevLineWithLessDepth(currentLine, l => l.OperatorType == EOperatorType.TRY);
+                DynLanCodeLine prevTry = DynLanCodeLinesExtender.
+                    PrevLineWithLessDepth(lines, currentLine, l => l.OperatorType == EOperatorType.TRY);
 
                 if (exception is DynLanAbortException)
                 {
@@ -579,7 +591,8 @@ namespace DynLan.Evaluator
                 else if (prevTry.Depth < currentLine.Depth &&
                         (prevCatch == null || lines.IndexOf(prevCatch) < lines.IndexOf(prevTry)))
                 {
-                    DynLanCodeLine nextCatch = lines.NextOnSameOrLower(
+                    DynLanCodeLine nextCatch = DynLanCodeLinesExtender.NextOnSameOrLower(
+                        lines, 
                         prevTry,
                         i => i.OperatorType == EOperatorType.CATCH);
 
@@ -597,7 +610,7 @@ namespace DynLan.Evaluator
                                     ExpressionGroup.MainExpression.Tokens.
                                     FirstOrDefault(i => i.TokenType != TokenType.BRACKET_BEGIN);
 #else
-                            variableForException = Linq.FirstOrDefault( nextCatch.
+                            variableForException = Linq2.FirstOrDefault( nextCatch.
                                     ExpressionGroup.MainExpression.Tokens, 
                                     i => i.TokenType != TokenType.BRACKET_BEGIN);
 #endif

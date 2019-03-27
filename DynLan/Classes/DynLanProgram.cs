@@ -74,6 +74,106 @@ namespace DynLan.Classes
 
         //////////////////////////////////////////////////
 
+        public Object Eval(
+            IDictionary<String, Object> Parameters = null)
+        {
+            using (DynLanContext context = this.CreateContext(Parameters))
+            {
+                return Eval(context);
+            }
+        }
+
+        private Object Eval(
+            DynLanContext DynLanContext)
+        {
+            while (true)
+            {
+                if (DynLanContext.IsFinished)
+                {
+                    if (DynLanContext.Error != null)
+                        throw DynLanContext.Error;
+                    break;
+                }
+
+                try
+                {
+                    Boolean result = DynLan.Evaluator.ContextEvaluator.
+                        ExecuteNext(DynLanContext);
+
+                    if (DynLanContext.BreakEveryLine && result)
+                        break;
+                }
+                catch
+                {
+                    throw;
+                }
+            }
+            return DynLanContext.Result;
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////
+
+        public DynLanContext CreateContext(
+            IDictionary<String, Object> Values = null,
+            Boolean BreakEveryLine = false,
+            Boolean CopyParameters = false)
+        {
+            if (Values == null)
+                Values = new Dictionary<String, Object>();
+
+            foreach (DynLanMethod DynLanMethod in this.Methods)
+                Values[DynLanMethod.Name] = DynLanMethod;
+
+            foreach (DynLanClass DynLanClass in this.Classes)
+                Values[DynLanClass.Name] = DynLanClass;
+
+            return CreateContext(
+                this.Lines,
+                Values,
+                BreakEveryLine,
+                CopyParameters);
+        }
+
+        private static DynLanContext CreateContext(
+            DynLanCodeLines Lines,
+            IDictionary<String, Object> Values,
+            Boolean BreakEveryLine = false,
+            Boolean CopyParameters = false)
+        {
+            DynLanContext runContext = new DynLanContext(
+                new DynLanProgram()
+                {
+                    ID = Guid.Empty,
+                    Lines = Lines
+                });
+            runContext.BreakEveryLine = BreakEveryLine;
+
+            if (runContext.CurrentState.Program.Lines.Count > 0)
+                runContext.CurrentState.CurrentLineID = runContext.CurrentState.Program.Lines[0].ID;
+
+            if (Values != null)
+            {
+                if (CopyParameters)
+                {
+                    if (Values is ICloneShallow)
+                    {
+                        runContext.CurrentState.Object.DynamicValues = (IDictionary<String, Object>)((ICloneShallow)Values).CloneShallow();
+                    }
+                    else
+                    {
+                        runContext.CurrentState.Object.DynamicValues = new DictionaryCloneShallow<String, Object>(Values);
+                    }
+                }
+                else
+                {
+                    runContext.CurrentState.Object.DynamicValues = Values;
+                }
+            }
+            return runContext;
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////
+
         public virtual Object Clone()
         {
             DynLanProgram item = (DynLanProgram)this.MemberwiseClone();
@@ -87,11 +187,11 @@ namespace DynLan.Classes
       
 #else
             if (item.Lines != null)
-                item.Lines = new DynLanCodeLines(Linq.Select(item.Lines, i => i.Clone()));
+                item.Lines = new DynLanCodeLines(Linq2.Select(item.Lines, i => i.Clone()));
             if (item.Classes != null)
-                item.Classes = new DynLanClasses(Linq.Select(item.Classes, i => i.Clone() as DynLanClass));
+                item.Classes = new DynLanClasses(Linq2.Select(item.Classes, i => i.Clone() as DynLanClass));
             if (item.Methods != null)
-                item.Methods = new DynLanMethods(Linq.Select(item.Methods, i => i.Clone() as DynLanMethod));
+                item.Methods = new DynLanMethods(Linq2.Select(item.Methods, i => i.Clone() as DynLanMethod));
 
 #endif
 

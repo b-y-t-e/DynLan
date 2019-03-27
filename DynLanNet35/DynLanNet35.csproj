@@ -90,9 +90,6 @@
     <Compile Include="..\DynLan\Compiler.cs">
       <Link>Compiler.cs</Link>
     </Compile>
-    <Compile Include="..\DynLan\Engine.cs">
-      <Link>Engine.cs</Link>
-    </Compile>
     <Compile Include="..\dynlan\evaluator\ContextEvaluator.cs">
       <Link>Evaluator\ContextEvaluator.cs</Link>
     </Compile>
@@ -122,6 +119,9 @@
     </Compile>
     <Compile Include="..\dynlan\extenders\ObjectExtender.cs">
       <Link>Extenders\ObjectExtender.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Helpers\LinqHelper.cs">
+      <Link>Helpers\LinqHelper.cs</Link>
     </Compile>
     <Compile Include="..\dynlan\helpers\MyAssemblyHelper.cs">
       <Link>Helpers\MyAssemblyHelper.cs</Link>

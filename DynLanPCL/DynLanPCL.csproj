@@ -88,9 +88,6 @@
     <Compile Include="..\DynLan\Compiler.cs">
       <Link>Compiler.cs</Link>
     </Compile>
-    <Compile Include="..\DynLan\Engine.cs">
-      <Link>Engine.cs</Link>
-    </Compile>
     <Compile Include="..\DynLan\Evaluator\ContextEvaluator.cs">
       <Link>Evaluator\ContextEvaluator.cs</Link>
     </Compile>
@@ -117,6 +114,9 @@
     </Compile>
     <Compile Include="..\DynLan\Extenders\DynLanCodeLinesExtender.cs">
       <Link>Extenders\DynLanCodeLinesExtender.cs</Link>
+    </Compile>
+    <Compile Include="..\DynLan\Helpers\LinqHelper.cs">
+      <Link>Helpers\LinqHelper.cs</Link>
     </Compile>
     <Compile Include="..\DynLan\Helpers\MyAssemblyHelper.cs">
       <Link>Helpers\MyAssemblyHelper.cs</Link>

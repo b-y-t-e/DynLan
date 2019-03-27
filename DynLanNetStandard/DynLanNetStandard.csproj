@@ -30,7 +30,6 @@
     <Compile Include="..\DynLan\Classes\EmptyObject.cs" Link="Classes\EmptyObject.cs" />
     <Compile Include="..\DynLan\Classes\Undefined.cs" Link="Classes\Undefined.cs" />
     <Compile Include="..\DynLan\Compiler.cs" Link="Compiler.cs" />
-    <Compile Include="..\DynLan\Engine.cs" Link="Engine.cs" />
     <Compile Include="..\DynLan\Evaluator\ContextEvaluator.cs" Link="Evaluator\ContextEvaluator.cs" />
     <Compile Include="..\DynLan\Evaluator\ExpressionEvaluator.cs" Link="Evaluator\ExpressionEvaluator.cs" />
     <Compile Include="..\DynLan\Evaluator\ExpressionEvaluatorOnp.cs" Link="Evaluator\ExpressionEvaluatorOnp.cs" />
@@ -41,6 +40,7 @@
     <Compile Include="..\DynLan\Exceptions\Exceptions.cs" Link="Exceptions\Exceptions.cs" />
     <Compile Include="..\DynLan\Extenders\DynLanCodeLinesExtender.cs" Link="Extenders\DynLanCodeLinesExtender.cs" />
     <Compile Include="..\DynLan\Extenders\ObjectExtender.cs" Link="Extenders\ObjectExtender.cs" />
+    <Compile Include="..\DynLan\Helpers\LinqHelper.cs" Link="Helpers\LinqHelper.cs" />
     <Compile Include="..\DynLan\Helpers\MyAssemblyHelper.cs" Link="Helpers\MyAssemblyHelper.cs" />
     <Compile Include="..\DynLan\Helpers\MyCollectionsExtenders.cs" Link="Helpers\MyCollectionsExtenders.cs" />
     <Compile Include="..\DynLan\Helpers\MyReflectionHelper.cs" Link="Helpers\MyReflectionHelper.cs" />

@@ -64,9 +64,8 @@ namespace DynLan.OnpEngine.Logic
                     indexOfMethodInvoke + 1,
                     indexOfBracketStart - indexOfMethodInvoke - 1).Trim();
 
-                IList<String> parameters = SplitMethodParameters(
-                    Code.Substring(indexOfBracketStart + 1, Code.Length - indexOfBracketStart - 2), AllObjects).
-                    ToArray();
+                IList<String> parameters = Linq2.ToArray(SplitMethodParameters(
+                    Code.Substring(indexOfBracketStart + 1, Code.Length - indexOfBracketStart - 2), AllObjects));
 
                 if (AllObjects)
                 {
@@ -103,10 +102,9 @@ namespace DynLan.OnpEngine.Logic
             {
                 String methodName = Code.Substring(0, indexOfBracketStart).Trim();
 
-                IList<String> parameters = SplitMethodParameters(
+                IList<String> parameters = Linq2.ToArray(SplitMethodParameters(
                     //Code.Substring(indexOfBracketStart + 1, Code.Length - indexOfBracketStart - 2), AllObjects).
-                    Code.Substring(indexOfBracketStart + 1, indexOfBracketEnd - indexOfBracketStart - 1), AllObjects).
-                    ToArray();
+                    Code.Substring(indexOfBracketStart + 1, indexOfBracketEnd - indexOfBracketStart - 1), AllObjects));
                 parameters = parameters;
 
                 if (AllObjects)
@@ -150,9 +148,8 @@ namespace DynLan.OnpEngine.Logic
             StringBuilder paramStr = new StringBuilder();
             Boolean isFirst = true;
 
-            IList<String> tokens = TokenGetter.
-                GetStringTokens(Code.Trim()).
-                ToList();
+            IList<String> tokens = Linq2.ToList(TokenGetter.
+                GetStringTokens(Code.Trim()));
 
             foreach (String token in tokens)
             {

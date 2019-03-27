@@ -421,7 +421,7 @@ namespace DynLan.Helpers
 #if !NET20
                 return Type.GetInterfaces().Contains(Subclass);
 #else
-                return Linq.Contains(Type.GetInterfaces(), Subclass);
+                return Linq2.Contains(Type.GetInterfaces(), Subclass);
 #endif
             }
             else

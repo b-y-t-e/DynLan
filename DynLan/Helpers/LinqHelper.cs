@@ -6,11 +6,11 @@ using System.Text;
 
 namespace System.Linq
 {
-    public static class Linq
+    public static class Linq2
     {
-        public static Linq<T> From<T>(IEnumerable<T> Items)
+        public static Linq2<T> From<T>(IEnumerable<T> Items)
         {
-            return new Linq<T>(Items);
+            return new Linq2<T>(Items);
         }
 
         public static Boolean Contains<T>(IEnumerable<T> Items, T Item)
@@ -36,6 +36,18 @@ namespace System.Linq
 #endif
         }
 
+        public static Boolean Any<T>(IEnumerable<T> Items, Func<T, Boolean> Condition)
+        {
+#if !NET20
+            return Items.Any(Condition);
+#else
+            foreach (var item in Items)
+                if(Condition(item))
+                    return true;
+            return false;
+#endif
+        }
+
         public static Dictionary<K, V> ToDictionary<T, K, V>(IEnumerable<T> Items, Func<T, K> KeyGetter, Func<T, V> ValueGetter)
         {
 #if !NET20
@@ -45,6 +57,31 @@ namespace System.Linq
             foreach (var item in Items)
                 dict[KeyGetter(item)] = ValueGetter(item);
             return dict;
+#endif
+        }
+
+        public static List<T> ToList<T>(IEnumerable<T> Items)
+        {
+#if !NET20
+            return new List<T>(Items);
+#else
+            return new List<T>(Items);
+#endif
+        }
+
+        public static T[] ToArray<T>(IEnumerable<T> Items)
+        {
+#if !NET20
+            return Items.ToArray();
+#else
+            int i=0;
+            foreach( var item in Items)
+                i++;
+            var r = new T[i];
+            i=0;
+            foreach( var item in Items)            
+                r[i++] = item;            
+            return r;
 #endif
         }
 
@@ -110,21 +147,21 @@ namespace System.Linq
         }
     }
 
-    public class Linq<T>
+    public class Linq2<T>
     {
         public List<T> Items;
 
-        public Linq()
+        public Linq2()
         {
             this.Items = new List<T>();
         }
 
-        public Linq(IEnumerable<T> Items)
+        public Linq2(IEnumerable<T> Items)
         {
             this.Items = Items == null ? new List<T>() : new List<T>(Items);
         }
 
-        public Linq(IEnumerable InItems)
+        public Linq2(IEnumerable InItems)
         {
             this.Items = new List<T>();
             if (InItems != null)
@@ -132,7 +169,7 @@ namespace System.Linq
                     this.Items.Add((T)item);
         }
 
-        public Linq<T> From(IEnumerable InItems)
+        public Linq2<T> From(IEnumerable InItems)
         {
             this.Items = new List<T>();
             if (InItems != null)
@@ -180,13 +217,13 @@ namespace System.Linq
             return new List<T>(Items);
         }
 
-        public Linq<R> Select<R>(Func<T, R> Condition)
+        public Linq2<R> Select<R>(Func<T, R> Condition)
         {
             List<R> newItems = new List<R>();
             foreach (T item in this.Items)
                 newItems.Add(Condition(item));
 
-            Linq<R> newLinq = new Linq<R>(newItems);
+            Linq2<R> newLinq = new Linq2<R>(newItems);
             return newLinq;
         }
 
@@ -198,18 +235,38 @@ namespace System.Linq
             return dict;
         }
 
-        public Linq<R> SelectMany<R>(Func<T, IEnumerable<R>> Condition)
+        public Linq2<R> SelectMany<R>(Func<T, IEnumerable<R>> Condition)
         {
             List<R> newItems = new List<R>();
             foreach (T item in this.Items)
                 foreach (R innerItem in Condition(item))
                     newItems.Add(innerItem);
 
-            Linq<R> newLinq = new Linq<R>(newItems);
+            Linq2<R> newLinq = new Linq2<R>(newItems);
             return newLinq;
         }
 
-        public Linq<T> Until(Func<T, Boolean> Condition)
+        public Linq2<T> Union(IEnumerable<T> OtherItems)
+        {
+            Linq2<T> newItems = new Linq2<T>();
+            foreach (T item in this.Items)
+                newItems.Items.Add(item);
+            foreach (T item in OtherItems)
+                newItems.Items.Add(item);
+            return newItems;
+        }
+
+        public Linq2<T> Union(Linq2<T> OtherItems)
+        {
+            Linq2<T> newItems = new Linq2<T>();
+            foreach (T item in this.Items)
+                newItems.Items.Add(item);
+            foreach (T item in OtherItems.Items)
+                newItems.Items.Add(item);
+            return newItems;
+        }
+
+        public Linq2<T> Until(Func<T, Boolean> Condition)
         {
             List<T> newItems = new List<T>();
             foreach (T item in this.Items)
@@ -219,13 +276,13 @@ namespace System.Linq
                 newItems.Add(item);
             }
 
-            Linq<T> newLinq = new Linq<T>(newItems);
+            Linq2<T> newLinq = new Linq2<T>(newItems);
             return newLinq;
         }
 
         private Func<T, IComparable> orderByFunc;
 
-        public Linq<T> OrderBy(Func<T, IComparable> Condition)
+        public Linq2<T> OrderBy(Func<T, IComparable> Condition)
         {
             this.orderByFunc = Condition;
             if (this.orderByFunc != null)
@@ -234,7 +291,7 @@ namespace System.Linq
             return this;
         }
 
-        public Linq<T> OrderByDescending(Func<T, IComparable> Condition)
+        public Linq2<T> OrderByDescending(Func<T, IComparable> Condition)
         {
             this.orderByFunc = Condition;
             if (this.orderByFunc != null)
@@ -298,9 +355,9 @@ namespace System.Linq
             return default(T);
         }
 
-        public Linq<T> Where(Func<T, Boolean> Condition)
+        public Linq2<T> Where(Func<T, Boolean> Condition)
         {
-            Linq<T> result = new Linq<T>();
+            Linq2<T> result = new Linq2<T>();
 
             if (Condition == null)
                 return result;
@@ -312,9 +369,9 @@ namespace System.Linq
             return result;
         }
 
-        public Linq<T> Distinct()
+        public Linq2<T> Distinct()
         {
-            Linq<T> result = new Linq<T>();
+            Linq2<T> result = new Linq2<T>();
 
             foreach (T item in Items)
                 if (!result.Items.Contains(item))
