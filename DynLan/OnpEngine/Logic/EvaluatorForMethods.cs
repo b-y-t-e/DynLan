@@ -125,7 +125,7 @@ namespace DynLan.OnpEngine.Logic
 #if !NET20
                     var tmp = new[] { Object }.Union(MethodParameters);
 #else
-                    var tmp = Linq2.From(  new[] { Object }).Union(MethodParameters).ToArray();
+                    var tmp = Linq2.From(new[] { Object }).Union(MethodParameters).ToArray();
 #endif
                     result = onpMethod.
                         CalculateValueDelegate(
@@ -158,7 +158,7 @@ namespace DynLan.OnpEngine.Logic
 #if !NET20
                     var tmp = new[] { Object }.Union(MethodParameters);
 #else
-                    var tmp = Linq2.From( new[] { Object }).Union(MethodParameters).ToArray();
+                    var tmp = Linq2.From(new[] { Object }).Union(MethodParameters).ToArray();
 #endif
                     result = onpMethod.
                         CalculateValueDelegate(
@@ -232,25 +232,40 @@ namespace DynLan.OnpEngine.Logic
 
         private static IList<object> CorrectParameters(IEnumerable<object> Parameters)
         {
-            if (Parameters == null)
-                return null;
+            try
+            {
+                if (Parameters == null)
+                    return null;
 
-            List<object> newParameters = new List<object>();
-            var i = 0;
-            foreach (var parameter in Parameters)
-                newParameters[i++] = InternalTypeConverter.ToOuter(parameter);
-            return newParameters;
+                List<object> newParameters = new List<object>();
+                var i = 0;
+                foreach (var parameter in Parameters)
+                    newParameters[i++] = InternalTypeConverter.ToOuter(parameter);
+                return newParameters;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         private static IList<object> CorrectParameters(IList<object> Parameters)
         {
-            if (Parameters == null)
-                return null;
+            object [] newParameters = new object[Parameters.Count];
+            try
+            {
+                if (Parameters == null)
+                    return null;
 
-            IList<object> newParameters = new object[Parameters.Count];
-            for (var i = 0; i < Parameters.Count; i++)
-                newParameters[i] = InternalTypeConverter.ToOuter(Parameters[i]);
-            return newParameters;
+                for (var i = 0; i < Parameters.Count; i++)
+                    newParameters[i] = InternalTypeConverter.ToOuter(Parameters[i]);
+                return newParameters;
+            }
+            catch
+            {
+                newParameters = newParameters;
+                return null;
+            }
         }
 
         /*public static Boolean EvaluateValue(
