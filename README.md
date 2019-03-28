@@ -6,20 +6,16 @@
    + complex scripts (with objects and classes)
  + interoperability:
  + entirely written in plain C# (without DLR / Reflection.Emit)
+ + pausing script execution
 
 ## Compatibility
    + .net >= 2.0
    + .net core
    + .net standard
+   + .net CE
    + PCL (including silverlight)
-   + .net compact framework
- + pausing script execution
-
-## Performance
- 22808 lines/second on single core (Intel Core i5-3210M@2.50Ghz)
 
 ## Examples
-
  + Simple expressions:
 ```
 // result = 4
@@ -77,6 +73,10 @@ return multiply( obj.Sum(3) + obj.a, 10)
 
 ").Eval();
 ```
+
+## Sample performance
+ 22808 lines/second on single core (Intel Core i5-3210M@2.50Ghz)
+
 
 ## More examples
 [Explore](https://github.com/b-y-t-e/DynLan/blob/master/EXAMPLES.md)
