@@ -6,8 +6,9 @@
    + complex scripts (with objects and classes)
  + interoperability:
  + entirely written in plain C# (without DLR / Reflection.Emit)
- + compatible with:
-   + .net 4.0 and higher
+
+## Compatibility
+   + .net >= 2.0
    + .net core
    + .net standard
    + PCL (including silverlight)
