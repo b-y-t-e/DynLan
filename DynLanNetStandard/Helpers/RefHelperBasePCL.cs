@@ -19,8 +19,14 @@ namespace DynLan.Helpers
         private Dictionary<Type, String[]> _cacheProperties =
             new Dictionary<Type, String[]>();
 
+        private Dictionary<Type, String[]> _cacheFields =
+            new Dictionary<Type, String[]>();
+
         private Dictionary<Type, PropertyInfo[]> _cacheProperties2 =
             new Dictionary<Type, PropertyInfo[]>();
+
+        private Dictionary<Type, FieldInfo[]> _cacheFields2 =
+            new Dictionary<Type, FieldInfo[]>();
 
         private Dictionary<Type, Dictionary<String, PropertyInfo>> _cachePropertyInfos =
             new Dictionary<Type, Dictionary<String, PropertyInfo>>();
@@ -51,7 +57,7 @@ namespace DynLan.Helpers
                 PropertiesToOmit = PropertiesToOmit.Select(i => i.ToUpper()).ToArray();
             }
 
-            foreach (var property in GetPropertyinfos(Source))
+            foreach (var property in GetPropertyInfos(Source))
             {
                 if (PropertiesToOmit != null && PropertiesToOmit.Length > 0)
                     if (PropertiesToOmit.Contains(unsensitive ? property.Name.ToUpper() : property.Name))
@@ -79,7 +85,7 @@ namespace DynLan.Helpers
             if (Source == null || Dest == null)
                 return;
 
-            foreach (var property in GetPropertyinfos(Source))
+            foreach (var property in GetPropertyInfos(Source))
             {
                 if (!CopyCollections)
                 {
@@ -311,6 +317,32 @@ namespace DynLan.Helpers
 
         ////////////////////////////////////////////
 
+        public String[] GetFields(Object Object)
+        {
+            return Object != null ?
+                GetFields(Object.GetType()) :
+                new String[0];
+        }
+
+        public String[] GetFields(Type Type)
+        {
+            if (!_cacheFields.ContainsKey(Type))
+            {
+                lock (lck)
+                {
+                    if (!_cacheFields.ContainsKey(Type))
+                    {
+                        _cacheFields[Type] = Type.GetFields(BindingFlags.Instance | BindingFlags.Public).Select(p => this.unsensitive ? p.Name.ToUpper() : p.Name).ToArray();
+                    }
+                }
+            }
+            return _cacheFields.ContainsKey(Type) ?
+                _cacheFields[Type] :
+                new String[0];
+        }
+
+        ////////////////////////////////////////////
+
         public String[] GetProperties(Object Object)
         {
             return Object != null ?
@@ -337,7 +369,33 @@ namespace DynLan.Helpers
 
         ////////////////////////////////////////////
 
-        public PropertyInfo[] GetPropertyinfos(Object Object)
+        public FieldInfo[] GetFieldInfos(Object Object)
+        {
+            return Object != null ?
+                GetFieldinfos(Object.GetType()) :
+                new FieldInfo[0];
+        }
+
+        public FieldInfo[] GetFieldinfos(Type Type)
+        {
+            if (!_cacheFields2.ContainsKey(Type))
+            {
+                lock (lck)
+                {
+                    if (!_cacheFields2.ContainsKey(Type))
+                    {
+                        _cacheFields2[Type] = Type.GetFields(BindingFlags.Public | BindingFlags.Instance).ToArray();
+                    }
+                }
+            }
+            return _cacheFields2.ContainsKey(Type) ?
+                _cacheFields2[Type] :
+                new FieldInfo[0];
+        }
+
+        ////////////////////////////////////////////
+
+        public PropertyInfo[] GetPropertyInfos(Object Object)
         {
             return Object != null ?
                 GetPropertyinfos(Object.GetType()) :

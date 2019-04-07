@@ -95,6 +95,25 @@ item = dictionary(); item.imie = osoba.imie; return item.imie;
             }
         }
 
+        /*
+#if !NET20
+        [TestMethod]
+#endif
+        public void test_dictionary_input22()
+        {
+            {
+                var dict = new Dictionary<string, object>();
+                dict["maxValue"] = 100;
+
+                object r = new Compiler().
+                    Compile(@" strObj.Substring(10) + strObj.Substring(strObj.Length - 3) ").
+                    Eval(dict);
+
+                var v = r;
+                if (!("andrew").Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+            }
+        }*/
+
 #if !NET20
         [TestMethod]
 #endif
