@@ -16,7 +16,7 @@ namespace DynLan.Evaluator
     public static class ContextEvaluator
     {
         public static Boolean ExecuteNext(
-            DynLanContext DynLanContext)
+            DynContext DynLanContext)
         {
             try
             {
@@ -87,7 +87,7 @@ namespace DynLan.Evaluator
             }
         }
 
-        private static Exception PrepareDynLanException(DynLanContext DynLanContext, Exception Error)
+        private static Exception PrepareDynLanException(DynContext DynLanContext, Exception Error)
         {
             Exception outError = null;
             if (Error != null)
@@ -118,7 +118,7 @@ namespace DynLan.Evaluator
             return outError;
         }
 
-        private static String GetStacktrace(DynLanContext DynLanContext)
+        private static String GetStacktrace(DynContext DynLanContext)
         {
             String DynLanStacktrace = "";
             if (DynLanContext != null && DynLanContext.Stack != null)
@@ -156,7 +156,7 @@ namespace DynLan.Evaluator
         }
 
         private static Boolean? CheckIfFinishedOrEmptyLine(
-            DynLanContext DynLanContext,
+            DynContext DynLanContext,
             DynLanState currentState)
         {
             if (currentState == null || DynLanContext.IsFinished)
@@ -202,7 +202,7 @@ namespace DynLan.Evaluator
         }
 
         private static Boolean? ExecuteCalculations(
-            DynLanContext DynLanContext,
+            DynContext DynLanContext,
             DynLanState currentState,
             out Object Result)
         {
@@ -247,7 +247,7 @@ namespace DynLan.Evaluator
         //////////////////////////////////////////////
 
         private static Boolean GotoNextLine(
-            DynLanContext DynLanContext,
+            DynContext DynLanContext,
             DynLanState currentState,
             Object currentValue)
         {
@@ -547,7 +547,7 @@ namespace DynLan.Evaluator
         }
 
         private static Boolean GotoCatch(
-            DynLanContext DynLanContext,
+            DynContext DynLanContext,
             Exception exception)
         {
             while (true)
@@ -650,7 +650,7 @@ namespace DynLan.Evaluator
         //////////////////////////////////////////////
 
         private static Boolean ExitCurrentContext(
-            DynLanContext DynLanContext,
+            DynContext DynLanContext,
             Object Result,
             Exception ex)
         {
@@ -674,7 +674,7 @@ namespace DynLan.Evaluator
         }
 
         private static Boolean ExitCurrentLoop(
-            DynLanContext DynLanContext,
+            DynContext DynLanContext,
             Object Result,
             Exception ex)
         {
@@ -698,7 +698,7 @@ namespace DynLan.Evaluator
         }
 
         private static Boolean ExitCurrentContext(
-            DynLanContext DynLanContext,
+            DynContext DynLanContext,
             Exception ex)
         {
             DynLanState state = DynLanContext.CurrentState;

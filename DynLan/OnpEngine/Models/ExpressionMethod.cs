@@ -35,8 +35,8 @@ namespace DynLan.OnpEngine.Models
                 {
                     Int32 v = 0;
 
-                    if (OperationNames != null)
-                        foreach (String operationName in OperationNames)
+                    if (Names != null)
+                        foreach (String operationName in Names)
                             v += operationName.GetHashCode();
 
                     id = new Guid(v, 0, 0, new byte[8]);
@@ -47,38 +47,38 @@ namespace DynLan.OnpEngine.Models
 
         //////////////////////////////////////////////////////////////////////
 
-        public String[] OperationNames { get; set; }
+        public String[] Names { get; set; }
 
-        public Func<DynLanContext, IList<Object>, ExpressionMethodResult> CalculateValueDelegate { get; set; }
+        public Func<DynContext, IList<Object>, DynMethodResult> Body { get; set; }
 
         //////////////////////////////////////////////////////////////////////
 
         public DynMethod()
         {
-            this.OperationNames = new String[0];
+            this.Names = new String[0];
         }
 
-        public DynMethod(Func<DynLanContext, IList<Object>, ExpressionMethodResult> CalculateValueDelegate)
+        public DynMethod(Func<DynContext, IList<Object>, DynMethodResult> CalculateValueDelegate)
         {
-            this.OperationNames = new String[0];
-            this.CalculateValueDelegate = CalculateValueDelegate;
+            this.Names = new String[0];
+            this.Body = CalculateValueDelegate;
         }
 
         //////////////////////////////////////////////////////////////////////
     }
 
-    public class ExpressionMethodResult
+    public class DynMethodResult
     {
         public Object Value;
 
         public Boolean NewContextCreated;
 
-        public ExpressionMethodResult()
+        public DynMethodResult()
         {
 
         }
 
-        public ExpressionMethodResult(Object Value)
+        public DynMethodResult(Object Value)
         {
             this.Value = Value;
         }

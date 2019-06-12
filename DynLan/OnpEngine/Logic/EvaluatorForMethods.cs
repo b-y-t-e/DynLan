@@ -18,7 +18,7 @@ namespace DynLan.OnpEngine.Logic
             Object Object,
             Object MethodObject,
             IList<Object> Parameters,
-            DynLanContext DynLanContext)
+            DynContext DynLanContext)
         {
             if (MethodObject is DynLanMethod)
             {
@@ -63,7 +63,7 @@ namespace DynLan.OnpEngine.Logic
             }
             else
             {
-                ExpressionMethodResult methodResult = EvaluateInlineMethod(
+                DynMethodResult methodResult = EvaluateInlineMethod(
                     Object,
                     MethodObject,
                     Parameters,
@@ -83,11 +83,11 @@ namespace DynLan.OnpEngine.Logic
             }
         }
 
-        private static ExpressionMethodResult EvaluateInlineMethod(
+        private static DynMethodResult EvaluateInlineMethod(
             Object Object,
             Object Method,
             IList<Object> MethodParameters,
-            DynLanContext DynLanContext)
+            DynContext DynLanContext)
         {
             if (Method is OnpMethodInfo)
             {
@@ -99,24 +99,24 @@ namespace DynLan.OnpEngine.Logic
                     CorrectParameters(MethodParameters));
 
                 if (callResult != null)
-                    return new ExpressionMethodResult(callResult.Value);
+                    return new DynMethodResult(callResult.Value);
             }
             else if (Method is OnpActionMethodInfo)
             {
                 OnpActionMethodInfo methodInfo = Method as OnpActionMethodInfo;
 
                 if (methodInfo != null && methodInfo.Action != null)
-                    return new ExpressionMethodResult(methodInfo.Action(CorrectParameters(MethodParameters)));
+                    return new DynMethodResult(methodInfo.Action(CorrectParameters(MethodParameters)));
             }
             else if (Method is DynMethod)
             {
                 DynMethod onpMethod = Method as DynMethod;
-                ExpressionMethodResult result = null;
+                DynMethodResult result = null;
 
                 if (Object is EmptyObject)
                 {
                     result = onpMethod.
-                        CalculateValueDelegate(
+                        Body(
                             DynLanContext,
                             CorrectParameters(MethodParameters));
                 }
@@ -128,28 +128,28 @@ namespace DynLan.OnpEngine.Logic
                     var tmp = Linq2.From(new[] { Object }).Union(MethodParameters).ToArray();
 #endif
                     result = onpMethod.
-                        CalculateValueDelegate(
+                        Body(
                             DynLanContext,
                             CorrectParameters(tmp));
                 }
 
                 return result == null ?
-                    new ExpressionMethodResult(null) :
+                    new DynMethodResult(null) :
                     result;
             }
             else if (Method is ExpressionMethodInfo)
             {
                 ExpressionMethodInfo onpMethodInfo = Method as ExpressionMethodInfo;
                 DynMethod onpMethod = BuildinMethods.GetByID(onpMethodInfo.ID);
-                ExpressionMethodResult result = null;
+                DynMethodResult result = null;
 
                 if (onpMethod == null)
-                    return new ExpressionMethodResult(result);
+                    return new DynMethodResult(result);
 
                 if (Object is EmptyObject)
                 {
                     result = onpMethod.
-                        CalculateValueDelegate(
+                        Body(
                             DynLanContext,
                             CorrectParameters(MethodParameters));
                 }
@@ -161,7 +161,7 @@ namespace DynLan.OnpEngine.Logic
                     var tmp = Linq2.From(new[] { Object }).Union(MethodParameters).ToArray();
 #endif
                     result = onpMethod.
-                        CalculateValueDelegate(
+                        Body(
                             DynLanContext,
                             CorrectParameters(tmp));
                 }
@@ -170,14 +170,14 @@ namespace DynLan.OnpEngine.Logic
                     result.Value = InternalTypeConverter.ToInner(result.Value);
 
                 return result == null ?
-                    new ExpressionMethodResult(null) :
+                    new DynMethodResult(null) :
                     result;
             }
             else if (Method is ExpressionExtender)
             {
                 ExpressionExtender onpExtender = Method as ExpressionExtender;
 
-                return new ExpressionMethodResult(
+                return new DynMethodResult(
                     onpExtender.
                         CalculateValueDelegate(
                             DynLanContext,
@@ -190,9 +190,9 @@ namespace DynLan.OnpEngine.Logic
                 ExpressionExtender onpExtender = BuildinExtenders.GetByID(onpExtenderInfo.ID);
 
                 if (onpExtender == null)
-                    return new ExpressionMethodResult(null);
+                    return new DynMethodResult(null);
 
-                return new ExpressionMethodResult(
+                return new DynMethodResult(
                     onpExtender.
                         CalculateValueDelegate(
                             DynLanContext,
@@ -212,7 +212,7 @@ namespace DynLan.OnpEngine.Logic
                     CorrectParameters(MethodParameters));
 
                 if (callResult != null)
-                    return new ExpressionMethodResult(callResult.Value);
+                    return new DynMethodResult(callResult.Value);
 #endif
             }
 

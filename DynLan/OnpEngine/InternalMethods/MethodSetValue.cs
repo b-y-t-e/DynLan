@@ -20,7 +20,7 @@ namespace DynLan.OnpEngine.InternalMethods
 
         ////////////////////////////////////////////////////////////////////////
 
-        public static ExpressionMethodResult Execute(DynLanContext EvaluateContext, IList<Object> Parameters)
+        public static DynMethodResult Execute(DynContext EvaluateContext, IList<Object> Parameters)
         {
             String variableName = UniConvert.ToUniString(Parameters != null && Parameters.Count > 0 ? Parameters[0] : null);
             Object value = Parameters != null && Parameters.Count > 1 ? Parameters[1] : null;
@@ -33,7 +33,7 @@ namespace DynLan.OnpEngine.InternalMethods
                     value);
 
                 if (isValueSet)
-                    return new ExpressionMethodResult(value);
+                    return new DynMethodResult(value);
             }
             return null;
         }

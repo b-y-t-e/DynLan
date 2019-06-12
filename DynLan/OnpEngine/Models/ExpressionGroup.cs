@@ -47,7 +47,7 @@ namespace DynLan.OnpEngine.Models
 
         //////////////////////////////
 
-        public Expression FindExpression(String VariableName, DynLanContext DynLanContext)
+        public Expression FindExpression(String VariableName, DynContext DynLanContext)
         {
             Expression foundExpression = null;
             if (Expressions != null)

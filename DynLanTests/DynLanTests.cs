@@ -3137,7 +3137,7 @@ return f1(1)
                     "test" ,
                     new DynMethod((DynLanContext, Parameters) =>
                     {
-                        return new ExpressionMethodResult("test " + (Parameters?.Count??0));
+                        return new DynMethodResult("test " + (Parameters?.Count??0));
                     })
                 }
             };
@@ -3158,7 +3158,7 @@ return f1(1)
                     "test" ,
                     new DynMethod((DynLanContext, Parameters) =>
                     {
-                        return new ExpressionMethodResult("test " + (Parameters?.Count??0));
+                        return new DynMethodResult("test " + (Parameters?.Count??0));
                     })
                 }
             };
@@ -3173,28 +3173,28 @@ return f1(1)
 #if !NET20
             yield return new DynMethod()
             {
-                OperationNames = new[] { "serialize" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "serialize" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
-                        return new ExpressionMethodResult(JsonSerializerPrecise.SerializeJson(Parameters.FirstOrDefault()));
+                        return new DynMethodResult(JsonSerializerPrecise.SerializeJson(Parameters.FirstOrDefault()));
                     }
-                    return new ExpressionMethodResult(null);
+                    return new DynMethodResult(null);
                 }
             };
 
             yield return new DynMethod()
             {
-                OperationNames = new[] { "deserialize" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "deserialize" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
                         string json = UniConvert.ToString(Parameters.FirstOrDefault());
-                        return new ExpressionMethodResult(JsonSerializerPrecise.DeserializeJson(json));
+                        return new DynMethodResult(JsonSerializerPrecise.DeserializeJson(json));
                     }
-                    return new ExpressionMethodResult(null);
+                    return new DynMethodResult(null);
                 }
             };
 #else

@@ -18,7 +18,7 @@ namespace DynLan.OnpEngine.InternalExtenders
 
         ////////////////////////////////////////////////////////////////////////
 
-        public static Object Execute(DynLanContext EvaluateContext, Object obj, IList<Object> Parameters)
+        public static Object Execute(DynContext EvaluateContext, Object obj, IList<Object> Parameters)
         {
             Object Collection = obj;
 #if !NET20

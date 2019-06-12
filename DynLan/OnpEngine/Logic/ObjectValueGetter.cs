@@ -96,7 +96,7 @@ namespace DynLan.OnpEngine.Logic
 
         public static Boolean EvaluateValue(
             String FieldOrMethodName,
-            DynLanContext DynLanContext)
+            DynContext DynLanContext)
         {
             return EvaluateValueOrMethod(
                 null,
@@ -109,7 +109,7 @@ namespace DynLan.OnpEngine.Logic
             Object Obj,
             String FieldOrMethodName,
             Int32 ParametersCount,
-            DynLanContext DynLanContext)
+            DynContext DynLanContext)
         {
             Boolean seekInObject = (Obj != null && !(Obj is EmptyObject));
 

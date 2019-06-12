@@ -11,7 +11,7 @@ namespace DynLan.Evaluator
     public static class ExpressionEvaluator
     {
         public static Boolean NextStep(
-            DynLanContext DynLanContext)
+            DynContext DynLanContext)
         {
             if (DynLanContext == null || DynLanContext.CurrentState == null)
                 return true;

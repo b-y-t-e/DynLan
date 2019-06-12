@@ -8,7 +8,7 @@ namespace DynLan.EventArgs
 {
     public class DynLanProgramErrorEventArgs : System.EventArgs
     {
-        public DynLanContext Context { get; set; }
+        public DynContext Context { get; set; }
 
         public DynLanProgram Program { get; set; }
 

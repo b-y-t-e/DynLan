@@ -14,7 +14,7 @@ namespace DynLan.Evaluator
     public static class ExpressionEvaluatorOnp
     {
         public static Boolean EvaluateOnp(
-            DynLanContext DynLanContext)
+            DynContext DynLanContext)
         {
             Boolean result = false;
             ExpressionState expState = DynLanContext.CurrentExpressionState;

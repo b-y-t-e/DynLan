@@ -14,7 +14,7 @@ namespace DynLan.Evaluator
     public static class ExpressionEvaluatorQueue
     {
         public static Boolean EvaluateQueue(
-            DynLanContext DynLanContext)
+            DynContext DynLanContext)
         {
             ExpressionState expState = DynLanContext.CurrentExpressionState;
             ExpressionContext expContext = DynLanContext.CurrentExpressionContext;

@@ -40,7 +40,7 @@ namespace DynLan.OnpEngine.Internal
             {
                 if (!methodsByIds.ContainsKey(Method.ID))
                 {
-                    foreach (String name in Method.OperationNames)
+                    foreach (String name in Method.Names)
 #if CASE_INSENSITIVE
                         methodsByNames[name.ToUpper()] = Method;
 #else
@@ -70,7 +70,7 @@ namespace DynLan.OnpEngine.Internal
                         methodsByNames = new Dictionary<String, DynMethod>();
                         foreach (DynMethod operation in BuildMethods())
                         {
-                            foreach (String name in operation.OperationNames)
+                            foreach (String name in operation.Names)
 #if CASE_INSENSITIVE
                                 methodsByNames[name.ToUpper()] = operation;
 #else
@@ -87,8 +87,8 @@ namespace DynLan.OnpEngine.Internal
         {
             yield return new DynMethod()
             {
-                OperationNames = new[] { MethodSetValue.Name },
-                CalculateValueDelegate = MethodSetValue.Execute
+                Names = new[] { MethodSetValue.Name },
+                Body = MethodSetValue.Execute
             };
             /*yield return new ExpressionMethod()
             {
@@ -119,56 +119,56 @@ namespace DynLan.OnpEngine.Internal
             };*/
             yield return new DynMethod()
             {
-                OperationNames = new[] { "getdatetime" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "getdatetime" },
+                Body = (DynLanContext, Parameters) =>
                 {
-                    return new ExpressionMethodResult(DateTime.Now);
+                    return new DynMethodResult(DateTime.Now);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "getdatetimeastext" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "getdatetimeastext" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     DateTime now = DateTime.Now.Date;
                     String nowText = StringHelper.FormatDate(now, "yyyymmddThhmiss");
-                    return new ExpressionMethodResult(nowText);
+                    return new DynMethodResult(nowText);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "getdate" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "getdate" },
+                Body = (DynLanContext, Parameters) =>
                 {
-                    return new ExpressionMethodResult(DateTime.Now.Date);
+                    return new DynMethodResult(DateTime.Now.Date);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "getdateastext" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "getdateastext" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     DateTime now = DateTime.Now.Date;
                     String nowText = StringHelper.FormatDate(now, "yyyymmdd");
-                    return new ExpressionMethodResult(nowText);
+                    return new DynMethodResult(nowText);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "return" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "return" },
+                Body = (DynLanContext, Parameters) =>
                 {
 #if !NET20
-                    return new ExpressionMethodResult(Parameters.FirstOrDefault());
+                    return new DynMethodResult(Parameters.FirstOrDefault());
 #else
-                    return new ExpressionMethodResult(Linq2.FirstOrDefault(Parameters));
+                    return new DynMethodResult(Linq2.FirstOrDefault(Parameters));
 #endif
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "substring" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "substring" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
@@ -181,33 +181,33 @@ namespace DynLan.OnpEngine.Internal
                             {
                                 if (start + len <= str.Length)
                                 {
-                                    return new ExpressionMethodResult(str.Substring(start, len));
+                                    return new DynMethodResult(str.Substring(start, len));
                                 }
                                 else
                                 {
-                                    return new ExpressionMethodResult(str.Substring(start));
+                                    return new DynMethodResult(str.Substring(start));
                                 }
                             }
-                            return new ExpressionMethodResult("");
+                            return new DynMethodResult("");
                         }
                         else if (Parameters.Count == 2)
                         {
                             Int32 start = Convert.ToInt32(Parameters[1]);
                             if (start < str.Length)
                             {
-                                return new ExpressionMethodResult(str.Substring(start));
+                                return new DynMethodResult(str.Substring(start));
                             }
-                            return new ExpressionMethodResult("");
+                            return new DynMethodResult("");
                         }
-                        return new ExpressionMethodResult(str);
+                        return new DynMethodResult(str);
                     }
-                    return new ExpressionMethodResult("");
+                    return new DynMethodResult("");
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "split" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "split" },
+                Body = (DynLanContext, Parameters) =>
                 {
 #if NETCE
                     throw new NotImplementedException();
@@ -233,72 +233,72 @@ namespace DynLan.OnpEngine.Internal
                         {
                             list.Add(str);
                         }
-                        return new ExpressionMethodResult(list);
+                        return new DynMethodResult(list);
                     }
-                    return new ExpressionMethodResult("");
+                    return new DynMethodResult("");
 #endif
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "str" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "str" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
-                        return new ExpressionMethodResult(
+                        return new DynMethodResult(
                             UniConvert.ToString(Parameters[0]));
                     }
-                    return new ExpressionMethodResult(0);
+                    return new DynMethodResult(0);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "lower" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "lower" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
                         if (Parameters[0] == null)
                             return null;
-                        return new ExpressionMethodResult(
+                        return new DynMethodResult(
                             UniConvert.ToString(Parameters[0]).ToLower());
                     }
-                    return new ExpressionMethodResult(0);
+                    return new DynMethodResult(0);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "upper" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "upper" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
                         if (Parameters[0] == null)
                             return null;
-                        return new ExpressionMethodResult(
+                        return new DynMethodResult(
                             UniConvert.ToString(Parameters[0]).ToUpper());
                     }
-                    return new ExpressionMethodResult(0);
+                    return new DynMethodResult(0);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "ceil" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "ceil" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
-                        return new ExpressionMethodResult(
+                        return new DynMethodResult(
                             UniConvert.ToDecimal(Math.Ceiling(UniConvert.ToDouble(Parameters[0]))));
                     }
-                    return new ExpressionMethodResult(0);
+                    return new DynMethodResult(0);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "eval" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "eval" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
@@ -316,12 +316,12 @@ namespace DynLan.OnpEngine.Internal
                             null,
                             DynLanContext);
 
-                        return new ExpressionMethodResult()
+                        return new DynMethodResult()
                         {
                             NewContextCreated = true
                         };
                     }
-                    return new ExpressionMethodResult(null);
+                    return new DynMethodResult(null);
                 }
             };
             /*yield return new ExpressionMethod()
@@ -380,86 +380,86 @@ namespace DynLan.OnpEngine.Internal
             };*/
             yield return new DynMethod()
             {
-                OperationNames = new[] { "type" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "type" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count <= 0)
-                        return new ExpressionMethodResult(null);
+                        return new DynMethodResult(null);
 
                     String typeName = UniConvert.ToString(Parameters[0]) ?? "";
                     var type = MyAssemblyHelper.FindType(typeName);
-                    return new ExpressionMethodResult(type);
+                    return new DynMethodResult(type);
                 }
             };
 #if !PCL
             yield return new DynMethod()
             {
-                OperationNames = new[] { "sleep" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "sleep" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
                         Int32 milliseconds = UniConvert.ToInt32(Parameters[0]);
                         Thread.Sleep(milliseconds);
-                        return new ExpressionMethodResult(milliseconds);
+                        return new DynMethodResult(milliseconds);
                     }
-                    return new ExpressionMethodResult(0);
+                    return new DynMethodResult(0);
                 }
             };
 #endif
             yield return new DynMethod()
             {
-                OperationNames = new[] { "new" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "new" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count <= 0)
-                        return new ExpressionMethodResult(null);
+                        return new DynMethodResult(null);
 
                     String typeName = UniConvert.ToString(Parameters[0]) ?? "";
                     var obj = MyAssemblyHelper.CreateType(typeName);
-                    return new ExpressionMethodResult(obj);
+                    return new DynMethodResult(obj);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "list" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "list" },
+                Body = (DynLanContext, Parameters) =>
                 {
-                    return new ExpressionMethodResult(new List<Object>());
+                    return new DynMethodResult(new List<Object>());
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "dictionary" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "dictionary" },
+                Body = (DynLanContext, Parameters) =>
                 {
-                    return new ExpressionMethodResult(new Dictionary<String, Object>());
+                    return new DynMethodResult(new Dictionary<String, Object>());
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "typeof" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "typeof" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
 #if !NET20
                         if (Parameters.First() != null)
-                            return new ExpressionMethodResult(
+                            return new DynMethodResult(
                                 Parameters.First().GetType());
 #else
                         if (Linq2.FirstOrDefault(Parameters) != null)
-                            return new ExpressionMethodResult(
+                            return new DynMethodResult(
                                 Linq2.FirstOrDefault(Parameters).GetType());
 #endif
                     }
-                    return new ExpressionMethodResult(null);
+                    return new DynMethodResult(null);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "istypeof" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "istypeof" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     Boolean result = false;
                     if (Parameters.Count > 1)
@@ -480,13 +480,13 @@ namespace DynLan.OnpEngine.Internal
                             }
                         }
                     }
-                    return new ExpressionMethodResult(result);
+                    return new DynMethodResult(result);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "isnottypeof" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "isnottypeof" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     Boolean result = true;
                     if (Parameters.Count > 1)
@@ -507,35 +507,35 @@ namespace DynLan.OnpEngine.Internal
                             }
                         }
                     }
-                    return new ExpressionMethodResult(result);
+                    return new DynMethodResult(result);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "mod" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "mod" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 1)
                     {
-                        return new ExpressionMethodResult(
+                        return new DynMethodResult(
                             UniConvert.ToDecimal(
                                 UniConvert.ToDecimal(Parameters[0]) % UniConvert.ToDecimal(Parameters[1])));
                     }
-                    return new ExpressionMethodResult(0);
+                    return new DynMethodResult(0);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "newguid" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "newguid" },
+                Body = (DynLanContext, Parameters) =>
                 {
-                    return new ExpressionMethodResult(Guid.NewGuid());
+                    return new DynMethodResult(Guid.NewGuid());
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "trim" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "trim" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
@@ -543,29 +543,29 @@ namespace DynLan.OnpEngine.Internal
                         if (val == null)
                             return null;
 
-                        return new ExpressionMethodResult(
+                        return new DynMethodResult(
                             UniConvert.ToString(val).Trim());
                     }
-                    return new ExpressionMethodResult(0);
+                    return new DynMethodResult(0);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "float", "double", "tofloat", "todouble", "decimal", "todecimal" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "float", "double", "tofloat", "todouble", "decimal", "todecimal" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
-                        return new ExpressionMethodResult(
+                        return new DynMethodResult(
                             UniConvert.ToDecimal(Parameters[0]));
                     }
-                    return new ExpressionMethodResult(0);
+                    return new DynMethodResult(0);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "isfloat", "isdouble", "isdecimal", "isnumeric" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "isfloat", "isdouble", "isdecimal", "isnumeric" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
@@ -574,7 +574,7 @@ namespace DynLan.OnpEngine.Internal
                         {
                             if (MyTypeHelper.IsNumeric(val))
                             {
-                                return new ExpressionMethodResult(
+                                return new DynMethodResult(
                                     UniConvert.ToDecimal(true));
                             }
                             String strval = UniConvert.ToString(val);
@@ -593,89 +593,89 @@ namespace DynLan.OnpEngine.Internal
                                 result = true;
 #endif
 
-                            return new ExpressionMethodResult(
+                            return new DynMethodResult(
                                 UniConvert.ToDecimal(result));
                         }
                     }
-                    return new ExpressionMethodResult(false);
+                    return new DynMethodResult(false);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "int", "toint" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "int", "toint" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
-                        return new ExpressionMethodResult(
+                        return new DynMethodResult(
                             UniConvert.ToInt64(Parameters[0]));
                     }
-                    return new ExpressionMethodResult(0);
+                    return new DynMethodResult(0);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "floor" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "floor" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
-                        return new ExpressionMethodResult(
+                        return new DynMethodResult(
                             UniConvert.ToDecimal(
                                 Math.Floor(
                                     UniConvert.ToDouble(Parameters[0]))));
                     }
-                    return new ExpressionMethodResult(0);
+                    return new DynMethodResult(0);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "round" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "round" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
                         if (Parameters.Count == 1)
                         {
-                            return new ExpressionMethodResult(
+                            return new DynMethodResult(
                                 UniConvert.ToDecimal(
                                     Math.Round(
                                         UniConvert.ToDouble(Parameters[0]))));
                         }
                         else
                         {
-                            return new ExpressionMethodResult(
+                            return new DynMethodResult(
                                 UniConvert.ToDecimal(
                                     Math.Round(
                                         UniConvert.ToDouble(Parameters[0]),
                                         Convert.ToInt32(Parameters[1]))));
                         }
                     }
-                    return new ExpressionMethodResult(0);
+                    return new DynMethodResult(0);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "abs" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "abs" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
                         if (Parameters.Count == 1)
                         {
-                            return new ExpressionMethodResult(
+                            return new DynMethodResult(
                                 UniConvert.ToDecimal(
                                     Math.Abs(
                                         UniConvert.ToDouble(Parameters[0]))));
                         }
                     }
-                    return new ExpressionMethodResult(0);
+                    return new DynMethodResult(0);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "coalesce" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "coalesce" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
@@ -686,18 +686,18 @@ namespace DynLan.OnpEngine.Internal
                             {
                                 var nextVal = Parameters[i];
                                 if (nextVal != null && !(nextVal is Undefined))
-                                    return new ExpressionMethodResult(nextVal);
+                                    return new DynMethodResult(nextVal);
                             }
                         }
-                        return new ExpressionMethodResult(value);
+                        return new DynMethodResult(value);
                     }
-                    return new ExpressionMethodResult(null);
+                    return new DynMethodResult(null);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "not" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "not" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
@@ -708,166 +708,166 @@ namespace DynLan.OnpEngine.Internal
                             if (MyTypeHelper.IsNumeric(type))
                             {
                                 Decimal numVal = UniConvert.ToDecimal(val);
-                                return new ExpressionMethodResult(Math.Sign(numVal) == 0 ? true : false);
+                                return new DynMethodResult(Math.Sign(numVal) == 0 ? true : false);
                             }
                             else if (type.Name == "String")
                             {
-                                return new ExpressionMethodResult(
+                                return new DynMethodResult(
                                     String.IsNullOrEmpty(
                                         (String)val));
                             }
                             else
                             {
-                                return new ExpressionMethodResult(false);
+                                return new DynMethodResult(false);
                             }
                         }
                         else
                         {
-                            return new ExpressionMethodResult(true);
+                            return new DynMethodResult(true);
                         }
                     }
-                    return new ExpressionMethodResult(null);
+                    return new DynMethodResult(null);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "getyear" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "getyear" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
                         Object val = Parameters[0];
                         if (val != null && (val.GetType() == typeof(DateTime) || val.GetType() == typeof(DateTime?)))
-                            return new ExpressionMethodResult(((DateTime)val).Year);
+                            return new DynMethodResult(((DateTime)val).Year);
                     }
-                    return new ExpressionMethodResult(0);
+                    return new DynMethodResult(0);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "len", "length" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "len", "length" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
                         String val = Convert.ToString(Parameters[0] ?? "");
-                        return new ExpressionMethodResult(val.Length);
+                        return new DynMethodResult(val.Length);
                     }
-                    return new ExpressionMethodResult(0);
+                    return new DynMethodResult(0);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "getmonth" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "getmonth" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
                         Object val = Parameters[0];
                         if (val != null && (val.GetType() == typeof(DateTime) || val.GetType() == typeof(DateTime?)))
-                            return new ExpressionMethodResult(((DateTime)val).Month);
+                            return new DynMethodResult(((DateTime)val).Month);
                     }
-                    return new ExpressionMethodResult(0);
+                    return new DynMethodResult(0);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "getday" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "getday" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
                         Object val = Parameters[0];
                         if (val != null && (val.GetType() == typeof(DateTime) || val.GetType() == typeof(DateTime?)))
-                            return new ExpressionMethodResult(((DateTime)val).Day);
+                            return new DynMethodResult(((DateTime)val).Day);
                     }
-                    return new ExpressionMethodResult(0);
+                    return new DynMethodResult(0);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "hours" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
-                {
-                    if (Parameters.Count > 0)
-                    {
-                        Object val = Parameters[0];
-                        if (val != null && (val.GetType() == typeof(TimeSpan) || val.GetType() == typeof(TimeSpan?)))
-                            return new ExpressionMethodResult(Convert.ToDecimal(((TimeSpan)val).TotalHours));
-                        if (val != null && (val.GetType() == typeof(DateTime) || val.GetType() == typeof(DateTime?)))
-                            return new ExpressionMethodResult(Convert.ToDecimal(TimeSpan.FromTicks(((DateTime)val).Ticks).TotalHours));
-                    }
-                    return new ExpressionMethodResult(0);
-                }
-            };
-            yield return new DynMethod()
-            {
-                OperationNames = new[] { "days" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "hours" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
                         Object val = Parameters[0];
                         if (val != null && (val.GetType() == typeof(TimeSpan) || val.GetType() == typeof(TimeSpan?)))
-                            return new ExpressionMethodResult(Convert.ToDecimal(((TimeSpan)val).TotalDays));
+                            return new DynMethodResult(Convert.ToDecimal(((TimeSpan)val).TotalHours));
                         if (val != null && (val.GetType() == typeof(DateTime) || val.GetType() == typeof(DateTime?)))
-                            return new ExpressionMethodResult(Convert.ToDecimal(TimeSpan.FromTicks(((DateTime)val).Ticks).TotalDays));
+                            return new DynMethodResult(Convert.ToDecimal(TimeSpan.FromTicks(((DateTime)val).Ticks).TotalHours));
                     }
-                    return new ExpressionMethodResult(0);
+                    return new DynMethodResult(0);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "minutes" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "days" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
                         Object val = Parameters[0];
                         if (val != null && (val.GetType() == typeof(TimeSpan) || val.GetType() == typeof(TimeSpan?)))
-                            return new ExpressionMethodResult(Convert.ToDecimal(((TimeSpan)val).TotalMinutes));
+                            return new DynMethodResult(Convert.ToDecimal(((TimeSpan)val).TotalDays));
                         if (val != null && (val.GetType() == typeof(DateTime) || val.GetType() == typeof(DateTime?)))
-                            return new ExpressionMethodResult(Convert.ToDecimal(TimeSpan.FromTicks(((DateTime)val).Ticks).TotalMinutes));
+                            return new DynMethodResult(Convert.ToDecimal(TimeSpan.FromTicks(((DateTime)val).Ticks).TotalDays));
                     }
-                    return new ExpressionMethodResult(0);
+                    return new DynMethodResult(0);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "seconds" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "minutes" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
                         Object val = Parameters[0];
                         if (val != null && (val.GetType() == typeof(TimeSpan) || val.GetType() == typeof(TimeSpan?)))
-                            return new ExpressionMethodResult(Convert.ToDecimal(((TimeSpan)val).TotalSeconds));
+                            return new DynMethodResult(Convert.ToDecimal(((TimeSpan)val).TotalMinutes));
                         if (val != null && (val.GetType() == typeof(DateTime) || val.GetType() == typeof(DateTime?)))
-                            return new ExpressionMethodResult(Convert.ToDecimal(TimeSpan.FromTicks(((DateTime)val).Ticks).TotalSeconds));
+                            return new DynMethodResult(Convert.ToDecimal(TimeSpan.FromTicks(((DateTime)val).Ticks).TotalMinutes));
                     }
-                    return new ExpressionMethodResult(0);
+                    return new DynMethodResult(0);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "milliseconds" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "seconds" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
                         Object val = Parameters[0];
                         if (val != null && (val.GetType() == typeof(TimeSpan) || val.GetType() == typeof(TimeSpan?)))
-                            return new ExpressionMethodResult(Convert.ToDecimal(((TimeSpan)val).TotalMilliseconds));
+                            return new DynMethodResult(Convert.ToDecimal(((TimeSpan)val).TotalSeconds));
                         if (val != null && (val.GetType() == typeof(DateTime) || val.GetType() == typeof(DateTime?)))
-                            return new ExpressionMethodResult(Convert.ToDecimal(TimeSpan.FromTicks(((DateTime)val).Ticks).TotalMilliseconds));
+                            return new DynMethodResult(Convert.ToDecimal(TimeSpan.FromTicks(((DateTime)val).Ticks).TotalSeconds));
                     }
-                    return new ExpressionMethodResult(0);
+                    return new DynMethodResult(0);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "weekofyear" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "milliseconds" },
+                Body = (DynLanContext, Parameters) =>
+                {
+                    if (Parameters.Count > 0)
+                    {
+                        Object val = Parameters[0];
+                        if (val != null && (val.GetType() == typeof(TimeSpan) || val.GetType() == typeof(TimeSpan?)))
+                            return new DynMethodResult(Convert.ToDecimal(((TimeSpan)val).TotalMilliseconds));
+                        if (val != null && (val.GetType() == typeof(DateTime) || val.GetType() == typeof(DateTime?)))
+                            return new DynMethodResult(Convert.ToDecimal(TimeSpan.FromTicks(((DateTime)val).Ticks).TotalMilliseconds));
+                    }
+                    return new DynMethodResult(0);
+                }
+            };
+            yield return new DynMethod()
+            {
+                Names = new[] { "weekofyear" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     Int32? val = null;
                     if (Parameters.Count > 0)
@@ -876,18 +876,18 @@ namespace DynLan.OnpEngine.Internal
                         {
                             DateTime? val2 = UniConvert.ToDateTimeN(Parameters[0]);
                             if (val2 != null)
-                                return new ExpressionMethodResult(
+                                return new DynMethodResult(
                                     (Int32)Math.Floor(val2.Value.DayOfYear / 7.0) + 1);
                         }
                         catch { }
                     }
-                    return new ExpressionMethodResult(val);
+                    return new DynMethodResult(val);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "todatetime" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "todatetime" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     DateTime date = new DateTime();
                     if (Parameters.Count > 0)
@@ -896,13 +896,13 @@ namespace DynLan.OnpEngine.Internal
                         String str = UniConvert.ToUniString(val ?? "");
                         if (UniConvert.TryParseUniDateTime(str, out date)) { }
                     }
-                    return new ExpressionMethodResult(date);
+                    return new DynMethodResult(date);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "todate" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "todate" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     DateTime date = new DateTime();
                     if (Parameters.Count > 0)
@@ -911,13 +911,13 @@ namespace DynLan.OnpEngine.Internal
                         String str = UniConvert.ToUniString(val ?? "");
                         if (UniConvert.TryParseUniDateTime(str, out date)) { }
                     }
-                    return new ExpressionMethodResult(date.Date);
+                    return new DynMethodResult(date.Date);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "format" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "format" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     String r = "";
                     if (Parameters.Count > 1)
@@ -929,13 +929,13 @@ namespace DynLan.OnpEngine.Internal
                             r = StringHelper.FormatDate((DateTime)val, format);
                         }
                     }
-                    return new ExpressionMethodResult(r);
+                    return new DynMethodResult(r);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "tostring" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "tostring" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     if (Parameters.Count > 0)
                     {
@@ -951,15 +951,15 @@ namespace DynLan.OnpEngine.Internal
                                 result = txt + result;
                             }
                         }
-                        return new ExpressionMethodResult(result);
+                        return new DynMethodResult(result);
                     }
-                    return new ExpressionMethodResult("");
+                    return new DynMethodResult("");
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "sqrt" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "sqrt" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     try
                     {
@@ -967,17 +967,17 @@ namespace DynLan.OnpEngine.Internal
                         {
                             Object val = Parameters[0];
                             Decimal result = UniConvert.ToDecimal(val);
-                            return new ExpressionMethodResult((decimal)Math.Sqrt((double)result));
+                            return new DynMethodResult((decimal)Math.Sqrt((double)result));
                         }
                     }
                     catch { }
-                    return new ExpressionMethodResult(0);
+                    return new DynMethodResult(0);
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "adddays" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "adddays" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     try
                     {
@@ -992,22 +992,22 @@ namespace DynLan.OnpEngine.Internal
                                     var days = UniConvert.ToInt32(Parameters[1]);
                                     date = date.AddDays(days);
                                 }
-                                return new ExpressionMethodResult(date);
+                                return new DynMethodResult(date);
                             }
                         }
-                        return new ExpressionMethodResult(
+                        return new DynMethodResult(
                             new DateTime());
                     }
                     catch
                     {
-                        return new ExpressionMethodResult(0);
+                        return new DynMethodResult(0);
                     }
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "addyears" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "addyears" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     try
                     {
@@ -1022,21 +1022,21 @@ namespace DynLan.OnpEngine.Internal
                                     var years = UniConvert.ToInt32(Parameters[1]);
                                     date = date.AddYears(years);
                                 }
-                                return new ExpressionMethodResult(date);
+                                return new DynMethodResult(date);
                             }
                         }
-                        return new ExpressionMethodResult(new DateTime());
+                        return new DynMethodResult(new DateTime());
                     }
                     catch
                     {
-                        return new ExpressionMethodResult(0);
+                        return new DynMethodResult(0);
                     }
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "addmonths" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "addmonths" },
+                Body = (DynLanContext, Parameters) =>
                 {
                     try
                     {
@@ -1051,23 +1051,23 @@ namespace DynLan.OnpEngine.Internal
                                     var months = UniConvert.ToInt32(Parameters[1]);
                                     date = date.AddMonths(months);
                                 }
-                                return new ExpressionMethodResult(date);
+                                return new DynMethodResult(date);
                             }
                         }
-                        return new ExpressionMethodResult(new DateTime());
+                        return new DynMethodResult(new DateTime());
                     }
                     catch
                     {
-                        return new ExpressionMethodResult(0);
+                        return new DynMethodResult(0);
                     }
                 }
             };
             yield return new DynMethod()
             {
-                OperationNames = new[] { "rand" },
-                CalculateValueDelegate = (DynLanContext, Parameters) =>
+                Names = new[] { "rand" },
+                Body = (DynLanContext, Parameters) =>
                 {
-                    return new ExpressionMethodResult(
+                    return new DynMethodResult(
                         Convert.ToDecimal(
                             new Random(DateTime.Now.Millisecond).NextDouble()));
                 }

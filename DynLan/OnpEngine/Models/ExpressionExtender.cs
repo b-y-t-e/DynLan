@@ -49,7 +49,7 @@ namespace DynLan.OnpEngine.Models
 
         public String[] OperationNames { get; set; }
 
-        public Func<DynLanContext, Object, IList<Object>, Object> CalculateValueDelegate { get; set; }
+        public Func<DynContext, Object, IList<Object>, Object> CalculateValueDelegate { get; set; }
 
         //////////////////////////////////////////////////////////////////////
 
@@ -58,7 +58,7 @@ namespace DynLan.OnpEngine.Models
             this.OperationNames = new String[0];
         }
 
-        public ExpressionExtender(Func<DynLanContext, Object, IList<Object>, Object> CalculateValueDelegate)
+        public ExpressionExtender(Func<DynContext, Object, IList<Object>, Object> CalculateValueDelegate)
         {
             this.OperationNames = new String[0];
             this.CalculateValueDelegate = CalculateValueDelegate;

@@ -24,7 +24,7 @@ namespace DynLan.Classes
     [KnownType(typeof(Undefined))]
     [KnownType(typeof(EmptyObject))]
 #endif
-    public class DynLanContext : IDisposable
+    public class DynContext : IDisposable
     {
 #if !NET20
         [DataMember]
@@ -151,7 +151,7 @@ namespace DynLan.Classes
 
         //////////////////////////////////////////////
 
-        public DynLanContext(DynLanProgram MainProgram)
+        public DynContext(DynLanProgram MainProgram)
         {
             this.GlobalState = new DynLanState(
                 MainProgram,
@@ -352,7 +352,7 @@ namespace DynLan.Classes
         //////////////////////////////////////////////
 
         public virtual ExpressionValue GetValue(
-            DynLanContext EvalContext,
+            DynContext EvalContext,
             String Name,
             Boolean SeekForExtenders,
             Boolean SeekForMethods,
@@ -362,7 +362,7 @@ namespace DynLan.Classes
             Name = Name.ToUpper();
 #endif
 
-            DynLanContext DynLanContext = EvalContext as DynLanContext;
+            DynContext DynLanContext = EvalContext as DynContext;
             if (DynLanContext == null)
                 return null;
 
@@ -471,13 +471,13 @@ namespace DynLan.Classes
             return null;
         }
 
-        public virtual Boolean SetValue(DynLanContext EvalContext, String Name, Object Value)
+        public virtual Boolean SetValue(DynContext EvalContext, String Name, Object Value)
         {
 #if CASE_INSENSITIVE
             Name = Name.ToUpper();
 #endif
 
-            DynLanContext DynLanContext = EvalContext as DynLanContext;
+            DynContext DynLanContext = EvalContext as DynContext;
             if (DynLanContext == null)
                 return false;
 
@@ -528,7 +528,7 @@ namespace DynLan.Classes
         }
     }
 
-    public class DynLanContextes : List<DynLanContext>
+    public class DynLanContextes : List<DynContext>
     {
 
     }

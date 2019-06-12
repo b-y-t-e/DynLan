@@ -78,19 +78,19 @@ namespace DynLan.Classes
 
         public Object Eval()
         {
-            using (DynLanContext context = this.CreateContext(null))
+            using (DynContext context = this.CreateContext(null))
                 return Eval(context);
         }
 
         public Object Eval(
             IDictionary<String, Object> Parameters)
         {
-            using (DynLanContext context = this.CreateContext(Parameters))
+            using (DynContext context = this.CreateContext(Parameters))
                 return Eval(context);
         }
 
         private Object Eval(
-            DynLanContext DynLanContext)
+            DynContext DynLanContext)
         {
             while (true)
             {
@@ -119,18 +119,18 @@ namespace DynLan.Classes
 
         //////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public DynLanContext CreateContext()
+        public DynContext CreateContext()
         {
             return CreateContext(null, false, false);
         }
 
-        public DynLanContext CreateContext(
+        public DynContext CreateContext(
             IDictionary<String, Object> Values)
         {
             return CreateContext(Values, false, false);
         }
 
-        public DynLanContext CreateContext(
+        public DynContext CreateContext(
             IDictionary<String, Object> Values,
             Boolean BreakEveryLine,
             Boolean CopyParameters)
@@ -151,13 +151,13 @@ namespace DynLan.Classes
                 CopyParameters);
         }
 
-        private static DynLanContext CreateContext(
+        private static DynContext CreateContext(
             DynLanCodeLines Lines,
             IDictionary<String, Object> Values,
             Boolean BreakEveryLine,
             Boolean CopyParameters)
         {
-            DynLanContext runContext = new DynLanContext(
+            DynContext runContext = new DynContext(
                 new DynLanProgram()
                 {
                     ID = Guid.Empty,
