@@ -10,7 +10,7 @@
     <PackageProjectUrl>https://dynlan.com</PackageProjectUrl>
     <RepositoryUrl>https://github.com/b-y-t-e/DynLan</RepositoryUrl>
     <PackageTags>dynlan python dynamic language expressions</PackageTags>
-    <Version>1.2.9</Version>
+    <Version>1.2.10</Version>
   </PropertyGroup>
 
   <ItemGroup>

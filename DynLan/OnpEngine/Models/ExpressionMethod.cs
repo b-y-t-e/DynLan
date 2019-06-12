@@ -53,18 +53,36 @@ namespace DynLan.OnpEngine.Models
 
         //////////////////////////////////////////////////////////////////////
 
+        private Func<IList<Object>, Object> simpleBody;
+
+        //////////////////////////////////////////////////////////////////////
+
         public DynMethod()
         {
             this.Names = new String[0];
         }
 
-        public DynMethod(Func<DynContext, IList<Object>, DynMethodResult> CalculateValueDelegate)
+        public DynMethod(Func<IList<Object>, Object> BodyDelegate)
         {
             this.Names = new String[0];
-            this.Body = CalculateValueDelegate;
+            this.simpleBody = BodyDelegate;
+            this.Body = SimpleBodyToBody;
+        }
+
+        public DynMethod(Func<DynContext, IList<Object>, DynMethodResult> BodyDelegate)
+        {
+            this.Names = new String[0];
+            this.Body = BodyDelegate;
         }
 
         //////////////////////////////////////////////////////////////////////
+
+        private DynMethodResult SimpleBodyToBody(DynContext Context, IList<Object> Parameters)
+        {
+            if (simpleBody != null)
+                return new DynMethodResult(simpleBody(Parameters));
+            return new DynMethodResult();
+        }
     }
 
     public class DynMethodResult
