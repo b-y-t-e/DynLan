@@ -21,7 +21,7 @@ namespace DynLan.OnpEngine.Models
         public Guid ID { get; set; }
     }
 
-    public class ExpressionMethod
+    public class DynMethod
     {
         private Guid? id;
 
@@ -53,12 +53,12 @@ namespace DynLan.OnpEngine.Models
 
         //////////////////////////////////////////////////////////////////////
 
-        public ExpressionMethod()
+        public DynMethod()
         {
             this.OperationNames = new String[0];
         }
 
-        public ExpressionMethod(Func<DynLanContext, IList<Object>, ExpressionMethodResult> CalculateValueDelegate)
+        public DynMethod(Func<DynLanContext, IList<Object>, ExpressionMethodResult> CalculateValueDelegate)
         {
             this.OperationNames = new String[0];
             this.CalculateValueDelegate = CalculateValueDelegate;

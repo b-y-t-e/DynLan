@@ -316,10 +316,23 @@ namespace DynLan.Helpers
 
                     Int32 index = -1;
 #if !NET20
-            foreach (MethodInfo method in methods.OrderByDescending(m => m.GetParameters().Length > 0 ? m.GetParameters()[0].ParameterType == typeof(string) ? 10 : 5 : 0).OrderBy(m => m.Name).OrderBy(m => m.GetParameters().Length))
+            foreach (MethodInfo method in methods.
+                        OrderByDescending(m =>
+                            m.GetParameters().Length > 0 ?
+                                m.GetParameters()[0].ParameterType == typeof(string) ? 
+                                10 : 5 : 0).
+                        OrderBy(m => m.Name).
+                        OrderBy(m => m.GetParameters().Length))
                     
 #else
-                    foreach (MethodInfo method in Linq2.OrderBy(Linq2.OrderBy(Linq2.OrderByDescending(methods, m => m.GetParameters().Length > 0 ? m.GetParameters()[0].ParameterType == typeof(string) ? 10 : 5 : 0), m => m.Name), m => m.GetParameters().Length))
+                    foreach (MethodInfo method in Linq2.OrderBy(
+                        Linq2.OrderBy(
+                            Linq2.OrderByDescending(methods, m => 
+                                m.GetParameters().Length > 0 ? 
+                                    m.GetParameters()[0].ParameterType == typeof(string) ? 
+                                        10 : 5 : 0), 
+                            m => m.Name), 
+                        m => m.GetParameters().Length))
 
 #endif
                     {

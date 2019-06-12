@@ -2649,6 +2649,8 @@ return f1(1)
             if (!(true).Equals(r1))
                 throw new Exception("Nieprawidłowa wartość!");
         }
+
+
 #if !NET20
         [TestMethod]
 #endif
@@ -2659,6 +2661,8 @@ return f1(1)
             if (!(true).Equals(r1))
                 throw new Exception("Nieprawidłowa wartość!");
         }
+
+
 #if !NET20
         [TestMethod]
 #endif
@@ -3122,10 +3126,52 @@ return f1(1)
                 throw new Exception("Nieprawidłowa wartość!");
         }
 
-        private static IEnumerable<ExpressionMethod> GetMethods()
+#if !NET20
+        [TestMethod]
+#endif
+        public void test_0155()
+        {
+            var parameters = new Dictionary<string, object>()
+            {
+                {
+                    "test" ,
+                    new DynMethod((DynLanContext, Parameters) =>
+                    {
+                        return new ExpressionMethodResult("test " + (Parameters?.Count??0));
+                    })
+                }
+            };
+            var r1 = (String)new Compiler().Compile(" return  test() ").Eval(parameters);
+            var r2 = "test 0";
+            if (r1 != r2)
+                throw new Exception("Nieprawidłowa wartość!" + r1 + " " + r2);
+        }
+
+#if !NET20
+        [TestMethod]
+#endif
+        public void test_0156()
+        {
+            var parameters = new Dictionary<string, object>()
+            {
+                {
+                    "test" ,
+                    new DynMethod((DynLanContext, Parameters) =>
+                    {
+                        return new ExpressionMethodResult("test " + (Parameters?.Count??0));
+                    })
+                }
+            };
+            var r1 = (String)new Compiler().Compile(" return  test(123) ").Eval(parameters);
+            var r2 = "test 1";
+            if (r1 != r2)
+                throw new Exception("Nieprawidłowa wartość!" + r1 + " " + r2);
+        }
+
+        private static IEnumerable<DynMethod> GetMethods()
         {
 #if !NET20
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "serialize" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -3138,7 +3184,7 @@ return f1(1)
                 }
             };
 
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "deserialize" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>

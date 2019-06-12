@@ -108,9 +108,9 @@ namespace DynLan.OnpEngine.Logic
                 if (methodInfo != null && methodInfo.Action != null)
                     return new ExpressionMethodResult(methodInfo.Action(CorrectParameters(MethodParameters)));
             }
-            else if (Method is ExpressionMethod)
+            else if (Method is DynMethod)
             {
-                ExpressionMethod onpMethod = Method as ExpressionMethod;
+                DynMethod onpMethod = Method as DynMethod;
                 ExpressionMethodResult result = null;
 
                 if (Object is EmptyObject)
@@ -140,7 +140,7 @@ namespace DynLan.OnpEngine.Logic
             else if (Method is ExpressionMethodInfo)
             {
                 ExpressionMethodInfo onpMethodInfo = Method as ExpressionMethodInfo;
-                ExpressionMethod onpMethod = BuildinMethods.GetByID(onpMethodInfo.ID);
+                DynMethod onpMethod = BuildinMethods.GetByID(onpMethodInfo.ID);
                 ExpressionMethodResult result = null;
 
                 if (onpMethod == null)

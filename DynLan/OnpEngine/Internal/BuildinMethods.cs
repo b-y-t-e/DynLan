@@ -15,9 +15,9 @@ namespace DynLan.OnpEngine.Internal
 {
     public static class BuildinMethods
     {
-        private static Dictionary<String, ExpressionMethod> methodsByNames;
+        private static Dictionary<String, DynMethod> methodsByNames;
 
-        private static Dictionary<Guid, ExpressionMethod> methodsByIds;
+        private static Dictionary<Guid, DynMethod> methodsByIds;
 
         private static Object lck = new Object();
 
@@ -27,13 +27,13 @@ namespace DynLan.OnpEngine.Internal
         public static ExpressionMethodInfo FindByName(String Name)
         {
             Init();
-            ExpressionMethod expressionMethod = null;
+            DynMethod expressionMethod = null;
             if (methodsByNames.TryGetValue(Name, out expressionMethod))
                 return new ExpressionMethodInfo() { ID = expressionMethod.ID };
             return null;
         }
 
-        public static void Add(ExpressionMethod Method)
+        public static void Add(DynMethod Method)
         {
             Init();
             lock (lck)
@@ -51,10 +51,10 @@ namespace DynLan.OnpEngine.Internal
             }
         }
 
-        public static ExpressionMethod GetByID(Guid ID)
+        public static DynMethod GetByID(Guid ID)
         {
             Init();
-            ExpressionMethod expressionMethod = null;
+            DynMethod expressionMethod = null;
             if (methodsByIds.TryGetValue(ID, out expressionMethod))
                 return expressionMethod;
             return null;
@@ -66,9 +66,9 @@ namespace DynLan.OnpEngine.Internal
                 lock (lck)
                     if (methodsByIds == null)
                     {
-                        methodsByIds = new Dictionary<Guid, ExpressionMethod>();
-                        methodsByNames = new Dictionary<String, ExpressionMethod>();
-                        foreach (ExpressionMethod operation in BuildMethods())
+                        methodsByIds = new Dictionary<Guid, DynMethod>();
+                        methodsByNames = new Dictionary<String, DynMethod>();
+                        foreach (DynMethod operation in BuildMethods())
                         {
                             foreach (String name in operation.OperationNames)
 #if CASE_INSENSITIVE
@@ -83,14 +83,14 @@ namespace DynLan.OnpEngine.Internal
 
         ////////////////////////////////////////////////////////////////////
 
-        private static IEnumerable<ExpressionMethod> BuildMethods()
+        private static IEnumerable<DynMethod> BuildMethods()
         {
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { MethodSetValue.Name },
                 CalculateValueDelegate = MethodSetValue.Execute
             };
-            yield return new ExpressionMethod()
+            /*yield return new ExpressionMethod()
             {
                 OperationNames = new[] { "check" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -116,8 +116,8 @@ namespace DynLan.OnpEngine.Internal
 
                     return new ExpressionMethodResult(null);
                 }
-            };
-            yield return new ExpressionMethod()
+            };*/
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "getdatetime" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -125,7 +125,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(DateTime.Now);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "getdatetimeastext" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -135,7 +135,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(nowText);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "getdate" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -143,7 +143,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(DateTime.Now.Date);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "getdateastext" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -153,7 +153,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(nowText);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "return" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -165,7 +165,7 @@ namespace DynLan.OnpEngine.Internal
 #endif
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "substring" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -204,7 +204,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult("");
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "split" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -239,7 +239,7 @@ namespace DynLan.OnpEngine.Internal
 #endif
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "str" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -252,7 +252,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(0);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "lower" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -267,7 +267,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(0);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "upper" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -282,7 +282,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(0);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "ceil" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -295,7 +295,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(0);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "eval" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -378,7 +378,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(null);
                 }
             };*/
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "type" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -392,7 +392,7 @@ namespace DynLan.OnpEngine.Internal
                 }
             };
 #if !PCL
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "sleep" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -407,7 +407,7 @@ namespace DynLan.OnpEngine.Internal
                 }
             };
 #endif
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "new" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -420,7 +420,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(obj);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "list" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -428,7 +428,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(new List<Object>());
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "dictionary" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -436,7 +436,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(new Dictionary<String, Object>());
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "typeof" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -456,7 +456,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(null);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "istypeof" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -483,7 +483,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(result);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "isnottypeof" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -510,7 +510,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(result);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "mod" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -524,7 +524,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(0);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "newguid" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -532,7 +532,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(Guid.NewGuid());
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "trim" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -549,7 +549,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(0);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "float", "double", "tofloat", "todouble", "decimal", "todecimal" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -562,7 +562,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(0);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "isfloat", "isdouble", "isdecimal", "isnumeric" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -600,7 +600,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(false);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "int", "toint" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -613,7 +613,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(0);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "floor" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -628,7 +628,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(0);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "round" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -654,7 +654,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(0);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "abs" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -672,7 +672,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(0);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "coalesce" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -694,7 +694,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(null);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "not" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -729,7 +729,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(null);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "getyear" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -743,7 +743,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(0);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "len", "length" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -756,7 +756,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(0);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "getmonth" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -770,7 +770,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(0);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "getday" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -784,7 +784,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(0);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "hours" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -800,7 +800,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(0);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "days" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -816,7 +816,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(0);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "minutes" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -832,7 +832,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(0);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "seconds" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -848,7 +848,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(0);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "milliseconds" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -864,7 +864,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(0);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "weekofyear" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -884,7 +884,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(val);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "todatetime" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -899,7 +899,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(date);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "todate" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -914,7 +914,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(date.Date);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "format" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -932,7 +932,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(r);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "tostring" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -956,7 +956,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult("");
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "sqrt" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -974,7 +974,7 @@ namespace DynLan.OnpEngine.Internal
                     return new ExpressionMethodResult(0);
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "adddays" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -1004,7 +1004,7 @@ namespace DynLan.OnpEngine.Internal
                     }
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "addyears" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -1033,7 +1033,7 @@ namespace DynLan.OnpEngine.Internal
                     }
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "addmonths" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
@@ -1062,7 +1062,7 @@ namespace DynLan.OnpEngine.Internal
                     }
                 }
             };
-            yield return new ExpressionMethod()
+            yield return new DynMethod()
             {
                 OperationNames = new[] { "rand" },
                 CalculateValueDelegate = (DynLanContext, Parameters) =>
