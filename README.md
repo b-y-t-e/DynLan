@@ -29,9 +29,9 @@ Object result = new Compiler().
 // result = 100
 Object result = new Compiler().
   Compile(@"
-    i = 0
+    i = 0;
     while i < 100 {
-      i = i + 1
+      i = i + 1;
     }
     return i
 ").Eval();
@@ -56,15 +56,15 @@ Object result = new Compiler().
   Compile(@"
 
 class TestClass() {
-  a = 1
-  b = 2
+  a = 1;
+  b = 2;
   def Sum(c) {
     return this.a + this.b + c
   }
 }
 
 def multiply(a, b) {
-  c = a * b 
+  c = a * b;
   return c
 }
 
