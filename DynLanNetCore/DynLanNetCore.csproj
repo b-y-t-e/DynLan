@@ -5,7 +5,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Dynamic Scripting Language in C#</Description>
     <Copyright>Andrzej Ból</Copyright>
-    <PackageProjectUrl>https://dynlan.com</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/b-y-t-e/DynLan</PackageProjectUrl>
     <RepositoryUrl>https://github.com/b-y-t-e/DynLan</RepositoryUrl>
     <PackageTags>dynlan python c# dynamic language expressions</PackageTags>
     <Authors>Andrzej Ból</Authors>
