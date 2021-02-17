@@ -139,6 +139,15 @@ namespace DynLan.Classes
             }
         }
 
+#if !NET20
+        [IgnoreDataMember]
+#endif
+        public Boolean ForceDecimals
+        {
+            get;
+            set;
+        }
+        
         //////////////////////////////////////////////
 
         public event EventHandler<DynLanProgramChangedEventArgs> OnProgramStart;

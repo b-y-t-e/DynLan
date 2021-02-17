@@ -138,6 +138,19 @@ item = dictionary(); item.imie = osoba.imie; return item.imie;
             }
         }
 
+        /*
+#if !NET20
+        [TestMethod]
+#endif
+        public void test_class2()
+        {
+            {
+                var r = new Compiler().Compile(@"30+5/6");
+                var v = r.Eval();
+                if (!(31M).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
+            }
+        }*/
+
 #if !NET20
         [TestMethod]
 #endif

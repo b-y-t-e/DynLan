@@ -19,7 +19,8 @@ namespace DynLan.OnpEngine.Logic
         public static Object Do(
             OperatorType OperationType,
             Object Value1,
-            Object Value2)
+            Object Value2,
+            Boolean ForceDecimals)
         {
             Object result = null;
 
@@ -73,7 +74,7 @@ namespace DynLan.OnpEngine.Logic
             }
             else if (MyTypeHelper.IsNumeric(type1) && MyTypeHelper.IsNumeric(type2))
             {
-                result = ExecuteOperatorOnNumericValues(Value1, Value2, OperationType);
+                result = ExecuteOperatorOnNumericValues(Value1, Value2, OperationType, ForceDecimals);
             }
             else
             {
@@ -174,9 +175,9 @@ namespace DynLan.OnpEngine.Logic
             return result;
         }
 
-        private static object ExecuteOperatorOnNumericValues(Object Value1, Object Value2, OperatorType OperationType)
+        private static object ExecuteOperatorOnNumericValues(Object Value1, Object Value2, OperatorType OperationType, Boolean ForceDecimals)
         {
-            if (MyTypeHelper.IsFloatNumeric(Value1) || MyTypeHelper.IsFloatNumeric(Value2))
+            if (ForceDecimals || MyTypeHelper.IsFloatNumeric(Value1) || MyTypeHelper.IsFloatNumeric(Value2))
             {
                 return ExecuteOperatorOnDecimals(Value1, Value2, OperationType);
             }

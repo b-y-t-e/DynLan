@@ -11,8 +11,9 @@
     <Authors>Andrzej Ból</Authors>
     <PackageId>DynLan.NetCore</PackageId>
     <Product>DynLan.NetCore</Product>
-    <Version>1.2.10</Version>
+    <Version>1.2.11</Version>
     <Company>Andrzej Ból</Company>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>

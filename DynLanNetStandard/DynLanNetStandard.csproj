@@ -10,8 +10,9 @@
     <PackageProjectUrl>https://github.com/b-y-t-e/DynLan</PackageProjectUrl>
     <RepositoryUrl>https://github.com/b-y-t-e/DynLan</RepositoryUrl>
     <PackageTags>dynlan python c# dynamic language expressions</PackageTags>
-    <Version>1.2.10</Version>
+    <Version>1.2.11</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>

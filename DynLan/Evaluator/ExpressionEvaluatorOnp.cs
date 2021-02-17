@@ -86,7 +86,8 @@ namespace DynLan.Evaluator
                     value = OperationHelper.Do(
                         operatorType,
                         valueB,
-                        valueA);
+                        valueA,
+                        DynLanContext.ForceDecimals);
 
                     expState.PushValue(value);
                 }

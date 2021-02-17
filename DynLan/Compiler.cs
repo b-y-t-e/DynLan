@@ -45,6 +45,9 @@ namespace DynLan
         private static readonly char[] str_break = "break".ToCharArray();
 
         private static readonly char[] str_quotation = "'".ToCharArray();
+        
+        ////////////////////////////////////////////
+        public bool ForceDecimals { get; set; }
 
         ////////////////////////////////////////////
 
@@ -69,7 +72,10 @@ namespace DynLan
         {
             CodeLines lines = GetLines(Code);
 
-            DynLanProgram mainProgram = new DynLanProgram();
+            DynLanProgram mainProgram = new DynLanProgram()
+            {
+                ForceDecimals = ForceDecimals
+            };
             List<DynLanProgram> methodStack = new List<DynLanProgram>();
             methodStack.Add(mainProgram);
 
@@ -244,6 +250,7 @@ namespace DynLan
                 Char.IsWhiteSpace(trimmedLine[str_method.Length])*/)
             {
                 DynLanMethod method = new DynLanMethod();
+                method.ForceDecimals = ForceDecimals;
 
 #if !SPACES_FOR_DEPTH
                 method.Depth = Depth + 1; // zwiekszamy poziom metody

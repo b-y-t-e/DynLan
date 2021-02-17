@@ -44,6 +44,11 @@ namespace DynLan.Classes
 #if !NET20
         [DataMember]
 #endif
+        public Boolean ForceDecimals { get; set; }
+
+#if !NET20
+        [DataMember]
+#endif
         public DynLanContextType ContextType { get; set; }
 
         //////////////////////////////////////////////////
@@ -151,7 +156,7 @@ namespace DynLan.Classes
                 CopyParameters);
         }
 
-        private static DynContext CreateContext(
+        private DynContext CreateContext(
             DynLanCodeLines Lines,
             IDictionary<String, Object> Values,
             Boolean BreakEveryLine,
@@ -161,9 +166,11 @@ namespace DynLan.Classes
                 new DynLanProgram()
                 {
                     ID = Guid.Empty,
-                    Lines = Lines
+                    Lines = Lines,
+                    ForceDecimals = ForceDecimals
                 });
             runContext.BreakEveryLine = BreakEveryLine;
+            runContext.ForceDecimals = ForceDecimals;
 
             if (runContext.CurrentState.Program.Lines.Count > 0)
                 runContext.CurrentState.CurrentLineID = runContext.CurrentState.Program.Lines[0].ID;
