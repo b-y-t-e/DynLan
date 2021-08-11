@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DynLan;
+using DynLan.Helpers;
 #if !NETCE
 using System.Runtime.Serialization;
 #endif
@@ -143,6 +144,13 @@ namespace DynLan.Classes
             if (Values == null)
                 Values = new Dictionary<String, Object>();
 
+            /*if (!GlobalSettings.CaseSensitive)
+                foreach (var i in Values.ToArray())
+                {
+                    Values.Remove(i.Key);
+                    Values[i.Key.ToUpperInvariant()] = i.Value;
+                }*/
+
             foreach (DynLanMethod DynLanMethod in this.Methods)
                 Values[DynLanMethod.Name] = DynLanMethod;
 
@@ -208,7 +216,7 @@ namespace DynLan.Classes
                 item.Classes = new DynLanClasses(item.Classes.Select(i => i.Clone() as DynLanClass));
             if (item.Methods != null)
                 item.Methods = new DynLanMethods(item.Methods.Select(i => i.Clone() as DynLanMethod));
-      
+
 #else
             if (item.Lines != null)
                 item.Lines = new DynLanCodeLines(Linq2.Select(item.Lines, i => i.Clone()));

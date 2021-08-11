@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections;
 using DynLan.OnpEngine.Models;
 using DynLan.OnpEngine.InternalExtenders;
+using DynLan.Helpers;
 
 namespace DynLan.OnpEngine.Internal
 {
@@ -47,11 +48,14 @@ namespace DynLan.OnpEngine.Internal
                         foreach (ExpressionExtender operation in BuildExtenders())
                         {
                             foreach (String name in operation.OperationNames)
-#if CASE_INSENSITIVE
-                                methodsByNames[name.ToUpper()] = operation;                            
-#else
-                                methodsByNames[name] = operation;
-#endif
+                                if (!GlobalSettings.CaseSensitive)
+                                {
+                                    methodsByNames[name.ToUpperInvariant()] = operation;
+                                }
+                                else
+                                {
+                                    methodsByNames[name] = operation;
+                                }
                             methodsByIds[operation.ID] = operation;
                         }
                     }

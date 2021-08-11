@@ -13,23 +13,25 @@ using System.Text;
 
 namespace DynLan.Helpers
 {
+    public static class GlobalSettings
+    {
+        public static bool CaseSensitive { get; set; } = false;
+    }
+
     public static class MyReflectionHelper
     {
-        private static object _lck = new object();
 
-        //private static Dictionary<Type, Dictionary<String, PropertyInfo>> _propertyUppercaseCache = new Dictionary<Type, Dictionary<string, PropertyInfo>>();
+        private static object _lck = new object();
 
         private static Dictionary<Type, Dictionary<String, PropertyInfo>> _propertyCache = new Dictionary<Type, Dictionary<string, PropertyInfo>>();
 
         private static Dictionary<Type, Dictionary<String, Dictionary<Int32, MethodInfo>>> _methodsCache = new Dictionary<Type, Dictionary<string, Dictionary<Int32, MethodInfo>>>();
 
-        //private static Dictionary<Type, Dictionary<String, Dictionary<Int32, MethodInfo>>> _methodsUppercaseCache = new Dictionary<Type, Dictionary<string, Dictionary<Int32, MethodInfo>>>();
-
         ////////////////////////////////////////
 
         public static Object GetValue(
 #if !NET20
-            this 
+            this
 #endif
              Object Obj, String PropertyName)
         {
@@ -41,41 +43,21 @@ namespace DynLan.Helpers
                 // szukanie property
                 PropertyInfo propertyInfo = null;
 
+                if (!GlobalSettings.CaseSensitive)
+                    PropertyName = PropertyName.ToUpperInvariant();
+
                 if (_propertyCache[type].ContainsKey(PropertyName))
-                {
                     propertyInfo = _propertyCache[type][PropertyName];
-                }
-                /*else if (_propertyUppercaseCache[type].ContainsKey(PropertyName.ToUpper()))
-                {
-                    propertyInfo = _propertyUppercaseCache[type][PropertyName.ToUpper()];
-                }*/
 
                 if (propertyInfo != null)
-                {
                     return propertyInfo.GetValue(Obj, null);
-                }
             }
             return null;
         }
 
-        /*public static void BindToEvent(Object Object, String EventName, Action<object, object> Handler)
-        {
-            EventInfo eventInfo = Object.GetType().GetEvent(EventName);
-            Delegate convertedHandler = ConvertDelegate(Handler, eventInfo.EventHandlerType);
-            eventInfo.AddEventHandler(Object, convertedHandler);
-        }
-
-        public static Delegate ConvertDelegate(Delegate originalDelegate, Type targetDelegateType)
-        {
-            return Delegate.CreateDelegate(
-                targetDelegateType,
-                originalDelegate.Target,
-                originalDelegate.Method);
-        }*/
-
         public static Object GetValueByPath(
 #if !NET20
-            this 
+            this
 #endif
              Object Obj, String PropertyPath)
         {
@@ -109,7 +91,7 @@ namespace DynLan.Helpers
 
         public static void SetValueByPath(
 #if !NET20
-            this 
+            this
 #endif
              Object Obj, String PropertyPath, Object Value)
         {
@@ -141,7 +123,7 @@ namespace DynLan.Helpers
 
         public static void SetValue(
 #if !NET20
-            this 
+            this
 #endif
              Object Obj, String PropertyName, Object Value)
         {
@@ -151,23 +133,19 @@ namespace DynLan.Helpers
                 Type type = Obj.GetType();
                 CacheProperties(type);
 
-                // szukanie property
                 PropertyInfo propertyInfo = null;
+
+                if (!GlobalSettings.CaseSensitive)
+                    PropertyName = PropertyName.ToUpperInvariant();
+
                 if (_propertyCache[type].ContainsKey(PropertyName))
-                {
                     propertyInfo = _propertyCache[type][PropertyName];
-                }
-                /*else if (_propertyUppercaseCache[type].ContainsKey(PropertyName.ToUpper()))
-                {
-                    propertyInfo = _propertyUppercaseCache[type][PropertyName.ToUpper()];
-                }*/
 
                 if (propertyInfo != null)
                 {
                     if (Value != null && propertyInfo.PropertyType != Value.GetType())
-                    {
                         value = MyTypeHelper.ConvertTo(value, propertyInfo.PropertyType);
-                    }
+
                     propertyInfo.SetValue(Obj, value, null);
                 }
             }
@@ -177,7 +155,7 @@ namespace DynLan.Helpers
 
         public static DynamicCallResult CallMethod(
 #if !NET20
-            this 
+            this
 #endif
              Object Obj, String MethodName, IList<Object> Parameters)
         {
@@ -277,7 +255,7 @@ namespace DynLan.Helpers
 
         public static MethodInfo GetMethod(
 #if !NET20
-            this 
+            this
 #endif
              Object Item, String MethodName, Int32 ParameterCount)
         {
@@ -293,7 +271,7 @@ namespace DynLan.Helpers
 
         public static MethodInfo GetMethod(
 #if !NET20
-            this 
+            this
 #endif
              Type Type, String MethodName, Int32 ParameterCount)
         {
@@ -303,27 +281,27 @@ namespace DynLan.Helpers
             if (Type == null)
                 return null;
 
+            if (!GlobalSettings.CaseSensitive)
+                MethodName = MethodName.ToUpperInvariant();
+
             lock (_methodsCache)
                 if (!_methodsCache.ContainsKey(Type))
-                // lock (_methodsUppercaseCache)
-                //   if (!_methodsUppercaseCache.ContainsKey(Type))
                 {
                     _methodsCache[Type] = new Dictionary<string, Dictionary<int, MethodInfo>>();
-                    //_methodsUppercaseCache[Type] = new Dictionary<string, Dictionary<int, MethodInfo>>();
 
                     IList<MethodInfo> methods = Type.
                         GetMethods();
 
                     Int32 index = -1;
 #if !NET20
-            foreach (MethodInfo method in methods.
-                        OrderByDescending(m =>
-                            m.GetParameters().Length > 0 ?
-                                m.GetParameters()[0].ParameterType == typeof(string) ? 
-                                10 : 5 : 0).
-                        OrderBy(m => m.Name).
-                        OrderBy(m => m.GetParameters().Length))
-                    
+                    foreach (MethodInfo method in methods.
+                                OrderByDescending(m =>
+                                    m.GetParameters().Length > 0 ?
+                                        m.GetParameters()[0].ParameterType == typeof(string) ?
+                                        10 : 5 : 0).
+                                OrderBy(m => m.Name).
+                                OrderBy(m => m.GetParameters().Length))
+
 #else
                     foreach (MethodInfo method in Linq2.OrderBy(
                         Linq2.OrderBy(
@@ -338,27 +316,19 @@ namespace DynLan.Helpers
                     {
                         index++;
 
-                        if (!_methodsCache[Type].ContainsKey(method.Name))
-                            _methodsCache[Type][method.Name] = new Dictionary<int, MethodInfo>();
+                        var name = GlobalSettings.CaseSensitive ?
+                            method.Name : method.Name.ToUpperInvariant();
 
-                        //if (!_methodsUppercaseCache[Type].ContainsKey(method.Name.ToUpper()))
-                        //    _methodsUppercaseCache[Type][method.Name.ToUpper()] = new Dictionary<int, MethodInfo>();
+                        if (!_methodsCache[Type].ContainsKey(name))
+                            _methodsCache[Type][name] = new Dictionary<int, MethodInfo>();
 
                         if (index == 0)
-                        {
-                            if (!_methodsCache[Type][method.Name].ContainsKey(-1))
-                            {
-                                _methodsCache[Type][method.Name][-1] = method;
-                                //_methodsUppercaseCache[Type][method.Name.ToUpper()][-1] = method;
-                            }
-                        }
+                            if (!_methodsCache[Type][name].ContainsKey(-1))
+                                _methodsCache[Type][name][-1] = method;
 
                         Int32 parametersCount = method.GetParameters().Length;
-                        if (!_methodsCache[Type][method.Name].ContainsKey(parametersCount))
-                        {
-                            _methodsCache[Type][method.Name][parametersCount] = method;
-                            //_methodsUppercaseCache[Type][method.Name.ToUpper()][parametersCount] = method;
-                        }
+                        if (!_methodsCache[Type][name].ContainsKey(parametersCount))
+                            _methodsCache[Type][name][parametersCount] = method;
                     }
                 }
 
@@ -378,7 +348,7 @@ namespace DynLan.Helpers
                 if (ParameterCount == -2 && innerDict.Values.Count > 0)
 
 #if !NET20
-            return innerDict.Values.FirstOrDefault();
+                    return innerDict.Values.FirstOrDefault();
 #else
                     return Linq2.FirstOrDefault(innerDict.Values);
 #endif
@@ -390,39 +360,11 @@ namespace DynLan.Helpers
 
             ////////////////////////////////////////////
 
-            /*_methodsUppercaseCache.TryGetValue(Type, out dict);
-
-            if (dict != null)
-                dict.TryGetValue(MethodName.ToUpper(), out innerDict);
-
-            if (innerDict != null)
-            {
-                if (ParameterCount == -2 && innerDict.Values.Count > 0)
-                    return innerDict.Values.FirstOrDefault();
-
-                innerDict.TryGetValue(ParameterCount, out result);
-            }
-
-            if (result != null)
-                return result;*/
-
             return null;
         }
 
         ////////////////////////////////////////
 
-        /*public static Object Invoke(this Object Item, String MethodName, params Object[] Params)
-        {
-            if (Item != null)
-            {
-                var lMethod = Item.GetType().GetMethod(MethodName);
-                if (lMethod != null)
-                {
-                    return lMethod.Invoke(Item, Params);
-                }
-            }
-            return null;
-        }*/
 
         public static Boolean ContainsProperty(Object Item, String PropertyName)
         {
@@ -455,13 +397,13 @@ namespace DynLan.Helpers
                     {
                         var dict1 = new Dictionary<string, PropertyInfo>();
                         foreach (var prop in Type.GetProperties())
-                            dict1[prop.Name] = prop;
+                            dict1[GlobalSettings.CaseSensitive ? prop.Name : prop.Name.ToUpperInvariant()] = prop;
 
-                        _propertyCache[Type] = dict1; //  Type.GetProperties().ToDictionary(i => i.Name, i => i);
+                        _propertyCache[Type] = dict1;
 
-                        var dict2 = new Dictionary<string, PropertyInfo>();
-                        foreach (var prop in Type.GetProperties())
-                            dict2[prop.Name.ToUpper()] = prop;
+                        //var dict2 = new Dictionary<string, PropertyInfo>();
+                        // foreach (var prop in Type.GetProperties())
+                        //    dict2[prop.Name.ToUpper()] = prop;
 
                         //_propertyUppercaseCache[Type] = dict2; //  Type.GetProperties().ToDictionary(i => i.Name.ToUpper(), i => i);
                     }

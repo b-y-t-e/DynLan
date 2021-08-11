@@ -8,7 +8,7 @@ using DynLan.OnpEngine.Models;
 using DynLan.OnpEngine.Symbols;
 using DynLan.OnpEngine.InternalExtenders;
 using DynLan.OnpEngine.InternalMethods;
-
+using DynLan.Helpers;
 
 namespace DynLan.OnpEngine.Logic
 {
@@ -43,7 +43,7 @@ namespace DynLan.OnpEngine.Logic
                 Expression.ToCharArray(),
                 ParserSettings);
         }
-        
+
         public ExpressionGroup Compile(
             IList<Char> expressionChars)
         {
@@ -189,11 +189,7 @@ namespace DynLan.OnpEngine.Logic
                 SetExpression.Tokens.Clear();
                 SetExpression.Tokens.AddRange(
                     new[] {
-#if CASE_INSENSITIVE
-                        new ExpressionToken(MethodSetValue.Name.ToUpper(), TokenType.VARIABLE),
-#else
-                        new ExpressionToken(MethodSetValue.Name, TokenType.VARIABLE),
-#endif
+                        new ExpressionToken(!GlobalSettings.CaseSensitive ? MethodSetValue.Name.ToUpperInvariant() : MethodSetValue.Name, TokenType.VARIABLE),
                         new ExpressionToken(OperatorTypeHelper.op_methodcall, TokenType.OPERATOR),
                         new ExpressionToken('(', TokenType.BRACKET_BEGIN),
                         new ExpressionToken("'" + firstToken.TokenName + "'", TokenType.VALUE),
@@ -236,11 +232,7 @@ namespace DynLan.OnpEngine.Logic
                     SetExpression.Tokens.Remove(propertyNameToken);
                     SetExpression.Tokens.AddRange(
                         new[] {
-#if CASE_INSENSITIVE
-                            new ExpressionToken(ExtenderSetValue.Name.ToUpper().ToCharArray(), TokenType.VARIABLE),
-#else
-                            new ExpressionToken(ExtenderSetValue.Name.ToCharArray(), TokenType.VARIABLE),
-#endif
+                            new ExpressionToken(!GlobalSettings.CaseSensitive ? ExtenderSetValue.Name.ToUpperInvariant().ToCharArray(): ExtenderSetValue.Name.ToCharArray(), TokenType.VARIABLE),
                             new ExpressionToken(OperatorTypeHelper.op_methodcall, TokenType.OPERATOR),
                             new ExpressionToken('(', TokenType.BRACKET_BEGIN),
                             new ExpressionToken("'" + propertyNameToken.TokenName + "'", TokenType.VALUE),
@@ -377,13 +369,13 @@ namespace DynLan.OnpEngine.Logic
                 ToArray();
 #endif
         }
-        
+
         private ExpressionTokens TakeSetTokens(IList<ExpressionToken> Tokens)
         {
             return TakeSetTokens(Tokens, true);
         }
 
-        private ExpressionTokens TakeSetTokens(IList<ExpressionToken> Tokens, Boolean RemoveTakenTokens )
+        private ExpressionTokens TakeSetTokens(IList<ExpressionToken> Tokens, Boolean RemoveTakenTokens)
         {
             ExpressionTokens result = null;
             if (Tokens.Count >= 2)

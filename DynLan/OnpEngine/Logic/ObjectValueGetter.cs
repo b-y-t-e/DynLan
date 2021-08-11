@@ -55,28 +55,29 @@ namespace DynLan.OnpEngine.Logic
             else if (Obj is IDictionary)
             {
                 IDictionary dict = Obj as IDictionary;
-                if (dict.Contains(PropertyPath))
+                if (dict.Contains2(PropertyPath))
                 {
                     FoundValue = true;
-                    return dict[PropertyPath];
+                    return dict.Get2(PropertyPath);
                 }
             }
 
             else if (Obj is IDictionary<string, object>)
             {
                 IDictionary<string, object> dict = Obj as IDictionary<string, object>;
-                if (dict.ContainsKey(PropertyPath))
+                if (dict.Contains2(PropertyPath))
                 {
                     FoundValue = true;
-                    return dict[PropertyPath];
+                    return dict.Get2(PropertyPath);
                 }
             }
 
             else if (Obj is DynLanObject)
             {
-#if CASE_INSENSITIVE
-                PropertyPath = PropertyPath.ToUpper();
-#endif
+                if (!GlobalSettings.CaseSensitive)
+                {
+                    PropertyPath = PropertyPath.ToUpperInvariant();
+                }
                 DynLanObject DynLanObj = Obj as DynLanObject;
                 if (DynLanObj.Contains(PropertyPath))
                 {
@@ -223,5 +224,89 @@ namespace DynLan.OnpEngine.Logic
         bool CanSetValueToDictionary(Object Key);
 
         object GetValueFromDictionary(Object Key);
+    }
+
+    public static class DiEx
+    {
+        public static bool Contains2(this IDictionary dictionary, String key)
+        {
+            key = key.ToUpperInvariant();
+            foreach (var k in dictionary.Keys)
+                if (UniConvert.ToString(k).ToUpperInvariant() == key)
+                    return true;
+            return false;
+        }
+        public static Object Get2(this IDictionary dictionary, String key)
+        {
+            key = key.ToUpperInvariant();
+            foreach (var k in dictionary.Keys)
+                if (UniConvert.ToString(k).ToUpperInvariant() == key)
+                    return dictionary[k];
+            return null;
+        }
+        public static bool TryGetValue2(this IDictionary dictionary, String key, out Object val)
+        {
+            val = null;
+            key = key.ToUpperInvariant();
+            foreach (var k in dictionary.Keys)
+                if (UniConvert.ToString(k).ToUpperInvariant() == key)
+                {
+                    val = dictionary[k];
+                    return true;
+                }
+            return false;
+        }
+        public static void Set2(this IDictionary dictionary, String key, Object val)
+        {
+            key = key.ToUpperInvariant();
+            foreach (var k in dictionary.Keys)
+                if (UniConvert.ToString(k).ToUpperInvariant() == key)
+                {
+                    dictionary.Remove(k);
+                    dictionary[key] = val;
+                    break;
+                }
+            dictionary[key] = val;
+        }
+        public static bool Contains2(this IDictionary<String, Object> dictionary, String key)
+        {
+            key = key.ToUpperInvariant();
+            foreach (var k in dictionary.Keys)
+                if (UniConvert.ToString(k).ToUpperInvariant() == key)
+                    return true;
+            return false;
+        }
+        public static Object Get2(this IDictionary<String, Object> dictionary, String key)
+        {
+            key = key.ToUpperInvariant();
+            foreach (var k in dictionary.Keys)
+                if (UniConvert.ToString(k).ToUpperInvariant() == key)
+                    return dictionary[k];
+            return null;
+        }
+        public static bool TryGetValue2(this IDictionary<String, Object> dictionary, String key, out Object val)
+        {
+            val = null;
+            key = key.ToUpperInvariant();
+            foreach (var k in dictionary.Keys)
+                if (UniConvert.ToString(k).ToUpperInvariant() == key)
+                {
+                    val = dictionary[k];
+                    return true;
+                }
+            return false;
+        }
+        public static void Set2(this IDictionary<String, Object> dictionary, String key, Object val)
+        {
+            key = key.ToUpperInvariant();
+            foreach (var k in dictionary.Keys)
+                if (UniConvert.ToString(k).ToUpperInvariant() == key)
+                {
+                    dictionary.Remove(k);
+                    dictionary[key] = val;
+                    break;
+                }
+            dictionary[key] = val;
+        }
     }
 }

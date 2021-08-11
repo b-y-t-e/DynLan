@@ -45,7 +45,7 @@ namespace DynLan
         private static readonly char[] str_break = "break".ToCharArray();
 
         private static readonly char[] str_quotation = "'".ToCharArray();
-        
+
         ////////////////////////////////////////////
         public bool ForceDecimals { get; set; }
 
@@ -269,11 +269,14 @@ namespace DynLan
                 {
                     if (methodParameter.Part == EOnpMethodPart.METHOD_NAME)
                     {
-#if CASE_INSENSITIVE
-                        method.Name = methodParameter.Code.ToUpper();
-#else
-                        method.Name = methodParameter.Code;
-#endif
+                        if (!GlobalSettings.CaseSensitive)
+                        {
+                            method.Name = methodParameter.Code.ToUpperInvariant();
+                        }
+                        else
+                        {
+                            method.Name = methodParameter.Code;
+                        }
                     }
                     else if (methodParameter.Part == EOnpMethodPart.PARAMETER)
                     {
@@ -314,11 +317,14 @@ namespace DynLan
                 {
                     if (methodParameter.Part == EOnpMethodPart.METHOD_NAME)
                     {
-#if CASE_INSENSITIVE
-                        classDefinition.Name = methodParameter.Code.ToUpper();
-#else
-                        classDefinition.Name = methodParameter.Code;
-#endif
+                        if (!GlobalSettings.CaseSensitive)
+                        {
+                            classDefinition.Name = methodParameter.Code.ToUpperInvariant();
+                        }
+                        else
+                        {
+                            classDefinition.Name = methodParameter.Code;
+                        }
                     }
                     else if (methodParameter.Part == EOnpMethodPart.PARAMETER)
                     {

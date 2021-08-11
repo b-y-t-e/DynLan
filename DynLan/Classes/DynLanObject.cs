@@ -1,6 +1,7 @@
 ﻿using DynLan;
 using DynLan.Classes;
 using DynLan.Helpers;
+using DynLan.OnpEngine.Logic;
 using DynLan.OnpEngine.Models;
 using System;
 using System.Collections.Generic;
@@ -31,30 +32,33 @@ namespace DynLan.Classes
             {
                 Object val = null;
 
-#if CASE_INSENSITIVE
-                PropertyName = PropertyName.ToUpper();
+                if (!GlobalSettings.CaseSensitive)
+                {
+                    PropertyName = PropertyName.ToUpperInvariant();
 
-                if (DynamicValues.TryGetValue(PropertyName, out val))
-                    return val;
+                    if (DynamicValues.TryGetValue2(PropertyName, out val))
+                        return val;
 
-                if (PropertyName == "THIS")
-                    return ParentObject ?? this;
+                    if (PropertyName == "THIS")
+                        return ParentObject ?? this;
+                }
+                else
+                {
+                    if (DynamicValues.TryGetValue(PropertyName, out val))
+                        return val;
 
-#else
-                if (DynamicValues.TryGetValue(PropertyName, out val))
-                    return val;
-
-                if (PropertyName == "this")
-                    return ParentObject ?? this;
-#endif
+                    if (PropertyName == "this")
+                        return ParentObject ?? this;
+                }
 
                 return null;
             }
             set
             {
-                //PropertyName = PropertyName.ToUpper();
+                if (!GlobalSettings.CaseSensitive)
+                    PropertyName = PropertyName.ToUpper();
 
-                DynamicValues[PropertyName] = value;
+                DynamicValues.Set2(PropertyName, value);
 
                 if (ValueChanged != null)
                     ValueChanged.Invoke(this, new System.EventArgs());
@@ -101,7 +105,7 @@ namespace DynLan.Classes
         {
             DynLanObject obj = this.SerializeToBytes().Deserialize<DynLanObject>();
             return obj;
-        }   
+        }
 #endif
 
         public Dictionary<string, object> ToDictionary()
@@ -111,17 +115,22 @@ namespace DynLan.Classes
 
         public Boolean Contains(String PropertyName)
         {
-#if CASE_INSENSITIVE
-            PropertyName = PropertyName.ToUpper();
+            if (!GlobalSettings.CaseSensitive)
+            {
+                PropertyName = PropertyName.ToUpperInvariant();
 
-            if (PropertyName == "THIS")
-                return true;
-#else
-            if (PropertyName == "this")
-                return true;
-#endif
+                if (PropertyName == "THIS")
+                    return true;
 
-            return DynamicValues.ContainsKey(PropertyName);
+                return DynamicValues.Contains2(PropertyName);
+            }
+            else
+            {
+                if (PropertyName == "this")
+                    return true;
+                return DynamicValues.ContainsKey(PropertyName);
+            }
+
         }
     }
 }

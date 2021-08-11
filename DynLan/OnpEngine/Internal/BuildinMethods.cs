@@ -41,11 +41,14 @@ namespace DynLan.OnpEngine.Internal
                 if (!methodsByIds.ContainsKey(Method.ID))
                 {
                     foreach (String name in Method.Names)
-#if CASE_INSENSITIVE
-                        methodsByNames[name.ToUpper()] = Method;
-#else
-                        methodsByNames[name] = Method;
-#endif
+                        if (!GlobalSettings.CaseSensitive)
+                        {
+                            methodsByNames[name.ToUpperInvariant()] = Method;
+                        }
+                        else
+                        {
+                            methodsByNames[name] = Method;
+                        }
                     methodsByIds[Method.ID] = Method;
                 }
             }
@@ -71,11 +74,14 @@ namespace DynLan.OnpEngine.Internal
                         foreach (DynMethod operation in BuildMethods())
                         {
                             foreach (String name in operation.Names)
-#if CASE_INSENSITIVE
-                                methodsByNames[name.ToUpper()] = operation;
-#else
-                                methodsByNames[name] = operation;
-#endif
+                                if (!GlobalSettings.CaseSensitive)
+                                {
+                                    methodsByNames[name.ToUpperInvariant()] = operation;
+                                }
+                                else
+                                {
+                                    methodsByNames[name] = operation;
+                                }
                             methodsByIds[operation.ID] = operation;
                         }
                     }

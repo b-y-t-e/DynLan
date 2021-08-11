@@ -63,7 +63,7 @@ str = 'return 556'; return eval(str)
                 osoba.imie = "andrew";
 
                 var dict = new Dictionary<string, object>();
-                dict["osoba"] = osoba;
+                dict["Osoba"] = osoba;
 
                 var r = new Compiler().Compile(@"
 item = dictionary(); item.imie = osoba.imie; return item.imie;
@@ -88,7 +88,7 @@ item = dictionary(); item.imie = osoba.imie; return item.imie;
                 dict["osoba"] = osoba;
 
                 var r = new Compiler().Compile(@"
-item = dictionary(); item.imie = osoba.imie; return item.imie;
+item = dictionary(); item.imie = osoba.Imie; return item.imie;
 ");
                 var v = r.Eval(dict);
                 if (!("andrew").Equals(v)) throw new Exception("Nieprawidłowa wartość!");
@@ -160,7 +160,7 @@ item = dictionary(); item.imie = osoba.imie; return item.imie;
                 var r = new Compiler().Compile(@"
 class testowa()
 {
-  a = 1
+  A = 1
 }
 return testowa().a
 ");
@@ -286,6 +286,7 @@ return eval(str)
 
         }
 
+        /*
 #if !NET20
         [TestMethod]
 #endif
@@ -301,7 +302,7 @@ return str + STR
                 if (!("321123").Equals(v)) throw new Exception("Nieprawidłowa wartość!");
             }
 
-        }
+        }*/
 
 #if !NET20
         [TestMethod]
@@ -1149,7 +1150,7 @@ while j < 2
             var dict = new Dictionary<String, Object>();
             dict["j"] = 0;
             var v = r.Eval(dict);
-            if (!(2L).Equals(dict["j"])) throw new Exception("Nieprawidłowa wartość (" + dict["j"] + ")!");
+            if (!(2L).Equals(dict["J"])) throw new Exception("Nieprawidłowa wartość (" + dict["j"] + ")!");
         }
 
 #if !NET20
@@ -1361,7 +1362,7 @@ while i < 3{
 }
 ");
             var c = r.Eval(values);
-            if (!(3L).Equals(values["i"])) throw new Exception("Nieprawidłowa wartość!");
+            if (!(3L).Equals(values["I"])) throw new Exception("Nieprawidłowa wartość!");
         }
 #if !NET20
         [TestMethod]
@@ -1901,7 +1902,7 @@ def AA() {
   H = 7
   return this
 }
-return AA().DynamicValues['a']()
+return AA().DynamicValues['A']()
 ");
             var v = r.Eval();
             if (!(77L).Equals(v)) throw new Exception("Nieprawidłowa wartość!");
@@ -1920,7 +1921,7 @@ def AA() {
   H = 7
   return this
 }
-return AA().DynamicValues['a']()
+return AA().DynamicValues['A']()
 ");
             var v = r.Eval();
             if (!(77L).Equals(v)) throw new Exception("Nieprawidłowa wartość!");

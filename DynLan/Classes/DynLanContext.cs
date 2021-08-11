@@ -147,7 +147,7 @@ namespace DynLan.Classes
             get;
             set;
         }
-        
+
         //////////////////////////////////////////////
 
         public event EventHandler<DynLanProgramChangedEventArgs> OnProgramStart;
@@ -174,33 +174,6 @@ namespace DynLan.Classes
         }
 
         //////////////////////////////////////////////
-
-        public void AddValues(IDictionary<string, object> Values)
-        {
-            if (Values != null)
-            {
-                foreach (var key in Values.Keys)
-                {
-                    CurrentState.Object.DynamicValues[key] = Values[key];
-                }
-
-                /*if (CopyParameters)
-                {
-                    if (Values is ICloneShallow)
-                    {
-                        runContext.CurrentState.Object.DynamicValues = (IDictionary<String, Object>)((ICloneShallow)Values).CloneShallow();
-                    }
-                    else
-                    {
-                        runContext.CurrentState.Object.DynamicValues = new DictionaryCloneShallow<String, Object>(Values);
-                    }
-                }
-                else
-                {
-                    runContext.CurrentState.Object.DynamicValues = Values;
-                }*/
-            }
-        }
 
         //public DynLanState PushContext(String DisplayName, Guid ObjectID, DynLanContextType ContextType)
         public DynLanState PushContext(
@@ -367,9 +340,8 @@ namespace DynLan.Classes
             Boolean SeekForMethods,
             Boolean SeekInContexts)
         {
-#if CASE_INSENSITIVE
-            Name = Name.ToUpper();
-#endif
+            if (!GlobalSettings.CaseSensitive)
+                Name = Name.ToUpperInvariant();
 
             DynContext DynLanContext = EvalContext as DynContext;
             if (DynLanContext == null)
@@ -482,9 +454,8 @@ namespace DynLan.Classes
 
         public virtual Boolean SetValue(DynContext EvalContext, String Name, Object Value)
         {
-#if CASE_INSENSITIVE
-            Name = Name.ToUpper();
-#endif
+            if (!GlobalSettings.CaseSensitive)
+                Name = Name.ToUpperInvariant();
 
             DynContext DynLanContext = EvalContext as DynContext;
             if (DynLanContext == null)

@@ -51,9 +51,10 @@ namespace DynLan.OnpEngine.InternalExtenders
 
             if (obj is DynLanObject)
             {
-#if CASE_INSENSITIVE
-                propertyPath = propertyPath.ToUpper();
-#endif
+                if (!GlobalSettings.CaseSensitive)
+                {
+                    propertyPath = propertyPath.ToUpperInvariant();
+                }
                 DynLanObject DynLanObj = obj as DynLanObject;
                 DynLanObj[propertyPath] = value;
                 return null;
