@@ -48,9 +48,6 @@ new Compiler().Compile(@"
 // 11
 ```
 
-<details>
-<summary><b>More: control flow, error handling, code that writes code</b></summary>
-
 Full `if`/`elif`/`else` and `while`:
 ```csharp
 new Compiler().Compile(@"
@@ -93,7 +90,6 @@ new Compiler().Compile(@"
 ```
 
 More in [EXAMPLES.md](EXAMPLES.md).
-</details>
 
 ## Compatibility
 
