@@ -325,7 +325,7 @@ namespace DynLan.Evaluator
                             if (nextLine.Depth < currentLine.Depth)
                             {
                                 while (
-                                    nextLine != null &
+                                    nextLine != null &&
                                     (nextLine.OperatorType == EOperatorType.ELSE ||
                                     nextLine.OperatorType == EOperatorType.ELIF /*||
                                 nextLine.OperatorType == EOperatorType.FINALLY*/))
@@ -447,7 +447,7 @@ namespace DynLan.Evaluator
                     if (nextLine != null)
                     {
                         while (
-                            nextLine != null &
+                            nextLine != null &&
                             (nextLine.OperatorType == EOperatorType.ELSE ||
                             nextLine.OperatorType == EOperatorType.ELIF /*||
                         nextLine.OperatorType == EOperatorType.FINALLY*/))

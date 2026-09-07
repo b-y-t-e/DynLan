@@ -100,7 +100,7 @@ namespace DynLan.OnpEngine.Logic
                 {
                     String str1 = (UniConvert.ToUniString(InternalTypeConverter.ToOuter(Value1)) ?? "");
                     String str2 = (UniConvert.ToUniString(InternalTypeConverter.ToOuter(Value2)) ?? "");
-                    Int32 compareResult = str1.CompareTo(str2);
+                    Int32 compareResult = String.CompareOrdinal(str1, str2);
 
                     if (OperationType == OperatorType.GREATER)
                         result = compareResult > 0;

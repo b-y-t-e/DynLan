@@ -41,9 +41,12 @@ namespace DynLan.Helpers
                 // szukanie property
                 PropertyInfo propertyInfo = null;
 
-                if (_propertyCache[type].ContainsKey(PropertyName))
+                lock (_lck)
                 {
-                    propertyInfo = _propertyCache[type][PropertyName];
+                    if (_propertyCache[type].ContainsKey(PropertyName))
+                    {
+                        propertyInfo = _propertyCache[type][PropertyName];
+                    }
                 }
                 /*else if (_propertyUppercaseCache[type].ContainsKey(PropertyName.ToUpper()))
                 {
@@ -153,9 +156,12 @@ namespace DynLan.Helpers
 
                 // szukanie property
                 PropertyInfo propertyInfo = null;
-                if (_propertyCache[type].ContainsKey(PropertyName))
+                lock (_lck)
                 {
-                    propertyInfo = _propertyCache[type][PropertyName];
+                    if (_propertyCache[type].ContainsKey(PropertyName))
+                    {
+                        propertyInfo = _propertyCache[type][PropertyName];
+                    }
                 }
                 /*else if (_propertyUppercaseCache[type].ContainsKey(PropertyName.ToUpper()))
                 {
@@ -368,10 +374,13 @@ namespace DynLan.Helpers
 
             ////////////////////////////////////////////
 
-            _methodsCache.TryGetValue(Type, out dict);
+            lock (_methodsCache)
+            {
+                _methodsCache.TryGetValue(Type, out dict);
 
-            if (dict != null)
-                dict.TryGetValue(MethodName, out innerDict);
+                if (dict != null)
+                    dict.TryGetValue(MethodName, out innerDict);
+            }
 
             if (innerDict != null)
             {

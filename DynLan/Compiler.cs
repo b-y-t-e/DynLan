@@ -901,7 +901,7 @@ namespace DynLan
         {
             if (Datetime.HasValue)
             {
-                From_DateTime(Datetime.Value, WithQuotes);
+                return From_DateTime(Datetime.Value, WithQuotes);
             }
             return null;
         }

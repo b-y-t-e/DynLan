@@ -362,22 +362,6 @@ namespace DynLan.OnpEngine.Logic
             return onpTokens;
         }
 
-        private IList<String> GetVariablesNames(Expression Expression, ExpressionGroup ExpressionGroup)
-        {
-#if !NET20
-            return Expression.
-                Tokens.
-                Where(t => t.TokenType == TokenType.VARIABLE && !ExpressionGroup.Expressions.ContainsKey(t.TokenName)).
-                Select(t => t.TokenName).
-                ToArray();
-#else
-            return Linq2.From(Expression.Tokens).
-                Where(t => t.TokenType == TokenType.VARIABLE && !ExpressionGroup.Expressions.ContainsKey(t.TokenName)).
-                Select(t => t.TokenName).
-                ToArray();
-#endif
-        }
-        
         private ExpressionTokens TakeSetTokens(IList<ExpressionToken> Tokens)
         {
             return TakeSetTokens(Tokens, true);
@@ -418,27 +402,5 @@ namespace DynLan.OnpEngine.Logic
             return result;
         }
 
-        private ExpressionTokens GetSetTokens(IList<ExpressionToken> Tokens)
-        {
-            ExpressionTokens result = null;
-            if (Tokens.Count >= 2)
-            {
-                if (Linq2.Any(Tokens, t => t.TokenType == TokenType.EQUAL_OPERATOR))
-                {
-                    for (var i = 0; i < Tokens.Count; i++)
-                    {
-                        ExpressionToken token = Tokens[i];
-
-                        if (token.TokenType == TokenType.EQUAL_OPERATOR)
-                            break;
-
-                        if (result == null)
-                            result = new ExpressionTokens();
-                        result.Add(token);
-                    }
-                }
-            }
-            return result;
-        }
     }
 }
