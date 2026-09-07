@@ -10,7 +10,7 @@
 
   <!-- NuGet packaging. Deploy/publish.py bumps <Version> and nothing else. -->
   <PropertyGroup>
-    <Version>1.2.11</Version>
+    <Version>1.2.12</Version>
     <PackageId>DynLan</PackageId>
     <Authors>b-y-t-e</Authors>
     <Company>b-y-t-e</Company>
