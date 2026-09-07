@@ -50,6 +50,10 @@ namespace DynLan.Classes
 
         //////////////////////////////////////////////////
 
+        // pozycja tej linii w kolekcji Lines, buforowana przez DynLanCodeLinesExtender
+        // aby uniknąć wielokrotnego liniowego IndexOf() przy każdym kroku interpretera
+        public Int32 Index = -1;
+
         public DynLanCodeLine()
         {
             Code = "";

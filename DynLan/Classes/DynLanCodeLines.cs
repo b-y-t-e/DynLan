@@ -9,6 +9,10 @@ namespace DynLan.Classes
 {
     public class DynLanCodeLines : ObservableCollection<DynLanCodeLine>
     {
+        // buforowanie ID -> linia; kolekcja jest wypełniana raz podczas kompilacji
+        // i później już nie modyfikowana, więc cache jest zawsze aktualny
+        private Dictionary<Guid, DynLanCodeLine> _idCache;
+
         public DynLanCodeLines()
         {
 
@@ -27,12 +31,18 @@ namespace DynLan.Classes
 
         public DynLanCodeLine Get_by_ID(Guid ID)
         {
-#if !NET20
-            return this.FirstOrDefault(i => i.ID == ID);
-#else
-            return Linq2.FirstOrDefault(this, i => i.ID == ID);
-#endif
+            if (_idCache == null || _idCache.Count != this.Count)
+            {
+                Dictionary<Guid, DynLanCodeLine> cache = new Dictionary<Guid, DynLanCodeLine>();
+                foreach (DynLanCodeLine item in this)
+                    if (item != null && !cache.ContainsKey(item.ID))
+                        cache[item.ID] = item;
+                _idCache = cache;
+            }
 
+            DynLanCodeLine result = null;
+            _idCache.TryGetValue(ID, out result);
+            return result;
         }
     }
 }

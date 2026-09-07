@@ -194,7 +194,7 @@ namespace DynLan.Evaluator
                 }
                 else
                 {
-                    currentState.CurrentLineID = nextLine.ID;
+                    currentState.SetCurrentLine(nextLine);
                 }
                 return true;
             }
@@ -302,7 +302,7 @@ namespace DynLan.Evaluator
 
                         if (nextLine != null)
                         {
-                            currentState.CurrentLineID = nextLine.ID;
+                            currentState.SetCurrentLine(nextLine);
                         }
                         else
                         {
@@ -359,7 +359,7 @@ namespace DynLan.Evaluator
                                             prevConditionLine.Depth >= nextLine.Depth &&
                                             prevConditionLine.OperatorType == EOperatorType.WHILE)
                                         {
-                                            currentState.CurrentLineID = prevConditionLine.ID;
+                                            currentState.SetCurrentLine(prevConditionLine);
                                             break;
                                         }
                                         else if (prevConditionLine != null)
@@ -368,19 +368,19 @@ namespace DynLan.Evaluator
                                         }
                                         else
                                         {
-                                            currentState.CurrentLineID = nextLine.ID;
+                                            currentState.SetCurrentLine(nextLine);
                                             break;
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    currentState.CurrentLineID = nextLine.ID;
+                                    currentState.SetCurrentLine(nextLine);
                                 }
                             }
                             else
                             {
-                                currentState.CurrentLineID = nextLine.ID;
+                                currentState.SetCurrentLine(nextLine);
                             }
                         }
                     }
@@ -394,7 +394,7 @@ namespace DynLan.Evaluator
 
                     if (nextLine != null)
                     {
-                        currentState.CurrentLineID = nextLine.ID;
+                        currentState.SetCurrentLine(nextLine);
                     }
                     else
                     {
@@ -417,7 +417,7 @@ namespace DynLan.Evaluator
 
                         if (nextLine != null)
                         {
-                            currentState.CurrentLineID = nextLine.ID;
+                            currentState.SetCurrentLine(nextLine);
                         }
                         else
                         {
@@ -431,7 +431,7 @@ namespace DynLan.Evaluator
 
                         if (nextLine != null)
                         {
-                            currentState.CurrentLineID = nextLine.ID;
+                            currentState.SetCurrentLine(nextLine);
                         }
                         else
                         {
@@ -486,7 +486,7 @@ namespace DynLan.Evaluator
                                     prevConditionLine.Depth >= nextLine.Depth &&
                                     prevConditionLine.OperatorType == EOperatorType.WHILE)
                                 {
-                                    currentState.CurrentLineID = prevConditionLine.ID;
+                                    currentState.SetCurrentLine(prevConditionLine);
                                     break;
                                 }
                                 else if (prevConditionLine != null)
@@ -495,14 +495,14 @@ namespace DynLan.Evaluator
                                 }
                                 else
                                 {
-                                    currentState.CurrentLineID = nextLine.ID;
+                                    currentState.SetCurrentLine(nextLine);
                                     break;
                                 }
                             }
                         }
                         else
                         {
-                            currentState.CurrentLineID = nextLine.ID;
+                            currentState.SetCurrentLine(nextLine);
                         }
                     }
                     // jeśli ostatnia linia i jesteśmy w while'u
@@ -522,7 +522,7 @@ namespace DynLan.Evaluator
                             if (prevConditionLine != null &&
                                 prevConditionLine.OperatorType == EOperatorType.WHILE)
                             {
-                                currentState.CurrentLineID = prevConditionLine.ID;
+                                currentState.SetCurrentLine(prevConditionLine);
                                 break;
                             }
                             else if (prevConditionLine != null)
@@ -617,7 +617,7 @@ namespace DynLan.Evaluator
                         }
 
 
-                        currentState.CurrentLineID = nextCatch.ID;
+                        currentState.SetCurrentLine(nextCatch);
 
                         if (variableForException != null && !String.IsNullOrEmpty(variableForException.TokenName))
                             currentState.Object[variableForException.TokenName] = exception;

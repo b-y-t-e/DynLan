@@ -8,6 +8,24 @@ namespace DynLan.Extenders
 {
     public static class DynLanCodeLinesExtender
     {
+        // Zamiast każdorazowego Lines.IndexOf(StartLine) (skan O(n) całej listy linii,
+        // wołany za każdym krokiem interpretera) korzystamy z indeksu zbuforowanego
+        // na samej linii. Weryfikujemy, że cache wciąż wskazuje na ten sam obiekt
+        // (bo Lines nie jest po kompilacji modyfikowana, ale na wszelki wypadek).
+        private static Int32 GetIndexOf(DynLanCodeLines Lines, DynLanCodeLine StartLine)
+        {
+            if (StartLine == null)
+                return -1;
+
+            Int32 cachedIndex = StartLine.Index;
+            if (cachedIndex >= 0 && cachedIndex < Lines.Count && Lines[cachedIndex] == StartLine)
+                return cachedIndex;
+
+            Int32 index = Lines.IndexOf(StartLine);
+            StartLine.Index = index;
+            return index;
+        }
+
         public static DynLanCodeLine NextLine(
 #if !NET20
             this 
@@ -16,7 +34,7 @@ namespace DynLan.Extenders
             DynLanCodeLine StartLine)
         {
             Int32 depth = (StartLine == null ? 0 : StartLine.Depth);
-            Int32 index = (StartLine == null ? 0 : Lines.IndexOf(StartLine));
+            Int32 index = (StartLine == null ? 0 : GetIndexOf(Lines, StartLine));
 
             if (index < 0)
                 return null;
@@ -40,7 +58,7 @@ namespace DynLan.Extenders
             Func<DynLanCodeLine, Boolean> Predicate)
         {
             Int32 depth = (StartLine == null ? 0 : StartLine.Depth);
-            Int32 index = (StartLine == null ? 0 : Lines.IndexOf(StartLine));
+            Int32 index = (StartLine == null ? 0 : GetIndexOf(Lines, StartLine));
 
             if (index < 0)
                 return null;
@@ -64,7 +82,7 @@ namespace DynLan.Extenders
             DynLanCodeLine StartLine)
         {
             Int32 depth = (StartLine == null ? 0 : StartLine.Depth);
-            Int32 index = (StartLine == null ? 0 : Lines.IndexOf(StartLine));
+            Int32 index = (StartLine == null ? 0 : GetIndexOf(Lines, StartLine));
 
             if (index < 0)
                 return null;
@@ -112,7 +130,7 @@ namespace DynLan.Extenders
             Func<DynLanCodeLine, Boolean> Predicate)
         {
             Int32 depth = (StartLine == null ? 0 : StartLine.Depth);
-            Int32 index = (StartLine == null ? 0 : Lines.IndexOf(StartLine));
+            Int32 index = (StartLine == null ? 0 : GetIndexOf(Lines, StartLine));
 
             if (index < 0)
                 return null;
@@ -136,7 +154,7 @@ namespace DynLan.Extenders
             DynLanCodeLine StartLine)
         {
             Int32 depth = (StartLine == null ? 0 : StartLine.Depth);
-            Int32 index = (StartLine == null ? 0 : Lines.IndexOf(StartLine));
+            Int32 index = (StartLine == null ? 0 : GetIndexOf(Lines, StartLine));
 
             if (index < 0)
                 return null;

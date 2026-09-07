@@ -95,12 +95,35 @@ namespace DynLan.Classes
                     return;
 
                 DynLanCodeLine newCurrentLine = Program.Lines.Get_by_ID(value);
-                this.CurrentLineIndex = newCurrentLine == null ? -1 : Program.Lines.IndexOf(newCurrentLine);
-                this.ExpressionContext = null;
-
-                if (CurrentLineChanged != null)
-                    CurrentLineChanged.Invoke(this, new System.EventArgs());
+                SetCurrentLine(newCurrentLine);
             }
+        }
+
+        //////////////////////////////////////////////
+
+        // Szybsza wersja ustawienia CurrentLineID gdy mamy już obiekt docelowej linii
+        // (co jest normą w ContextEvaluator) - pomija skanowanie Get_by_ID/IndexOf po Guid
+        // i korzysta z indeksu zbuforowanego na linii przez DynLanCodeLinesExtender.
+        public void SetCurrentLine(DynLanCodeLine Line)
+        {
+            if (Program == null)
+                return;
+
+            Int32 index = -1;
+            if (Line != null)
+            {
+                index = Line.Index;
+                if (index < 0 || index >= Program.Lines.Count || Program.Lines[index] != Line)
+                    index = Program.Lines.IndexOf(Line);
+                if (index >= 0)
+                    Line.Index = index;
+            }
+
+            this.CurrentLineIndex = index;
+            this.ExpressionContext = null;
+
+            if (CurrentLineChanged != null)
+                CurrentLineChanged.Invoke(this, new System.EventArgs());
         }
 
         //////////////////////////////////////////////

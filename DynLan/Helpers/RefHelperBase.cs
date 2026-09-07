@@ -135,24 +135,34 @@ namespace DynLan.Helpers
                     Type t1 = GetPropertyType(Item, PropertyName); // Item.GetType().GetProperty(PropertyName);
                     Type t2 = Value == null ? null : Value.GetType(); // typeof(DataType);
 
-                    if (t2 == null || t1.Equals(t2))
+                    // większość niepowodzeń szybkiego settera to zwykła niezgodność typu
+                    // (np. int -> double we właściwości natywnego obiektu .NET) - to nie
+                    // jest błąd, tylko coś co konwersja poniżej naprawia, więc nie
+                    // przepuszczamy wyjątku dalej, jeśli udało się ustawić wartość
+                    try
                     {
-                        MyReflectionHelper.SetValue(Item, PropertyName, Value);
+                        if (t2 == null || t1.Equals(t2))
+                        {
+                            MyReflectionHelper.SetValue(Item, PropertyName, Value);
+                        }
+                        else
+                        {
+                            Object newValue = MyTypeHelper.ConvertTo(Value, t1);
+                            try
+                            {
+                                setter(Item, newValue);
+                            }
+                            catch
+                            {
+                                MyReflectionHelper.SetValue(Item, PropertyName, newValue);
+                            }
+                        }
                     }
-                    else
+                    catch
                     {
-                        Object newValue = MyTypeHelper.ConvertTo(Value, t1);
-                        try
-                        {
-                            setter(Item, newValue);
-                        }
-                        catch
-                        {
-                            MyReflectionHelper.SetValue(Item, PropertyName, newValue);
-                        }
+                        // fallback też się nie powiódł - to już jest prawdziwy błąd
+                        throw;
                     }
-
-                    throw;
                 }
                 return true;
             }
