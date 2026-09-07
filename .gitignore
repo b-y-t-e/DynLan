@@ -328,3 +328,11 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+# NuGet publish secrets
+Deploy/.env
+.env
+!Deploy/.env.example
+
+# Pack/publish output
+artifacts/
