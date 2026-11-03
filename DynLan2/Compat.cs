@@ -72,9 +72,21 @@ namespace DynLan2
 #if NET5_0_OR_GREATER
             return Math.Log2(x);
 #else
-            return Math.Log(x) / Math.Log(2.0);
+            // split into exponent and mantissa so that powers of two are exact (log2(2**k) == k, as in CPython)
+            if (!(x > 0) || double.IsInfinity(x)) return Math.Log(x) / Ln2;
+            int shift = 0;
+            if (x < 2.2250738585072014E-308) { x *= 18014398509481984.0; shift = 54; } // subnormal: scale by 2**54 (exact)
+            long bits = BitConverter.DoubleToInt64Bits(x);
+            int exp = (int)((bits >> 52) & 0x7FF) - 1023 - shift;
+            double m = BitConverter.Int64BitsToDouble((bits & 0xFFFFFFFFFFFFFL) | (1023L << 52)); // [1, 2)
+            if (m > 1.4142135623730951) { m *= 0.5; exp++; } // keep the fraction small: m in (0.707, 1.414]
+            return exp + Math.Log(m) / Ln2;
 #endif
         }
+
+#if !NET5_0_OR_GREATER
+        const double Ln2 = 0.6931471805599453;
+#endif
 
         public static double CopySign(double x, double y)
         {

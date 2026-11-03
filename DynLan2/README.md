@@ -127,7 +127,8 @@ function bodies are analyzed and compiled to bytecode only when first called. Pa
 
 The `netstandard2.1` build replaces a few .NET 5+ APIs (`Math.BigMul`, `BigInteger.GetBitLength`, `Math.Log2`,
 `Math.CopySign`, `ReferenceEqualityComparer`) with hand-written equivalents in `Compat.cs`. Running on .NET 8, both
-builds benchmark the same (differences are within measurement noise). Performance on another runtime depends on
+builds benchmark the same (differences are within measurement noise). One numeric difference remains: on `netstandard2.1`
+`math.log2` is exact for powers of two but differs from the platform `log2` by 1 ulp for ~0.3% of other inputs. Performance on another runtime depends on
 that runtime: Mono's JIT generates slower code than RyuJIT, and AOT-only platforms run the interpreter only.
 
 ## Architecture
