@@ -1,4 +1,4 @@
-# AGENTS.md
+# Agent guide (CLAUDE.md / AGENTS.md)
 
 Two independent scripting engines for .NET live in this repo. They share no code.
 
