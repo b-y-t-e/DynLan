@@ -5,7 +5,7 @@ Two independent scripting engines for .NET live in this repo. They share no code
 | | DynLan 1 (`DynLan/`, `DynLan*` variants) | DynLan 2 (`DynLan2/`) |
 |---|---|---|
 | Syntax | own (braces, `this`) | Python |
-| Targets | .NET 2.0 … netstandard2.0, CE, PCL | net8.0 only |
+| Targets | .NET 2.0 … netstandard2.0, CE, PCL | net8.0 + netstandard2.1 |
 | Status | maintained as-is — do not change behaviour | active development |
 
 The `DynLanNet20/35/CE/PCL/NetCore/NetStandard` projects compile the same `DynLan/` sources for old frameworks; any change to DynLan 1 must still build for all of them.
@@ -20,6 +20,8 @@ dotnet run -c Release --project DynLan2.Bench -- parsebench        # parser thro
 dotnet run -c Release --project DynLan2.Bench -- save x.state      # suspend a job and save it ...
 dotnet run -c Release --project DynLan2.Bench -- resume x.state    # ... and finish it in another process
 dotnet run --project DynLan2.Cli -- script.py [--jit=off|--jit=eager]
+dotnet test DynLan2.Tests -p:EngineTarget=netstandard2.1           # same suite against the netstandard2.1 engine build
+dotnet run -c Release --project DynLan2.Bench -p:EngineTarget=netstandard2.1   # benchmark that build
 dotnet test DynLanTests/DynLanTests.csproj                         # DynLan 1 tests
 ```
 
@@ -70,4 +72,5 @@ Pipeline: `Lexer` → `Parser` (AST in `Ast.cs`) → `ScopeAnalyzer` (`Scope.cs`
 - Python semantics first. A Python feature that is not supported must fail with a clear error, not a silent wrong result. Document deliberate differences in `DynLan2/README.md` (currently only the enforced `x: int` / `x: float` annotations).
 - New built-ins: functions go in `Builtins.InitFunctions`, methods of built-in types in `BuiltinMethods.cs`. Functions are registered by a unique key (`Builtins.Fn`) so snapshots can find them.
 - Keep the engine free of external NuGet dependencies.
+- The engine must build for `netstandard2.1`. APIs newer than that go through `Compat.cs` (`#if NET5_0_OR_GREATER` → BCL, else a hand-written equivalent covered by `CompatTests`). Run the test suite with `-p:EngineTarget=netstandard2.1` after touching them.
 - Shell editing pitfall on this machine: bash heredocs mangle `\\` — write helper scripts with the editor tools instead of inline heredocs.

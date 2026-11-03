@@ -102,7 +102,7 @@ namespace DynLan2
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Value MulInt(long x, long y)
         {
-            long hi = Math.BigMul(x, y, out long lo);
+            long hi = Compat.BigMul(x, y, out long lo);
             if (hi != (lo >> 63)) return Value.BigInt((BigInteger)x * y);
             return Value.Int(lo);
         }
@@ -377,14 +377,14 @@ namespace DynLan2
                     {
                         if ((ex & 1) != 0)
                         {
-                            long hi = Math.BigMul(res, bse, out long lo);
+                            long hi = Compat.BigMul(res, bse, out long lo);
                             if (hi != (lo >> 63)) { overflow = true; break; }
                             res = lo;
                         }
                         ex >>= 1;
                         if (ex > 0)
                         {
-                            long hi = Math.BigMul(bse, bse, out long lo);
+                            long hi = Compat.BigMul(bse, bse, out long lo);
                             if (hi != (lo >> 63)) { overflow = true; break; }
                             bse = lo;
                         }

@@ -186,7 +186,7 @@ namespace DynLan2
         internal readonly VM Vm;
         internal readonly ModuleInstance Module;
         internal readonly Dictionary<string, object> HostBindings = new Dictionary<string, object>(StringComparer.Ordinal);
-        internal readonly Dictionary<object, string> HostNames = new Dictionary<object, string>(ReferenceEqualityComparer.Instance);
+        internal readonly Dictionary<object, string> HostNames = new Dictionary<object, string>(RefComparer.Instance);
         /// <summary>True while <see cref="Run"/> executes; state cannot be saved then.</summary>
         internal volatile bool IsRunning;
         internal readonly Dictionary<string, Value> HostModules = new Dictionary<string, Value>(StringComparer.Ordinal);

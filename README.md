@@ -21,7 +21,7 @@ object result = new Compiler().Compile(@"
 No `DLR`, no `Reflection.Emit`, no code generation — just plain C#. That's also why it runs on frameworks as old as .NET 2.0.
 
 > **New: [DynLan 2](DynLan2/README.md)** — Python syntax, a register VM + tiered JIT (~200–400× faster than DynLan 1),
-> and execution state you can suspend, save to bytes and resume on another machine. Requires .NET 8.
+> and execution state you can suspend, save to bytes and resume on another machine. Targets .NET 8 and .NET Standard 2.1.
 
 ## Why
 
@@ -111,7 +111,7 @@ dotnet build DynLan/DynLan.csproj
 dotnet test DynLanTests/DynLanTests.csproj
 ```
 
-DynLan 2 (.NET 8):
+DynLan 2 (.NET 8 SDK; the library targets `net8.0` and `netstandard2.1`):
 
 ```
 dotnet test DynLan2.Tests/DynLan2.Tests.csproj        # incl. line-by-line conformance with CPython

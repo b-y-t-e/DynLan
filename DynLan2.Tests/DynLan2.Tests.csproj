@@ -17,7 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DynLan2\DynLan2.csproj" />
+    <!-- dotnet test -p:EngineTarget=netstandard2.1  runs the suite against the netstandard2.1 build of the engine -->
+    <ProjectReference Include="..\DynLan2\DynLan2.csproj" Condition="'$(EngineTarget)' == ''" />
+    <ProjectReference Include="..\DynLan2\DynLan2.csproj" Condition="'$(EngineTarget)' != ''" SetTargetFramework="TargetFramework=$(EngineTarget)" />
   </ItemGroup>
 
 </Project>

@@ -110,7 +110,7 @@ namespace DynLan2
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool MulOv(long a, long b, out long r)
         {
-            long hi = Math.BigMul(a, b, out r);
+            long hi = Compat.BigMul(a, b, out r);
             return hi != (r >> 63);
         }
 

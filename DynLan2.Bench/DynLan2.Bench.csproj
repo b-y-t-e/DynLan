@@ -10,7 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DynLan2\DynLan2.csproj" />
+    <!-- dotnet run -c Release -p:EngineTarget=netstandard2.1  benchmarks the netstandard2.1 build of the engine -->
+    <ProjectReference Include="..\DynLan2\DynLan2.csproj" Condition="'$(EngineTarget)' == ''" />
+    <ProjectReference Include="..\DynLan2\DynLan2.csproj" Condition="'$(EngineTarget)' != ''" SetTargetFramework="TargetFramework=$(EngineTarget)" />
     <ProjectReference Include="..\DynLan\DynLan.csproj" />
   </ItemGroup>
 

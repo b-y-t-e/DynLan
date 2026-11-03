@@ -488,7 +488,7 @@ namespace DynLan2
             IntM["bit_length"] = (vm, s, a, kw) =>
             {
                 var b = BigInteger.Abs(s.AsBig);
-                return Value.Int(b.IsZero ? 0 : (long)b.GetBitLength());
+                return Value.Int(b.IsZero ? 0 : Compat.GetBitLength(b));
             };
             IntM["conjugate"] = (vm, s, a, kw) => s;
             IntM["is_integer"] = (vm, s, a, kw) => Value.True;
@@ -695,7 +695,7 @@ namespace DynLan2
                 double r = a[0].IsBigInt ? x : Math.Log(x);
                 return Value.Float(a.Length > 1 ? r / Math.Log(a[1].ToDouble()) : r);
             });
-            M1(math, "log2", Math.Log2);
+            M1(math, "log2", Compat.Log2);
             M1(math, "log10", Math.Log10);
             M1(math, "log1p", x => Math.Log(1 + x));
             M1(math, "expm1", x => Math.Exp(x) - 1);
@@ -707,7 +707,7 @@ namespace DynLan2
             MFn(math, "atan2", (vm, a, kw) => Value.Float(Math.Atan2(a[0].ToDouble(), a[1].ToDouble())));
             MFn(math, "pow", (vm, a, kw) => Value.Float(Math.Pow(a[0].ToDouble(), a[1].ToDouble())));
             MFn(math, "fmod", (vm, a, kw) => Value.Float(a[0].ToDouble() % a[1].ToDouble()));
-            MFn(math, "copysign", (vm, a, kw) => Value.Float(Math.CopySign(a[0].ToDouble(), a[1].ToDouble())));
+            MFn(math, "copysign", (vm, a, kw) => Value.Float(Compat.CopySign(a[0].ToDouble(), a[1].ToDouble())));
             MFn(math, "hypot", (vm, a, kw) => { double s = 0; foreach (var x in a) { double d = x.ToDouble(); s += d * d; } return Value.Float(Math.Sqrt(s)); });
             MFn(math, "isnan", (vm, a, kw) => Value.Bool(double.IsNaN(a[0].ToDouble())));
             MFn(math, "isinf", (vm, a, kw) => Value.Bool(double.IsInfinity(a[0].ToDouble())));

@@ -34,7 +34,7 @@ namespace DynLan2
         sealed class Writer
         {
             readonly ScriptContext _ctx;
-            readonly Dictionary<object, int> _ids = new Dictionary<object, int>(ReferenceEqualityComparer.Instance);
+            readonly Dictionary<object, int> _ids = new Dictionary<object, int>(RefComparer.Instance);
             readonly List<object> _objs = new List<object>();
             public Writer(ScriptContext ctx) { _ctx = ctx; }
 

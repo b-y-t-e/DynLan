@@ -115,6 +115,21 @@ Scripts see only what the host gives them:
 Loading: ~0.6–2.5 M lines/s (lexer ~40 M tokens/s). A 200 000-line script with 20 000 functions loads in ~0.34 s;
 function bodies are analyzed and compiled to bytecode only when first called. Parsed scripts are cached per engine.
 
+## Requirements
+
+| | |
+|---|---|
+| Runtime | .NET 8+ (`net8.0` build) or any runtime implementing .NET Standard 2.1: .NET Core 3.0+, Mono 6.4+, Xamarin, Unity 2021.2+ |
+| Build | .NET 8 SDK |
+| Dependencies | none (BCL only) |
+| JIT | needs runtime code generation. On AOT-only platforms (NativeAOT, iOS, Unity IL2CPP, consoles) use `JitMode.Off` — interpreter, snapshots and interop work unchanged |
+| Snapshots | restoring requires the same `DynLan2` compiler version and the same script source (included in the state by default) |
+
+The `netstandard2.1` build replaces a few .NET 5+ APIs (`Math.BigMul`, `BigInteger.GetBitLength`, `Math.Log2`,
+`Math.CopySign`, `ReferenceEqualityComparer`) with hand-written equivalents in `Compat.cs`. Running on .NET 8, both
+builds benchmark the same (differences are within measurement noise). Performance on another runtime depends on
+that runtime: Mono's JIT generates slower code than RyuJIT, and AOT-only platforms run the interpreter only.
+
 ## Architecture
 
 ```
@@ -136,7 +151,7 @@ source ─► Lexer (INDENT/DEDENT, interned names) ─► Parser (AST) ─► S
 
 | | |
 |---|---|
-| `DynLan2` | the engine (net8.0) |
+| `DynLan2` | the engine (`net8.0`, `netstandard2.1`) |
 | `DynLan2.Tests` | xUnit tests: CPython conformance, snapshots, JIT, API |
 | `DynLan2.Bench` | benchmarks; `save <file>` / `resume <file>` demo moving a running job between processes |
 | `DynLan2.Cli` | `dl2 script.py` runner (`--jit=off`, `--resume=state`) |
