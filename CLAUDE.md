@@ -25,6 +25,8 @@ dotnet run -c Release --project DynLan2.Bench -p:EngineTarget=netstandard2.1   #
 dotnet test DynLanTests/DynLanTests.csproj                         # DynLan 1 tests
 ```
 
+Releases: the `DynLan` NuGet package ships DynLan 2 from 2.0.0 on (`DynLan2/DynLan2.csproj` has `PackageId=DynLan`; DynLan 1 stays on 1.2.x). `python Deploy/publish.py` (tests both builds, bumps the patch, packs, pushes; `--dry-run`, `--no-bump`, `--set-version x.y.z`, `--engine 1` for a 1.x maintenance release). Needs `Deploy/.env` with `NUGET_API_KEY`.
+
 Python conformance: `DynLan2.Tests/cases/*.py` run in three modes (interpreter, eager JIT, JIT threshold 5) and are compared line-by-line with the `.out` files produced by real CPython. After adding or editing a case regenerate them (bash):
 
 ```

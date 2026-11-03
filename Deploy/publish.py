@@ -2,8 +2,12 @@
 """
 Publish DynLan to NuGet.org.
 
+The "DynLan" package ships DynLan 2 (DynLan2/) from 2.0.0 on; --engine 1 publishes a 1.x maintenance
+release of the old engine (DynLan/).
+
 Usage:
-    python publish.py                     # test, bump the patch, build, pack, push
+    python publish.py                     # DynLan 2: test, bump the patch, build, pack, push
+    python publish.py --engine 1          # same for the old engine (1.x line)
     python publish.py --dry-run           # everything except the push; leaves the version alone
     python publish.py --set-version 1.3.0 # for a release that is not a patch bump
     python publish.py --no-bump           # use the version already in DynLan.csproj
@@ -25,8 +29,14 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).parent
 REPO_ROOT  = SCRIPT_DIR.parent
-CSPROJ     = REPO_ROOT / "DynLan" / "DynLan.csproj"
-TESTS_PROJ = REPO_ROOT / "DynLanTests" / "DynLanTests.csproj"
+ENGINES = {
+    # engine: (project, test project, extra test runs)
+    "1": (REPO_ROOT / "DynLan" / "DynLan.csproj", REPO_ROOT / "DynLanTests" / "DynLanTests.csproj", []),
+    "2": (REPO_ROOT / "DynLan2" / "DynLan2.csproj", REPO_ROOT / "DynLan2.Tests" / "DynLan2.Tests.csproj",
+          [["-p:EngineTarget=netstandard2.1"]]),  # also test the netstandard2.1 build
+}
+CSPROJ     = ENGINES["2"][0]
+TESTS_PROJ = ENGINES["2"][1]
 ARTIFACTS  = REPO_ROOT / "artifacts"
 ENV_FILE   = SCRIPT_DIR / ".env"
 
@@ -102,7 +112,11 @@ def main():
     parser.add_argument("--no-bump",    action="store_true", help="Skip the version bump")
     parser.add_argument("--set-version",                     help="Release this exact version (x.y.z)")
     parser.add_argument("--skip-tests", action="store_true", help="Skip the test run (re-push only)")
+    parser.add_argument("--engine", choices=["1", "2"], default="2", help="2 = DynLan 2 (default), 1 = old engine")
     args = parser.parse_args()
+
+    global CSPROJ, TESTS_PROJ
+    CSPROJ, TESTS_PROJ, extra_test_runs = ENGINES[args.engine]
 
     if args.set_version and not re.fullmatch(r"\d+\.\d+\.\d+", args.set_version):
         print(f"ERROR: --set-version expects x.y.z, got {args.set_version!r}")
@@ -126,13 +140,15 @@ def main():
         print("Skipping tests — do this only to re-push a version that already passed.")
     else:
         run(["dotnet", "test", str(TESTS_PROJ), "-c", "Release"], cwd=REPO_ROOT)
+        for extra in extra_test_runs:
+            run(["dotnet", "test", str(TESTS_PROJ), "-c", "Release", *extra], cwd=REPO_ROOT)
 
     # 2. Version
     if args.set_version:
         _, version = write_version(args.set_version)
     elif args.no_bump:
         version = current_version()
-        print(f"Using the version already in DynLan.csproj: {version}")
+        print(f"Using the version already in {CSPROJ.name}: {version}")
     else:
         _, version = bump_version()
 

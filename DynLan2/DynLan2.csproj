@@ -7,10 +7,34 @@
     <LangVersion>latest</LangVersion>
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
-    <Version>2.0.0</Version>
-    <Description>DynLan 2 — a fast, Python-syntax scripting language for .NET with resumable, serializable execution state and a tiered JIT.</Description>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
+
+  <!-- NuGet packaging: DynLan 2 ships as the "DynLan" package from 2.0.0 on. Deploy/publish.py bumps <Version> and nothing else. -->
+  <PropertyGroup>
+    <Version>2.0.0</Version>
+    <PackageId>DynLan</PackageId>
+    <Authors>b-y-t-e</Authors>
+    <Company>b-y-t-e</Company>
+    <Copyright>Copyright (c) b-y-t-e</Copyright>
+    <Description>DynLan 2 — a fast scripting language for .NET with Python syntax. Register VM + tiered JIT, execution state you can suspend, save to bytes and resume on another machine, sandboxed two-way interop with your C# objects. Targets .NET 8 and .NET Standard 2.1. Breaking change from 1.x: new engine, Python syntax, namespace DynLan2.</Description>
+    <PackageTags>scripting script python interpreter jit embedded sandbox serialization resumable dsl</PackageTags>
+    <PackageReleaseNotes>2.0.0: new engine (DynLan 2) with Python syntax, JIT, suspend/save/resume of execution state. Not compatible with 1.x — stay on 1.2.x for the old engine.</PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/b-y-t-e/DynLan</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/b-y-t-e/DynLan</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <IsPackable>true</IsPackable>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
   <ItemGroup>
     <InternalsVisibleTo Include="DynLan2.Tests" />

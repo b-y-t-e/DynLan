@@ -336,3 +336,12 @@ Deploy/.env
 
 # Pack/publish output
 artifacts/
+
+# mTiles workspace state
+.claude/skills/mtiles-subtasks/
+
+# mTiles workspace state
+.mtiles/
+
+# mTiles workspace state
+.agents/skills/mtiles-subtasks/
