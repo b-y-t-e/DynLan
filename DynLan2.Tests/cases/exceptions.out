@@ -1,0 +1,29 @@
+finally 1
+finally 1
+0.5 err: division by zero
+IndexError list index out of range
+lookup KeyError('k') 'k'
+caught code 42 42 ('code 42',)
+handling inner
+outer got TypeError('inner')
+cleanup
+try
+loop 0
+fin 0
+fin 1
+loop 2
+fin 2
+fin 3
+NameError: name 'undefined_name' is not defined
+invalid literal for int() with base 10: 'abc'
+can only concatenate str (not "int") to str
+assert: math broke
+v 1
+in gen
+inner finally
+outer except
+else runs
+deep 'deep'
+KeyError
+2
+unbound ok

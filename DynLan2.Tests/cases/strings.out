@@ -1,0 +1,18 @@
+HELLO, WORLD hello, world HeLLo, WorLd ['Hello', 'World'] 4 8 3
+H d ello dlroW ,olleH Hlo ol World Hel
+pad| hi ['a', 'b', '', 'c'] ['a', 'b'] ['a', 'b c']
+a-b-c True True True True
+Hello World hEllO Hello 007 -007
+***abc*** abc  |   abc
+a=5 b=x c=3.14 d=   hi e=hi   | f=ff g='q'
+1 and 2 ba Bob!   3.14|
+Ann is 30 years 60 3.142 'Ann' 00030 1,234,567 age=30
+nested 1 {literal} 50.000000% ff 0b11111111    12   | 3 1e+20
+         x|
+"it's" 'say "hi"' 'a\nb' None [1, 'a', None, 2.5]
+abcabcabc ababab True True 5
+0x1x2x3
+a b %% 1-2
+('par', 't', 'ition') ('a.b', '.', 'c') ['line1', 'line2', 'line3']
+1.0 2.5e-07 1e+301 1e+22 1.2345678901234568e+17 nan
+8364 b bd True

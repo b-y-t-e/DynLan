@@ -20,6 +20,9 @@ object result = new Compiler().Compile(@"
 
 No `DLR`, no `Reflection.Emit`, no code generation — just plain C#. That's also why it runs on frameworks as old as .NET 2.0.
 
+> **New: [DynLan 2](DynLan2/README.md)** — Python syntax, a register VM + tiered JIT (~200–400× faster than DynLan 1),
+> and execution state you can suspend, save to bytes and resume on another machine. Requires .NET 8.
+
 ## Why
 
 - **Sandboxed logic at runtime** — let users (or config files, or a DB column) supply business rules without recompiling
@@ -108,9 +111,22 @@ dotnet build DynLan/DynLan.csproj
 dotnet test DynLanTests/DynLanTests.csproj
 ```
 
+DynLan 2 (.NET 8):
+
+```
+dotnet test DynLan2.Tests/DynLan2.Tests.csproj        # incl. line-by-line conformance with CPython
+dotnet run -c Release --project DynLan2.Bench         # benchmarks vs C#, CPython and DynLan 1
+dotnet run --project DynLan2.Cli -- script.py         # run a script from the command line
+```
+
+See [DynLan2/README.md](DynLan2/README.md) for the language, snapshots, sandbox and performance numbers.
+
 ## Performance
 
 ~22,800 lines/second, single core (i5-3210M @ 2.50GHz).
+
+DynLan 2 runs the same kind of `while` loop ~225× faster in its interpreter and ~390× faster with the JIT
+(200,000 iterations: 1339 ms → 5.9 ms / 3.5 ms, .NET 8).
 
 ## License
 
